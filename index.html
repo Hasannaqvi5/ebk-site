@@ -109,9 +109,6 @@ body.playing .ticker{display:none}
 .card .cat{float:right;font-size:10px;letter-spacing:.12em;color:var(--dim)}
 .card h2{font-size:clamp(20px,3vw,26px);line-height:1.25;margin:10px 0 8px;font-weight:700}
 .card .hint{font-size:10px;letter-spacing:.14em;color:var(--dim)}
-.pill{position:fixed;left:50%;bottom:58px;transform:translateX(-50%);background:var(--panel);border:1px solid #2a2f52;padding:9px 16px;font-size:12px;letter-spacing:.12em;color:var(--dim);z-index:25;display:none;border-radius:6px}
-.pill.on{display:block}
-.pill b{color:var(--lime)}
 
 /* ---------- input bar ---------- */
 .bar{position:fixed;left:0;right:0;bottom:0;padding:16px 16px 22px;background:linear-gradient(transparent,rgba(5,5,16,.85) 40%);z-index:25;display:none}
@@ -132,6 +129,8 @@ body.playing .ticker{display:none}
 .sugg button{margin-left:8px;padding:3px 10px;font:700 11px "Silkscreen",monospace;letter-spacing:.12em;cursor:pointer;border:2px solid var(--lime);background:#11142a;color:var(--lime)}
 .sugg button.no{border-color:var(--line);color:var(--dim)}
 .msg.sugg{color:var(--tuned)}
+.msg.wait{color:var(--dim);font-weight:400;letter-spacing:.08em}
+.msg.wait b{color:var(--lime)}
 .hurry{color:var(--tuned);animation:blink .4s steps(2) infinite}
 @keyframes blink{50%{opacity:.2}}
 .shake{animation:shake .3s}
@@ -233,7 +232,6 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
 </div>
 
 <div class="card" id="card"><span class="cat" id="ccat"></span><div class="k" id="ck">PROMPT 1 OF 7</div><h2 id="ctext"></h2><div class="hint">▼ rarer answers scroll deeper ▼</div></div>
-<div class="pill" id="pill">loading the feed 📲 · clock starts in <b id="cd">3</b></div>
 
 <div class="bar" id="bar">
   <form class="barin" id="form" autocomplete="off">
@@ -281,72 +279,18 @@ const TIERS=[
   {name:"Elite Ball Knowledge",pts:100,color:"var(--ebk)",sq:"🟪",icon:"🗿",fl:"ELITE BALL KNOWLEDGE. +∞ aura 🗿",burst:"🗿👑💀🔥💯😭",roast:"Terminally online. The algorithm fears you. 🗿"}
 ];
 const MISS="⬛";
-// Puzzle #1, 2026-11-12. Each list is ordered most-common -> rarest; tiers scale with list length.
-// Entry format: "Answer|alias|alias"
-const RAW={date:"2026-11-12",num:1,prompts:[
-{text:"Name a footballer who became a meme",cat:"Sports",list:[
-"Cristiano Ronaldo|ronaldo|cr7|siuu|siu|penaldo", "Lionel Messi|messi|ankara messi", "Neymar|neymar roll", "Erling Haaland|haaland|viking row", "Kylian Mbappé|mbappe|donatello|dictator mbappe", "Harry Maguire|maguire|slabhead", "Paul Pogba|pogba|dab", "Zlatan Ibrahimović|zlatan|ibrahimovic", "Romelu Lukaku|lukaku|first touch", "Steven Gerrard|gerrard|the slip",
-"Luis Suárez|suarez|bite", "Zinedine Zidane|zidane|headbutt", "Antony|antony spin", "Phil Jones|phil jones faces", "N'Golo Kanté|kante", "Cole Palmer|palmer|cold palmer", "Jack Grealish|grealish|socks", "Jesse Lingard|lingard|jlingz", "Jude Bellingham|bellingham", "Ronaldinho",
-"Mario Balotelli|balotelli|why always me", "Ronaldo Nazário|r9|r9 haircut|fat ronaldo", "Peter Crouch|crouch|robot", "Gareth Bale|bale|golf", "Sergio Ramos|ramos", "Pepe", "Darwin Núñez|darwin nunez|nunez", "André Onana|onana", "David de Gea|de gea|dave saves", "Emiliano Martínez|dibu|emi martinez",
-"Jordan Pickford|pickford", "Harry Kane|kane|trophy curse", "Bruno Fernandes|bruno", "Dele Alli|dele|hand trick", "Arjen Robben|robben|cut inside", "Mesut Özil|ozil", "Gonzalo Higuaín|higuain", "Diego Costa", "Jamie Vardy|vardy", "Gerard Piqué|pique",
-"Guillermo Ochoa|ochoa", "Nicklas Bendtner|lord bendtner|bendtner", "Emile Heskey|heskey time|heskey", "Loris Karius|karius", "Kepa Arrizabalaga|kepa", "Ali Dia"]},
-
-{text:"Name a meme that came from SpongeBob",cat:"Classic internet memes",list:[
-"Mocking SpongeBob|spongemock|mocking spongebob", "Imagination|spongebob rainbow|imagination spongebob", "Ight Imma Head Out|ight imma head out|aight imma head out", "Handsome Squidward", "Squidward Window|squidward looking out the window", "Spongegar|caveman spongebob", "Surprised Patrick", "Savage Patrick", "Tired SpongeBob", "Blurry Mr. Krabs|confused mr krabs|blurry mr krabs",
-"Is Mayonnaise an Instrument", "No, This Is Patrick|is this the krusty krab", "One Eternity Later|time cards|spongebob time card", "Krusty Krab vs Chum Bucket", "Evil Patrick", "I'm Ready|im ready", "Gary Meow|gary", "Rock Bottom", "Future Squidward|squidward future", "Krusty Krab Pizza",
-"Mermaid Man|evil", "Squilliam", "Squidward Dab", "Krabby Patty Secret Formula|secret formula", "Weenie Hut Jr's|weenie hut jr", "I Don't Need It|i need it", "Patrick's Wallet|patrick wallet", "Firmly Grasp It", "Plankton and Karen|karen computer", "My Leg!|my leg",
-"F Is for Friends", "Ripped Pants", "Campfire Song|campfire song song", "Sweet Victory", "Goofy Goober Rock|goofy goober", "Wumbo|wumbology", "DoodleBob", "Chocolate Guy|chocolate", "Bold and Brash", "Dirty Dan",
-"Leedle Leedle Lee", "Ravioli Ravioli Give Me the Formuoli|ravioli ravioli", "The Inner Machinations of My Mind Are an Enigma|inner machinations", "Funnier Than 24"]},
-
-{text:"Name a brainrot term from 2023 or later",cat:"Brainrot and slang",list:[
-"Skibidi|skibidi toilet", "Rizz|rizzler", "6 7|67|six seven", "Gyatt|gyat", "Fanum Tax|fanum", "Mewing|mew", "Aura|aura farming|aura points", "Sigma", "Ohio|only in ohio", "Mogging|mog|mogged",
-"Chopped", "Glazing|glaze", "Crashout|crash out", "Unc|chopped unc", "Looksmaxxing|looksmaxing", "Delulu", "Cooked", "Labubu", "Zesty", "Costco Guys|we bring the boom|boom",
-"Clanker", "Lock In|locked in", "Erm What the Sigma", "Yapping|yap", "Let Him Cook", "Demure|very demure very mindful", "Brat|brat summer", "Hawk Tuah", "Tung Tung Tung Sahur|tung tung sahur", "Italian Brainrot",
-"Tralalero Tralala", "Bombardiro Crocodilo", "Ballerina Cappuccina", "Chill Guy", "Bombastic Side Eye", "Goofy Ahh|ahh", "Twin", "Pookie", "Grimace Shake", "Sticking Out Your Gyatt for the Rizzler|sticking out your gyat",
-"Big Back", "Brokie", "Huzz", "Mango Mango Mango", "Sybau"]},
-
-{text:"Name a YouTuber famous for Minecraft",cat:"Gaming",list:[
-"Dream", "Technoblade", "PewDiePie|pewds", "DanTDM|dan tdm|thediamondminecart", "Preston|prestonplayz", "GeorgeNotFound|george", "Sapnap", "TommyInnit|tommy", "Stampy|stampylonghead|stampy cat", "CaptainSparklez|captain sparklez",
-"SSundee", "Aphmau", "Tubbo", "Ranboo", "Wilbur Soot|wilbur", "Philza|ph1lza", "Skeppy", "BadBoyHalo|bbh", "Quackity", "Karl Jacobs|karl",
-"Grian", "Mumbo Jumbo|mumbo", "PopularMMOs|pat and jen", "Unspeakable|unspeakablegaming", "Jelly", "LDShadowLady|lizzie", "iBallisticSquid|squid", "Sky Does Minecraft|skydoesminecraft", "Bajan Canadian|bajancanadian", "JeromeASF|jerome",
-"Vikkstar123|vikkstar|vik", "Fundy", "Fruitberries", "Smajor", "Xisuma|x", "Etho|etho slab", "Yogscast|lewis and simon", "Sips", "Antvenom", "Iskall85|iskall",
-"GoodTimesWithScar|scar", "ImpulseSV|impulse", "BdoubleO100|bdubs", "Docm77|doc", "TangoTek|tango", "ZombieCleo|cleo", "Cubfan135|cub", "FalseSymmetry|false", "Keralis", "Stressmonster101|stress",
-"xBCrafted|xb"]},
-
-{text:"Name a TikTok or Instagram star",cat:"TikTok trends and sounds",list:[
-"Charli D'Amelio|charli damelio|charli", "Khaby Lame|khaby", "Addison Rae|addison", "Bella Poarch", "Dixie D'Amelio|dixie", "Zach King", "Loren Gray", "Noah Beck", "Bryce Hall", "Brent Rivera",
-"Lele Pons", "Alix Earle", "Keith Lee", "Spencer X|spencerx", "Josh Richards", "Chase Hudson|lil huddy", "Avani Gregg|avani", "Michael Le|justmaiko", "Mikayla Nogueira|mikayla", "Brittany Broski|broski",
-"Nara Smith", "Druski", "Hawk Tuah Girl|haliey welch|hawk tuah", "Costco Guys|we bring the boom", "Bobbi Althoff", "Alan Chikin Chow|alan chow", "Nick DiGiovanni", "Salt Bae", "Uncle Roger|nigel ng", "King Bach|kingbach",
-"Hannah Stocking", "Anwar Jibawi", "Stokes Twins", "Lexi Rivera", "Ben Azelart", "Pierson Wodzynski|pierson", "Drew Afualo", "Zhong", "Tinx", "Chris Olsen",
-"Amelie Zilber"]},
-
-{text:"Name a rapper with a famous ad-lib",cat:"Music",list:[
-"Migos|quavo|offset|takeoff", "Travis Scott|its lit|la flame", "DJ Khaled|another one|we the best", "Lil Jon|yeah|okay", "Future", "Young Thug|thugger", "21 Savage", "Gucci Mane|burr", "Rick Ross|ross|huh", "2 Chainz|tru|two chainz",
-"Pop Smoke|woo", "Playboi Carti|slatt|carti", "Lil Uzi Vert|uzi", "Cardi B|okurrr|okurr", "Lil Pump|esskeetit", "Metro Boomin|metro boomin want some more", "Lil Baby", "Megan Thee Stallion|megan|meg", "Flavor Flav|yeah boy", "Kodak Black",
-"Jeezy|young jeezy|yeaah", "French Montana|haan", "Desiigner|panda", "Chief Keef|bang|sosa", "Waka Flocka Flame|waka flocka|bow", "Pitbull|dale|mr worldwide", "Fetty Wap|1738|yeah baby", "Soulja Boy|youuu", "Busta Rhymes", "DaBaby|lets go",
-"Lil Wayne|weezy", "Lil Yachty|lil boat", "Lil Durk|smurk", "Ice Spice|grah", "Snoop Dogg|fo shizzle|snoop", "Ty Dolla $ign|ty dolla sign", "Mustard|mustard on the beat|dj mustard", "Fivio Foreign|fivio", "Big Shaq|skrrrah|mans not hot", "808 Mafia"]},
-
-{text:"Name an animal that went viral",cat:"Animals, brands and random viral stuff",list:[
-"Moo Deng", "Grumpy Cat|tardar sauce", "Doge|kabosu", "Harambe", "Pedro Raccoon|pedro", "Big Floppa|floppa", "Keyboard Cat", "Maxwell the Cat|maxwell", "Pop Cat|oatmeal", "OIIA Cat|spinning cat",
-"Smudge|woman yelling at cat", "Cheems|balltze", "Lil Bub", "Pesto the Penguin|pesto", "Boo the Pomeranian|boo", "Sad Hamster", "Huh Cat", "Chipi Chipi Chapa Chapa Cat|chipi chipi", "Banana Cat", "Fiona the Hippo|fiona",
-"Bingus", "Paul the Octopus|paul", "Maru", "Doug the Pug|doug", "Tuna the Dog|tuna|tunameltsmyheart", "Jiffpom|jiff pom", "Walter|nelson the bull terrier", "Gabe the Dog|bork", "Sneezing Panda", "Dramatic Chipmunk|dramatic prairie dog",
-"Rat Dance|dancing rat", "Knut the Polar Bear|knut", "Nala Cat|nala", "Venus the Two-Faced Cat|venus", "Hamilton the Hipster Cat|hamilton", "Crusoe the Dachshund|crusoe", "Fat Bear Week|otis", "Esther the Wonder Pig|esther", "Colonel Meow", "Nils Olav"]}
-]};
+// Built-in copy of puzzle #1 (puzzles/2026-11-12.json). Only used when the puzzle files can't be
+// loaded: the page opened straight from disk, or running as a Claude artifact.
+const RAW={"date":"2026-11-12","num":1,"prompts":[{"text":"Name a footballer who became a meme","cat":"Sports","list":["1:Cristiano Ronaldo|ronaldo|cr7|siuu|siu|penaldo|cristiano","1:Lionel Messi|messi|ankara messi|leo messi|pessi","2:Neymar|neymar roll|neymar jr","2:Harry Maguire|maguire|slabhead","3:Erling Haaland|haaland","3:Kylian Mbappé|mbappe|donatello|ninja turtle","3:Zlatan Ibrahimović|zlatan|ibrahimovic|ibra","3:Luis Suárez|suarez|bite","4:Zinedine Zidane|zidane|headbutt","4:Antony|antony spin","4:Paul Pogba|pogba|dab","4:Harry Kane|kane|trophy curse","4:Cole Palmer|palmer|cold palmer","4:Ronaldinho","5:Jude Bellingham|bellingham","5:Romelu Lukaku|lukaku|first touch","5:Steven Gerrard|gerrard|the slip","5:N'Golo Kanté|kante","5:Jack Grealish|grealish|socks","5:Mario Balotelli|balotelli|why always me","5:Ronaldo Nazário|r9|r9 haircut|fat ronaldo","5:Sergio Ramos|ramos","5:Emiliano Martínez|dibu|emi martinez","5:Darwin Núñez|darwin nunez|nunez","5:Richarlison|pigeon","5:Eden Hazard|hazard|burger","6:Phil Jones|phil jones faces","6:Jesse Lingard|lingard|jlingz","6:Peter Crouch|crouch|robot","6:Gareth Bale|bale|golf","6:Pepe","6:André Onana|onana","6:David de Gea|de gea|dave saves","6:Jordan Pickford|pickford","6:Bruno Fernandes|bruno","6:Dele Alli|dele|hand trick","6:Arjen Robben|robben|cut inside","6:Mesut Özil|ozil","6:Jamie Vardy|vardy","6:Gerard Piqué|pique","6:Guillermo Ochoa|ochoa|memo ochoa","6:Adama Traoré|adama","7:Gonzalo Higuaín|higuain","7:Diego Costa","7:Loris Karius|karius","7:Kepa Arrizabalaga|kepa","7:Marouane Fellaini|fellaini","8:Nicklas Bendtner|lord bendtner|bendtner","8:Emile Heskey|heskey time|heskey","8:Will Grigg|will griggs on fire|grigg","8:Adebayo Akinfenwa|akinfenwa|the beast","8:Ben Brereton Díaz|brereton|ben brereton","9:Ali Dia","10:Carlos Kaiser|kaiser|carlos henrique raposo","10:Maxim Tsigalko|tsigalko|maksim tsyhalka"],"deep":[["Ali Dia","Signed by Southampton in 1996 after a fake call 'from George Weah'. Played 53 minutes. Legendary.","https://en.wikipedia.org/w/index.php?search=Ali%20Dia"],["Maxim Tsigalko","A Belarusian striker with two international caps who was an unstoppable goal machine in Championship Manager 01/02. A cult hero to a generation of gamers.","https://en.wikipedia.org/w/index.php?search=Maxim%20Tsigalko"]]},{"text":"Name a meme that came from SpongeBob","cat":"Classic internet memes","list":["1:Mocking SpongeBob|spongemock","1:Ight Imma Head Out|aight imma head out|imma head out","2:Imagination|spongebob rainbow|imagination spongebob|rainbow","2:Surprised Patrick|shocked patrick","3:Handsome Squidward","3:Spongegar|caveman spongebob|primitive sponge","3:Savage Patrick|evil patrick|angry patrick","3:Squidward Window|squidward looking out the window","3:Tired SpongeBob","3:Blurry Mr. Krabs|confused mr krabs","3:Is Mayonnaise an Instrument|mayonnaise","3:No, This Is Patrick|is this the krusty krab","3:My Leg!","4:One Eternity Later|time cards|spongebob time card|a few moments later","4:Krusty Krab vs Chum Bucket","4:Bold and Brash","4:Dirty Dan|pinhead larry","4:Chocolate Guy|chocolate","4:DoodleBob|me hoy minoy","4:Krusty Krab Pizza","4:I'm Ready","5:Sweet Victory","5:Goofy Goober Rock|goofy goober","5:The Inner Machinations of My Mind Are an Enigma|inner machinations","5:Squidward Dab","5:F Is for Friends|fun song","5:Magic Conch|magic conch shell|all hail the magic conch","5:Push It Somewhere Else|push bikini bottom somewhere else","5:Patrick's Wallet","5:I Don't Need It|i need it","5:Krabby Patty Secret Formula|secret formula","5:Plankton and Karen|karen computer","5:Gary Meow|gary","6:Wumbo|wumbology","6:Weenie Hut Jr's|weenie hut jr","6:Firmly Grasp It","6:Leedle Leedle Lee","6:Future Squidward|squidward future","6:Rock Bottom","6:Ripped Pants","6:Campfire Song|campfire song song","6:Mermaid Man|evil","6:Ol' Reliable|old reliable","6:Hash-Slinging Slasher","7:Squilliam","7:Ravioli Ravioli Give Me the Formuoli|ravioli ravioli","7:Funnier Than 24","7:Nosferatu","7:Are You Feeling It Now Mr. Krabs|are you feeling it now|oh yeah mr krabs","8:Smitty Werbenjägermanjensen|smitty|he was number one","8:The Ugly Barnacle","8:DEUUEAUGH|deuueaugh fish|deaugh","8:Hoopla!","9:Moar Krabs|moar|morbid krabs","10:Spengbab"],"deep":[["Spengbab","Deliberately grotesque SpongeBob fan art that started circulating in 2006 and became a 4chan in-joke.","https://knowyourmeme.com/search?q=spengbab"],["Moar Krabs","A single distorted frame of Mr. Krabs from the episode 'Jellyfish Hunter' that became a YouTube Poop staple.","https://knowyourmeme.com/search?q=moar%20krabs"]]},{"text":"Name a brainrot term from 2023 or later","cat":"Brainrot and slang","list":["1:Skibidi|skibidi toilet","1:Rizz|rizzler","1:6 7|six seven","2:Sigma","2:Gyatt|gyat","3:Fanum Tax|fanum","3:Ohio|only in ohio","3:Aura|aura farming|aura points","3:Mewing|mew","3:Cooked","3:Delulu","3:Tung Tung Tung Sahur|tung tung sahur|tung tung","4:Italian Brainrot","4:Tralalero Tralala|tralalero","4:Mogging|mog|mogged","4:Glazing|glaze","4:Crashout|crash out","4:Unc|chopped unc","4:Looksmaxxing|looksmaxing|looksmax","4:Lock In|locked in","4:Yapping|yap","4:Let Him Cook","4:Hawk Tuah","4:Labubu","5:Demure|very demure very mindful|very demure","5:Brat|brat summer","5:Chill Guy","5:Pookie","5:Twin","5:Goofy Ahh|ahh","5:Zesty","5:Chopped","5:Bombardiro Crocodilo|bombardiro","5:Ballerina Cappuccina|ballerina","5:Grimace Shake","5:Low Taper Fade","5:Chicken Jockey","5:Winter Arc","6:Clanker","6:Erm What the Sigma|what the sigma","6:Big Back","6:Huzz","6:Sybau","6:Costco Guys|we bring the boom|boom","6:Bombastic Side Eye","6:Brr Brr Patapim|patapim","6:Chimpanzini Bananini","6:Cappuccino Assassino","6:Those Who Know","6:Type Shi|type shit","7:Sticking Out Your Gyatt for the Rizzler|sticking out your gyat","7:Brokie","7:Ts Pmo|ts pmo icl","7:What the Helly","7:Baby Gronk","7:Just Put the Fries in the Bag|put the fries in the bag|fries in the bag","8:Mango Mango Mango|mango","8:Still Water","8:Lirili Larila","8:Trippi Troppi","8:La Vaca Saturno Saturnita|vaca saturno","8:Gurt|yo gurt|gurt yo","8:41","9:Balkan Rage","9:Sdiybt|start digging in your butt twin|start digging in yo butt twin","9:Gegagedigedagedago|gegagedi"],"deep":[["Balkan Rage","One of the buzzwords kids stacked into 'those who know 💀' comment chains in late 2024, right next to still water and mango mango mango.","https://knowyourmeme.com/search?q=balkan%20rage"],["Sdiybt","Short for 'start digging in yo butt, twin'. A summer 2025 comment-section acronym that started with a SpongeBob edit.","https://knowyourmeme.com/search?q=sdiybt"]]},{"text":"Name a YouTuber famous for Minecraft","cat":"Gaming","list":["1:Dream","1:Technoblade|techno","2:DanTDM|dan tdm|thediamondminecart","3:PewDiePie|pewds","3:TommyInnit|tommy","3:GeorgeNotFound|george","3:Sapnap","3:Stampy|stampylonghead|stampy cat","3:Aphmau","3:CaptainSparklez|captain sparklez","3:Preston|prestonplayz","4:SSundee","4:Tubbo","4:Ranboo","4:Wilbur Soot|wilbur","4:Philza|ph1lza","4:Quackity","4:Grian","4:Mumbo Jumbo|mumbo","4:Unspeakable|unspeakablegaming","5:Karl Jacobs|karl","5:Skeppy","5:BadBoyHalo|bbh","5:PopularMMOs|pat and jen","5:Jelly","5:Sky Does Minecraft|skydoesminecraft|sky","6:LDShadowLady|lizzie","6:iBallisticSquid|squid","6:Bajan Canadian|bajancanadian|mitch","6:JeromeASF|jerome","6:Vikkstar123|vikkstar|vik","6:Fundy","6:Yogscast|lewis and simon","6:GoodTimesWithScar|scar","6:Smallishbeans|joel","6:Hypixel","7:Fruitberries","7:Smajor|scott smajor|dangthatsalongname","7:Antvenom","7:Etho|etho slab|ethoslab","7:Xisuma|xisumavoid","7:BdoubleO100|bdubs","7:Docm77|doc","7:TangoTek|tango","7:Iskall85|iskall","7:ImpulseSV|impulse","7:SethBling","7:GeminiTay|gem","7:PearlescentMoon|pearl","8:ZombieCleo|cleo","8:Cubfan135|cub","8:FalseSymmetry|false","8:Keralis","8:Stressmonster101|stress","8:Sips","8:Rendog|ren","8:Zedaph","8:VintageBeef|beef","8:Bodil40|bodil","8:xBCrafted|xb","8:Joe Hills","9:TinFoilChef|tfc","9:Guude","9:Generikb","10:kurtjmac|kurt j mac|far lands or bust","10:paulsoaresjr|paul soares jr|paul soares"],"deep":[["kurtjmac","Spent 14 years walking to Minecraft's Far Lands in his series Far Lands or Bust, setting off in March 2011 and finally arriving in October 2025.","https://en.wikipedia.org/w/index.php?search=Far%20Lands%20or%20Bust"],["paulsoaresjr","Made 'How to Survive Your First Night', the tutorial that taught Minecraft's earliest players the basics back in the Alpha days.","https://www.youtube.com/results?search_query=paulsoaresjr%20how%20to%20survive%20your%20first%20night"]]},{"text":"Name a TikTok or Instagram star","cat":"TikTok trends and sounds","list":["1:Charli D'Amelio|charli","1:Khaby Lame|khaby","2:Addison Rae|addison","2:Bella Poarch","3:Dixie D'Amelio|dixie","3:Zach King","3:Alix Earle","3:Bryce Hall","3:Druski","4:Loren Gray","4:Noah Beck","4:Brent Rivera","4:Lele Pons","4:Keith Lee","4:Hawk Tuah Girl|haliey welch|hawk tuah","4:Salt Bae","4:Hasbulla","4:Livvy Dunne|olivia dunne","5:Josh Richards","5:Chase Hudson|lil huddy|huddy","5:Avani Gregg|avani","5:Brittany Broski|broski|kombucha girl","5:Nara Smith","5:Costco Guys|we bring the boom|big justice","5:Bobbi Althoff","5:King Bach","5:Mikayla Nogueira|mikayla","5:Uncle Roger|nigel ng","5:Nick DiGiovanni","5:Stokes Twins","5:Alan Chikin Chow|alan chow","5:Lexi Rivera","5:Ashton Hall","5:Dan Bilzerian|bilzerian","6:Spencer X","6:Michael Le|justmaiko","6:Hannah Stocking","6:Ben Azelart","6:Drew Afualo","6:Baby Ariel","6:Jacob Sartorius","6:Pinkydoll","6:Jools Lebron","6:Tabitha Brown","7:Anwar Jibawi","7:Pierson Wodzynski|pierson","7:Zhong","7:Chris Olsen","7:Amelie Zilber","7:Lisa and Lena","7:Danielle Cohn","7:Francis Bourgeois","7:Emily Mariko","7:Thomas Petrou","8:Tinx","8:Tube Girl|sabrina bahsoon","8:Reesa Teesa","8:Nathan Apodaca|doggface208|doggface","8:Jen Selter","9:Jalaiah Harmon|jalaiah","9:Curtis Roach","10:Ryland Storms"],"deep":[["Jalaiah Harmon","The Georgia teenager who choreographed the Renegade, one of TikTok's biggest dances ever, and waited months to get the credit for it.","https://en.wikipedia.org/w/index.php?search=Jalaiah%20Harmon"],["Curtis Roach","Detroit rapper whose March 2020 clip of himself pounding the floor and chanting 'bored in the house' became the lockdown anthem, later remade with Tyga.","https://knowyourmeme.com/search?q=bored%20in%20the%20house"]]},{"text":"Name a rapper with a famous ad-lib","cat":"Music","list":["1:Migos|quavo|offset|takeoff","1:Travis Scott|its lit|la flame","2:DJ Khaled|another one|we the best","2:Playboi Carti|slatt|carti","3:Lil Jon|yeah|okay","3:Pop Smoke|woo","3:21 Savage","3:Future","3:Young Thug|thugger","3:Lil Uzi Vert|uzi","3:Cardi B|okurrr|okurr","4:Gucci Mane|burr|gucci","4:Rick Ross|ross|huh","4:2 Chainz|tru|two chainz","4:Lil Pump|esskeetit","4:Metro Boomin|metro boomin want some more|metro","4:Ice Spice|grah","4:Lil Wayne|weezy","4:DaBaby|lets go","4:Mustard|mustard on the beat|dj mustard","5:Lil Baby","5:Megan Thee Stallion|megan|meg","5:Kodak Black|kodak","5:Chief Keef|bang|sosa","5:Lil Yachty|lil boat","5:Lil Durk|smurk|durk","5:Snoop Dogg|fo shizzle|snoop","5:Pitbull|dale|mr worldwide","5:Fetty Wap|1738|yeah baby","5:Soulja Boy|youuu","5:Busta Rhymes|busta","5:Desiigner|panda","5:Big Shaq|skrrrah|mans not hot","5:Jay-Z|hov","6:Jeezy|young jeezy|yeaah","6:French Montana|haan","6:Waka Flocka Flame|waka flocka|bow|waka","6:Flavor Flav|yeah boy","6:Ty Dolla $ign|ty dolla sign","6:Fivio Foreign|fivio","6:Birdman","6:Big Sean","6:Blueface|yeah aight","6:Sheck Wes","7:808 Mafia","7:Pusha T|yugh|pusha","7:Juicy J","7:ScHoolboy Q|yawk","7:Master P|make em say uhh|uhh","7:DJ Drama|gangsta grillz","8:Jadakiss","8:Mike Jones|who mike jones","8:Jim Jones|ballin","8:Juelz Santana|juelz","8:MadeinTYO|made in tokyo|skrrt skrrt","9:Westside Gunn","9:N.O.R.E.|noreaga","10:OJ da Juiceman|juiceman","10:Max B"],"deep":[["OJ da Juiceman","Gucci Mane's late-2000s running mate, who turned shouting 'AYE!' and 'OKAY!' into his whole style. Best known for 'Make tha Trap Say Aye'.","https://en.wikipedia.org/w/index.php?search=OJ%20da%20Juiceman"],["Westside Gunn","Co-founder of Griselda Records. His gun-noise ad-libs ('BRRRT', 'DOOT DOOT DOOT') are basically his signature.","https://en.wikipedia.org/w/index.php?search=Westside%20Gunn"]]},{"text":"Name an animal that went viral","cat":"Animals, brands and random viral stuff","list":["1:Grumpy Cat|tardar sauce","1:Doge|kabosu","2:Harambe","2:Moo Deng","3:Keyboard Cat","3:Pop Cat|oatmeal","3:Big Floppa|floppa","3:Smudge|woman yelling at cat|smudge the cat","3:Cheems|balltze","4:Pedro Raccoon|pedro","4:Maxwell the Cat|maxwell","4:OIIA Cat|spinning cat|oiia","4:Huh Cat","4:Chipi Chipi Chapa Chapa Cat|chipi chipi","4:Banana Cat","4:Capybara","5:Sad Hamster","5:Bingus","5:Walter|nelson the bull terrier","5:Pesto the Penguin|pesto","5:Rat Dance|dancing rat","5:Lil Bub","5:Peanut the Squirrel|peanut|pnut","5:Happy Happy Happy Cat|happy cat","6:Boo the Pomeranian|boo","6:Fiona the Hippo|fiona","6:Doug the Pug|doug","6:Jiffpom","6:Gabe the Dog|bork|gabe","6:Sneezing Panda","6:Dramatic Chipmunk|dramatic prairie dog","6:Honey Badger","6:Wednesday Frog|it is wednesday my dudes","6:Noodle the Pug|noodle|bones day","6:Emmanuel the Emu|emmanuel","6:Pizza Rat","7:Paul the Octopus|paul","7:Maru","7:Nala Cat|nala","7:Fat Bear Week|otis","7:Tuna the Dog|tuna|tunameltsmyheart","7:Ikea Monkey|darwin","7:April the Giraffe|april","7:Bunny the Talking Dog|bunny","8:Knut the Polar Bear|knut","8:Venus the Two-Faced Cat|venus","8:Hamilton the Hipster Cat|hamilton","8:Crusoe the Dachshund|crusoe","8:Esther the Wonder Pig|esther","8:Colonel Meow","8:Fenton","8:Mishka the Talking Husky|mishka","8:Jorts|jorts the cat","8:Ceiling Cat","9:Nils Olav","9:Longcat","9:Heidi the Cross-Eyed Opossum|heidi","10:Sockington|sockamillion"],"deep":[["Sockington","A cat from Massachusetts who became one of Twitter's first animal celebrities in 2009, passing 1.5 million followers.","https://en.wikipedia.org/w/index.php?search=Sockington"],["Nils Olav","A king penguin at Edinburgh Zoo who was officially knighted by the Norwegian King's Guard. Sir Nils.","https://en.wikipedia.org/w/index.php?search=Nils%20Olav"]]}]};
 function tierFor(i,n){n=n||100;const f=i/n;
   return f<.08?0:f<.20?1:f<.40?2:f<.65?3:f<.88?4:5;}
-const DEEP=[
- [["Ali Dia", "Signed by Southampton in 1996 after a fake call 'from George Weah'. Played 53 minutes. Legendary."], ["Kepa Arrizabalaga", "Refused to be subbed off in the 2019 League Cup final while Sarri lost his mind on the touchline."]],
- [["Funnier Than 24","'Hey Patrick, I thought of something funnier than 24...' '...25!' Peak SpongeBob humour."],["Ravioli Ravioli Give Me the Formuoli","Plankton's desperate rhyme demanding the Krabby Patty formula."]],
- [["Sybau","Short for something rude you'd tell someone to stop yapping. Spread through 2025 TikTok comments."],["Mango Mango Mango","The 2024 TikTok chant that somehow became a brainrot staple. Nobody can explain it."]],
- [["xBCrafted", "Hermitcraft OG. If you remember xB's builds, you've been watching since the early 2010s."], ["Stressmonster101", "Long-time Hermitcraft member famous for her cozy, nature-themed builds. True Hermit fans only."]],
- [["Zhong", "Comedy creator who blew up on TikTok and YouTube Shorts, at one point gaining a million subscribers in a single week."], ["Tinx", "TikTok's big-sister figure, known for her unfiltered dating and lifestyle advice."]],
- [["808 Mafia","Southside and Lex Luger's production team. You know the tag even if you don't know the name."],["Big Shaq","Michael Dapaah's parody rapper: 'The ting goes skrrrahh, pap pap ka-ka-ka.' Man's not hot."]],
- [["Nils Olav", "A king penguin at Edinburgh Zoo who was officially knighted by the Norwegian King's Guard. Sir Nils."], ["Colonel Meow", "A Himalayan-Persian cat with a record-breaking long coat and the angriest face on the internet."]]
-];
 const wsearch=q=>"https://en.wikipedia.org/w/index.php?search="+encodeURIComponent(q);
-const DEEPCTX=[" footballer",""," slang"," YouTuber",""," rapper",""];
-RAW.prompts.forEach((p,pi)=>{p.deep=DEEP[pi].map(([n,x])=>[n,x,wsearch(n+DEEPCTX[pi])])});
 function tierFromScore(s){return s<=2?0:s===3?1:s<=5?2:s<=7?3:s===8?4:5;}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function validPuzzle(raw){
+  return !!raw&&Array.isArray(raw.prompts)&&raw.prompts.length>=7&&
+    raw.prompts.slice(0,7).every(p=>p&&String(p.text||"").trim()&&Array.isArray(p.list)&&p.list.some(s=>String(s).trim()));
+}
 function compilePuzzle(raw){
   return {date:String(raw.date),num:raw.num||1,prompts:raw.prompts.slice(0,7).map(p=>{
     const L=(p.list||[]).filter(s=>String(s).trim());
@@ -426,10 +370,24 @@ let KEY="ebk-"+PUZZLE.date;
 const PXM=0.55;               // pixels per meter
 const MAXD=7600;
 let depth=0,score=0,idx=0,results=[],cam=0,locked=true,timer=null,deadline=0;
-const LIMIT=25000, CIRC=138.2;
+let openAt=null;              // {i: prompt index, dl: wall-clock deadline} while a prompt's clock is running
+let sent=false,sending=false; // has this finished game reached the backend?
+const LIMIT=25000, CIRC=138.2, COUNTDOWN=2400;
+const total=()=>results.reduce((s,r)=>s+(r.t>=0?TIERS[r.t].pts:0),0);
 
-function save(){try{localStorage.setItem(KEY,JSON.stringify(results))}catch(e){}}
-function load(){try{const r=JSON.parse(localStorage.getItem(KEY)||"null");return Array.isArray(r)&&r.length===7?r:null}catch(e){return null}}
+// Progress is saved after every answer, so a refresh mid-game resumes instead of restarting.
+function save(){try{localStorage.setItem(KEY,JSON.stringify({v:2,r:results,open:openAt,sent}))}catch(e){}}
+function load(){
+  try{
+    let s=JSON.parse(localStorage.getItem(KEY)||"null");
+    if(Array.isArray(s)) s=s.length===7?{r:s}:null;   // first version stored just the finished results
+    if(!s||!Array.isArray(s.r)||s.r.length>7) return null;
+    const okRow=r=>r&&(r.a===null||typeof r.a==="string")&&Number.isInteger(r.t)&&r.t>=-1&&r.t<=5&&(r.t>=0)===(r.a!==null);
+    if(!s.r.every(okRow)) return null;
+    const o=s.open, open=o&&o.i===s.r.length&&typeof o.dl==="number"?{i:o.i,dl:o.dl}:null;
+    return {r:s.r.map(r=>({a:r.a,t:r.t,s:!!r.s})),open,sent:!!s.sent};
+  }catch(e){return null}
+}
 
 // ---------- world build ----------
 const world=$("world");
@@ -498,44 +456,65 @@ function answerTable(p,mine,minTier,cap){
     const T=TIERS[ti];
     h+=`<div class="trow"><div class="tl" style="color:${T.color}">${T.name} ${T.pts}</div><div class="chips">`+
       (()=>{let L=list; if(cap&&L.length>cap){const me=L.find(a=>a[0]===mine); L=L.slice(0,cap); if(me&&!L.includes(me)) L=[me,...L.slice(0,cap-1)];}
-        return L.map(a=>`<span class="c2${a[0]===mine?" me":""}" data-pi="${p.pi}" data-n="${encodeURIComponent(a[0])}" style="color:${T.color}"><span>${a[0]}</span></span>`).join("")+(cap&&list.length>cap?`<span class="c2" style="color:var(--dim)"><span>+${list.length-cap} more</span></span>`:"");})()+`</div></div>`;
+        return L.map(a=>`<span class="c2${a[0]===mine?" me":""}" data-pi="${p.pi}" data-n="${encodeURIComponent(a[0])}" style="color:${T.color}"><span>${esc(a[0])}</span></span>`).join("")+(cap&&list.length>cap?`<span class="c2" style="color:var(--dim)"><span>+${list.length-cap} more</span></span>`:"");})()+`</div></div>`;
   }
   return h;
 }
 // ---------- flow ----------
 let tierLines=[];
 function startGame(){
-  document.body.classList.add("playing"); ac();
+  document.body.classList.add("playing"); ac(); primeInput();
   $("start").style.display="none"; $("hud").classList.add("on");
-  depth=0;score=0;idx=0;results=[];
-  animateCam(0,700,()=>startPrompt());
+  // A fresh game starts at zero; a game interrupted by a refresh picks up where it stopped.
+  idx=results.length; score=total(); depth=score*10;
+  const resume=!!(openAt&&openAt.i===idx);
+  animateCam(depth,700,()=>startPrompt(resume));
 }
 function animateCam(to,ms,done){
   const from=cam,t0=performance.now();
   function f(t){const k=Math.min(1,(t-t0)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;setCam(from+(to-from)*e);if(k<1)requestAnimationFrame(f);else done&&done()}
   requestAnimationFrame(f);
 }
-function startPrompt(){
+let cdTimer=null;
+// Shows the answer bar and focuses it. Called straight from a tap/click so phones open the
+// keyboard (they refuse to when focus happens later, from a timer).
+function primeInput(){
+  clearSugg(); locked=true; clearInterval(timer);
+  const m=$("msg"); m.classList.remove("hurry","wait"); m.textContent="";
+  $("guess").value=""; drawTimer(LIMIT);
+  $("bar").classList.add("on"); $("guess").focus();
+}
+function startPrompt(resume){
   const p=PUZZLE.prompts[idx]; hud();
   $("reveal").classList.remove("on"); $("next").classList.remove("on");
   $("ck").textContent=`PROMPT ${idx+1} OF 7`; $("ccat").textContent=p.cat; $("ctext").textContent=p.text;
-  $("card").classList.add("on");
+  $("card").classList.add("on"); $("bar").classList.add("on");
   tierLines.forEach(n=>n.remove()); tierLines=TIERS.map(T=>el("tierline",{top:((depth+T.pts*10)*PXM)+"px"},`<span style="color:${T.color}">${T.name.toUpperCase()} · ${T.pts}</span>`));
-  let n=3; $("cd").textContent=n; $("pill").classList.add("on");
-  SFX.tick(); const iv=setInterval(()=>{n--; if(n>0){$("cd").textContent=n;SFX.tick()}else{clearInterval(iv);$("pill").classList.remove("on");openInput()}},800);
+  clearInterval(cdTimer);
+  // Resuming a prompt whose clock was already running: no fresh countdown, just the time that's left.
+  if(resume&&openAt&&openAt.i===idx){ openInput(Math.max(0,Math.min(LIMIT,openAt.dl-Date.now()))); return; }
+  openAt={i:idx,dl:Date.now()+COUNTDOWN+LIMIT}; save();
+  let n=3; const m=$("msg"), show=()=>{m.classList.remove("hurry","sugg");m.classList.add("wait");m.innerHTML=`loading the feed 📲 · clock starts in <b>${n}</b>`};
+  show(); SFX.tick();
+  cdTimer=setInterval(()=>{n--; if(n>0){show();SFX.tick()}else{clearInterval(cdTimer);openInput(LIMIT)}},COUNTDOWN/3);
 }
-function openInput(){
-  clearSugg(); locked=false; $("msg").textContent=""; $("msg").classList.remove("hurry"); $("guess").value="";
+function openInput(ms){
+  clearSugg(); locked=false; const m=$("msg"); m.classList.remove("hurry","wait"); m.textContent="";
   $("bar").classList.add("on"); $("guess").focus();
-  deadline=performance.now()+LIMIT; clearInterval(timer); timer=setInterval(tick,100); tick();
+  deadline=Date.now()+ms; openAt={i:idx,dl:deadline}; save();
+  clearInterval(timer); timer=setInterval(tick,100); tick();
 }
-function tick(){
-  const left=Math.max(0,deadline-performance.now()), f=left/LIMIT;
+function drawTimer(left){
+  const f=left/LIMIT;
   $("secs").textContent=Math.ceil(left/1000);
   $("arc").setAttribute("stroke-dashoffset",CIRC*(1-f));
   $("arc").setAttribute("stroke",left<6000?"#ff4f6d":"#4fe3ff");
   $("ring").classList.toggle("low",left<6000);
   $("trk").style.width=(f*100)+"%";
+}
+function tick(){
+  const left=Math.max(0,deadline-Date.now());
+  drawTimer(left);
   if(left<6000&&left>0&&!$("msg").textContent&&!pending){$("msg").textContent="HURRY UP BRO 😭";$("msg").classList.add("hurry");}
   if(left<=0) commit(null,"");
 }
@@ -550,7 +529,7 @@ $("form").addEventListener("submit",e=>{
   const s=suggest(PUZZLE.prompts[idx],v);
   if(s){ pending=s; $("guess").value="";
     $("msg").classList.remove("hurry"); $("msg").classList.add("sugg");
-    $("msg").innerHTML=`Did you mean <b>${s[0]}</b>?<button type="button" id="sy">YES</button><button type="button" class="no" id="sn">NOPE</button>`;
+    $("msg").innerHTML=`Did you mean <b>${esc(s[0])}</b>?<button type="button" id="sy">YES</button><button type="button" class="no" id="sn">NOPE</button>`;
     $("sy").onclick=()=>{const p=pending;clearSugg();commit(p,"");};
     $("sn").onclick=()=>{clearSugg();$("msg").textContent="aight, keep guessing 🫡";$("guess").focus();};
     return; }
@@ -564,7 +543,9 @@ function commit(ans,typed){
   const t=ans?ans[1]:-1, sink=ans?TIERS[t].pts*10:0;
   const skipped=!ans&&typed==="skip";
   results.push({a:ans?ans[0]:null,t,s:skipped});
-  const tag=el("tag"+(ans?"":" dead"),{top:(depth*PXM)+"px"},ans?`"${ans[0]}"`:(skipped?"SKIPPED":"TIME'S UP"));
+  openAt=null; save();                       // locked in: a refresh from here on can't replay this prompt
+  if(results.length===7) savePlay();
+  const tag=el("tag"+(ans?"":" dead"),{top:(depth*PXM)+"px"},ans?`"${esc(ans[0])}"`:(skipped?"SKIPPED":"TIME'S UP"));
   if(ans) tag.style.borderColor=TIERS[t].color, tag.style.color=TIERS[t].color;
   const d0=depth,d1=depth+sink,t0=performance.now(),ms=ans?1400+sink*1.3:600;
   setCam(d0);
@@ -592,7 +573,7 @@ function reveal(ans,skipped){
     `<details class="all"><summary>▸ SEE ALL ${p.answers.length} ANSWERS</summary><div class="allbox">${answerTable(p,ans?ans[0]:null,0)}</div></details>`;
   $("roth").scrollTop=0;
   $("next").textContent=idx===6?"SEE RESULTS ▼":"NEXT ▼";
-  $("reveal").classList.add("on"); $("next").classList.add("on"); $("next").focus();
+  $("reveal").classList.add("on"); $("next").classList.add("on"); $("next").focus(); revealAt=Date.now();
   if(ans){const T=TIERS[ans[1]],B=[...T.burst],n=ans[1]>=3?22:10;
     for(let i=0;i<n;i++){const s=document.createElement("span");s.className="burst";s.textContent=B[i%B.length];
       const a=Math.random()*Math.PI*2,dist=120+Math.random()*260;
@@ -603,10 +584,13 @@ function reveal(ans,skipped){
     if(ans[1]===5){SFX.horn();fry();stamp("W","var(--lime)")} else if(ans[1]===4){SFX.boom();fry()} else if(ans[1]===0){SFX.boom();stamp("NPC","#9aa0b8")} else SFX.win(ans[1]);}
   else { SFX.boom(); stamp("L","var(--lore)"); }
 }
+let revealAt=0;
 $("next").addEventListener("click",()=>{
+  // Ignore strays: the button being hidden, or Enter still held down from sending the answer.
+  if(!$("next").classList.contains("on")||Date.now()-revealAt<350) return;
   $("reveal").classList.remove("on"); $("next").classList.remove("on");
   idx++;
-  if(idx<7) startPrompt(); else { save(); savePlay(); hud(); showResults(); }
+  if(idx<7){ primeInput(); startPrompt(); } else { save(); savePlay(); hud(); showResults(); }
 });
 
 // ---------- results ----------
@@ -615,27 +599,31 @@ function rankFor(total){
 }
 function showResults(){
   tierLines.forEach(n=>n.remove()); tierLines=[];
-  const total=results.reduce((s,r)=>s+(r.t>=0?TIERS[r.t].pts:0),0); score=total; depth=total*10;
+  clearInterval(timer); clearInterval(cdTimer);
+  $("bar").classList.remove("on"); $("card").classList.remove("on");
+  const tot=total(); score=tot; depth=tot*10; idx=7;
   setCam(depth); hud(); $("hud").classList.add("on"); $("start").style.display="none";
-  const grid=results.map(r=>r.t>=0?TIERS[r.t].sq:MISS).join(""), R=TIERS[rankFor(total)];
+  const grid=results.map(r=>r.t>=0?TIERS[r.t].sq:MISS).join(""), R=TIERS[rankFor(tot)];
   $("rk").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date}`;
-  $("rdepth").textContent=(total*10).toLocaleString()+"m";
-  $("rsub").textContent=`${total} / 700 aura · max depth 7,000m`;
+  $("rdepth").textContent=(tot*10).toLocaleString()+"m";
+  $("rsub").textContent=`${tot} / 700 aura · max depth 7,000m`;
   $("rrank").textContent=R.name.toUpperCase(); $("rrank").style.color=R.color; $("roast").textContent=R.roast;
   $("rgrid").textContent=grid;
   renderRList();
-  $("sharetext").value=`EBK #${PUZZLE.num} · ${(total*10).toLocaleString()}m · ${total} aura 🗿\n${grid}\n${R.name}`;
+  $("sharetext").value=`EBK #${PUZZLE.num} · ${(tot*10).toLocaleString()}m · ${tot} aura 🗿\n${grid}\n${R.name}`;
+  // Replaying the same day is a testing tool: only on your own machine, or for the owner.
+  $("reset").style.display=(LOCAL||IS_OWNER)?"":"none";
   $("results").classList.add("on"); document.body.classList.remove("playing");
-  if(total>=420){SFX.horn();stamp("W","var(--lime)")}
+  if(tot>=420){SFX.horn();stamp("W","var(--lime)")}
 }
 function renderRList(){
   const open=[...document.querySelectorAll("#rlist details")].map(d=>d.open);
   $("rlist").innerHTML=PUZZLE.prompts.map((p,k)=>{
     const r=results[k],T=r.t>=0?TIERS[r.t]:null, d=p.deep.find(x=>x[0]!==r.a)||p.deep[0], sl=shareLine(k,r.a);
-    return `<div class="rrow"><div class="q">${k+1}. ${p.text}</div>
-      <div class="y"><span style="color:${T?T.color:"var(--dim)"}">${r.a||(r.s?"Skipped":"No answer")}</span><span style="color:${T?T.color:"var(--dim)"}">${T?T.name.toUpperCase()+" +"+T.pts:"+0"}</span></div>
+    return `<div class="rrow"><div class="q">${k+1}. ${esc(p.text)}</div>
+      <div class="y"><span style="color:${T?T.color:"var(--dim)"}">${r.a?esc(r.a):(r.s?"Skipped":"No answer")}</span><span style="color:${T?T.color:"var(--dim)"}">${T?T.name.toUpperCase()+" +"+T.pts:"+0"}</span></div>
       ${sl?`<div class="pct">${sl}</div>`:""}
-      <div class="deep"><b>${d[0]}</b>: ${d[1]}<a href="${d[2]}" target="_blank" rel="noopener">SOURCE ↗</a></div>
+      <div class="deep"><b>${esc(d[0])}</b>${d[1]?": "+esc(d[1]):""}<a href="${esc(d[2])}" target="_blank" rel="noopener">SOURCE ↗</a></div>
       <details class="all"${(EDIT||open[k])?" open":""}><summary>▸ ALL ${p.answers.length} ANSWERS${EDIT?" · tap one to re-tier":""}</summary><div class="allbox">${answerTable(p,r.a,0)}</div></details></div>`;
   }).join("");
 }
@@ -668,6 +656,7 @@ const within=(p,ms)=>Promise.race([p,new Promise(res=>setTimeout(()=>res(null),m
 // ---------- data layer: Claude artifact db OR Supabase (standalone site) ----------
 const CFG=window.EBK_CONFIG||{};
 const MODE=CFG.supabaseUrl&&CFG.supabaseAnonKey?"supabase":"claude";
+const LOCAL=location.protocol==="file:"||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 let DB=null,USER=null,UID=null,IS_OWNER=false,OVR={},SB=null;
 function aggregate(rows){ // rows: arrays of 7 answers (null = none) from OTHER players
   const per=PUZZLE.prompts.map(()=>({n:0,c:{}}));
@@ -695,99 +684,132 @@ const Claude={
   },
   async overrides(date){ if(!DB) return {}; const o=await within(DB.doc("overrides/"+date).get(),10000); return o&&o.exists?Object.assign({},o.data()||{}):{}; },
   async savePlay(date,answers,score){
-    if(!DB||!UID) return; const ref=DB.doc("plays/"+UID); const cur=await within(ref.get(),10000);
+    if(!DB||!UID) return false; const ref=DB.doc("plays/"+UID); const cur=await within(ref.get(),10000);
     const entry={[date]:{a:answers,s:score,t:Date.now()}};
     if(cur&&cur.exists) await ref.update(entry); else await ref.set(entry);
+    return true;
   },
   async setOverride(date,key,tier){ const data={}; Object.keys(OVR).forEach(x=>data[x]=OVR[x]); await DB.doc("overrides/"+date).set(data); }
 };
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
-function playerId(){ try{ let id=localStorage.getItem("ebk-pid"); if(!id){ id=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now()); localStorage.setItem("ebk-pid",id);} return id; }catch(e){ return "anon-"+Math.random(); } }
+function playerId(){
+  const make=()=>crypto.randomUUID?crypto.randomUUID():"p-"+Math.random().toString(36).slice(2)+"-"+Date.now();
+  try{ let id=localStorage.getItem("ebk-pid"); if(!id){ id=make(); localStorage.setItem("ebk-pid",id);} return id; }catch(e){ return make(); }
+}
 const Supa={
   async init(){
+    UID=playerId();
     if(!window.supabase) await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2");
     SB=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey);
-    UID=playerId();
-    const {data}=await SB.auth.getSession();
-    if(data&&data.session){ const r=await SB.rpc("is_admin"); IS_OWNER=!!(r&&r.data); }
-    if(location.hash==="#admin"&&!IS_OWNER) showAdminLogin();
+    const {data}=await SB.auth.getSession(); const session=data&&data.session;
+    if(session){ const r=await SB.rpc("is_admin"); IS_OWNER=!!(r&&r.data===true); }
+    if(location.hash==="#admin"&&!IS_OWNER) showAdminLogin(session&&session.user?session.user.email:null);
   },
+  // Today's puzzle file, or else the newest one dated before today.
   async puzzle(d){
     const base=CFG.puzzlesPath||"puzzles";
-    let r=await fetch(`${base}/${d}.json`,{cache:"no-store"}); if(r.ok) return r.json();
-    r=await fetch(`${base}/index.json`,{cache:"no-store"}); if(!r.ok) return null;
-    const dates=(await r.json()).filter(x=>x<=d).sort(); if(!dates.length) return null;
-    r=await fetch(`${base}/${dates[dates.length-1]}.json`,{cache:"no-store"}); return r.ok?r.json():null;
+    const get=async u=>{ try{ const r=await fetch(u,{cache:"no-store"}); return r.ok?await r.json():null; }catch(e){ return null; } };
+    let p=await get(`${base}/${d}.json`); if(validPuzzle(p)) return p;
+    const list=await get(`${base}/index.json`); if(!Array.isArray(list)) return null;
+    const dates=list.filter(x=>typeof x==="string"&&x<=d).sort(); if(!dates.length) return null;
+    p=await get(`${base}/${dates[dates.length-1]}.json`); return validPuzzle(p)?p:null;
   },
   async live(date){
-    const {data,error}=await SB.rpc("answer_counts",{p_date:date,p_player:UID}); if(error||!data) return null;
+    const {data,error}=await SB.rpc("answer_counts",{p_date:date,p_player:UID}); if(error||!Array.isArray(data)) return null;
     const per=PUZZLE.prompts.map(()=>({n:0,c:{}}));
-    data.forEach(row=>{const P=per[row.prompt_idx]; if(!P) return; if(row.answer==null) P.n=row.n; else P.c[row.answer]=row.n;});
+    data.forEach(row=>{const P=per[row.prompt_idx], n=Number(row.n); if(!P||!(n>0)) return; if(row.answer==null) P.n=n; else P.c[row.answer]=n;});
     return per;
   },
   async overrides(date){
-    const {data}=await SB.from("overrides").select("prompt_idx,answer,tier").eq("puzzle_date",date);
+    const {data,error}=await SB.from("overrides").select("prompt_idx,answer,tier").eq("puzzle_date",date); if(error) throw error;
     const o={}; (data||[]).forEach(r=>o[r.prompt_idx+"|"+r.answer]=r.tier); return o;
   },
-  async savePlay(date,answers,score){ await SB.from("plays").insert({puzzle_date:date,player_id:UID,answers,score}); },
+  // true = the backend has dealt with it (stored, or turned down for good); a network failure throws so we retry later.
+  async savePlay(date,answers,score){
+    const {error}=await SB.rpc("submit_play",{p_date:date,p_player:UID,p_answers:answers,p_score:score}); if(error) throw error;
+    return true;
+  },
   async setOverride(date,key,tier){
     const [pi,...rest]=key.split("|"); const answer=rest.join("|");
-    if(tier==null) await SB.from("overrides").delete().match({puzzle_date:date,prompt_idx:+pi,answer});
-    else { const {error}=await SB.from("overrides").upsert({puzzle_date:date,prompt_idx:+pi,answer,tier}); if(error) throw error; }
+    const q=tier==null?SB.from("overrides").delete().match({puzzle_date:date,prompt_idx:+pi,answer})
+                      :SB.from("overrides").upsert({puzzle_date:date,prompt_idx:+pi,answer,tier});
+    const {error}=await q; if(error) throw error;
   }
 };
-function showAdminLogin(){
+function showAdminLogin(signedInAs){
   const box=document.createElement("div"); box.className="editor on";
-  box.innerHTML=`<div class="ek">ADMIN LOGIN: we'll email you a magic link</div><div style="display:flex;gap:6px"><input id="adm" placeholder="your email" style="flex:1;padding:8px;background:#0d1024;color:#fff;border:2px solid var(--cyan);font:13px 'Space Mono',monospace"><button id="admgo" class="send">SEND</button></div><div class="ek" id="admmsg" style="margin-top:8px"></div>`;
+  if(signedInAs){
+    box.innerHTML=`<div class="ek">Signed in as ${esc(signedInAs)}, but that account isn't an admin yet.</div><div class="ek" style="font-weight:400">Add it to the admins table (see the README), then reload this page.</div>`;
+    document.body.appendChild(box); return;
+  }
+  box.innerHTML=`<div class="ek">ADMIN LOGIN: we'll email you a magic link</div><div style="display:flex;gap:6px"><input id="adm" type="email" placeholder="your email" style="flex:1;min-width:0;padding:8px;background:#0d1024;color:#fff;border:2px solid var(--cyan);font:13px 'Space Mono',monospace"><button id="admgo" class="send">SEND</button></div><div class="ek" id="admmsg" style="margin-top:8px"></div>`;
   document.body.appendChild(box);
   box.querySelector("#admgo").onclick=async()=>{const em=box.querySelector("#adm").value.trim(); if(!em) return;
-    const {error}=await SB.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.href.split("#")[0]}});
-    box.querySelector("#admmsg").textContent=error?"Couldn't send: "+error.message:"Check your email for the link ✅";};
+    const say=t=>box.querySelector("#admmsg").textContent=t; say("Sending…");
+    try{
+      // shouldCreateUser:false = only accounts you created in the Supabase dashboard can get a link.
+      const {error}=await SB.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
+      say(error?"Couldn't send: "+error.message:"Check your email for the link ✅");
+    }catch(e){ say("Couldn't send. Check your connection and try again."); }
+  };
 }
 const STORE=MODE==="supabase"?Supa:Claude;
 
 // ---------- live rarity + overrides ----------
-const PTS=[10,15,30,60,85,100];
+// Share of players that puts an answer in each tier: 25%+ NPC ... under 1% Elite.
 function liveTierFromShare(sh){return sh>=.25?0:sh>=.12?1:sh>=.06?2:sh>=.03?3:sh>=.01?4:5;}
-function nearestTier(pts){let b=0;PTS.forEach((p,i)=>{if(Math.abs(p-pts)<Math.abs(PTS[b]-pts))b=i});return b;}
+// The puzzle's own score counts as PRIOR_N imaginary players who answered at that tier's typical
+// rate, so a handful of real players nudges a tier and hundreds decide it. Without this, an obvious
+// answer that the first few players happen not to say would shoot straight to the top tier.
+const PRIOR_SHARE=[.35,.17,.085,.042,.017,.004], PRIOR_N=50;
+function autoTier(p,a){
+  const L=p.live; if(!L||L.n<3) return a.prior;
+  return liveTierFromShare(((L.c[a[0]]||0)+PRIOR_N*PRIOR_SHARE[a.prior])/(L.n+PRIOR_N));
+}
+// Tier of every answer = the owner's override if there is one, otherwise score blended with live rarity.
+function retier(){PUZZLE.prompts.forEach((p,pi)=>p.answers.forEach(a=>{const o=OVR[pi+"|"+a[0]]; a[1]=Number.isInteger(o)&&o>=0&&o<=5?o:autoTier(p,a);}));}
 async function loadLive(){
-  try{
-    const per=await STORE.live(PUZZLE.date);
-    if(per) PUZZLE.prompts.forEach((p,pi)=>{const P=per[pi]; p.live=P;
-      if(!P||P.n<3) return; const w=P.n/(P.n+15);
-      p.answers.forEach(a=>{const sh=(P.c[a[0]]||0)/P.n; const lt=liveTierFromShare(sh); a[1]=nearestTier((1-w)*PTS[a.prior]+w*PTS[lt]);});
-    });
-  }catch(e){}
-  try{ OVR=await STORE.overrides(PUZZLE.date)||{}; applyOverrides(); }catch(e){}
+  // Both are optional extras: if the backend is slow or down, the game still starts on puzzle scores alone.
+  const [per,ovr]=await Promise.all([
+    within(Promise.resolve().then(()=>STORE.live(PUZZLE.date)).catch(()=>null),6000),
+    within(Promise.resolve().then(()=>STORE.overrides(PUZZLE.date)).catch(()=>null),6000)]);
+  if(Array.isArray(per)) PUZZLE.prompts.forEach((p,pi)=>{p.live=per[pi]||null});
+  OVR=ovr&&typeof ovr==="object"?ovr:{};
+  retier();
 }
-function applyOverrides(){PUZZLE.prompts.forEach((p,pi)=>p.answers.forEach(a=>{const k=pi+"|"+a[0]; if(OVR[k]!=null&&OVR[k]>=0&&OVR[k]<=5) a[1]=OVR[k];}));}
 async function savePlay(){
-  try{ await STORE.savePlay(PUZZLE.date,results.map(r=>r.a||null),results.reduce((s,r)=>s+(r.t>=0?TIERS[r.t].pts:0),0)); }catch(e){}
+  if(sent||sending||results.length!==7) return;
+  sending=true;
+  try{ if(await STORE.savePlay(PUZZLE.date,results.map(r=>r.a||null),total())){ sent=true; save(); } }catch(e){}
+  sending=false;
 }
-function shareLine(pi,name){const L=PUZZLE.prompts[pi].live; if(!L||L.n<3||!name) return ""; const pct=Math.round(100*(L.c[name]||0)/L.n);
-  return pct===0?`nobody else has said this yet 🤯`:`${pct}% of players said this`;}
+function shareLine(pi,name){const L=PUZZLE.prompts[pi].live; if(!L||L.n<3||!name) return ""; const c=L.c[name]||0;
+  if(!c) return `nobody else has said this yet 🤯`; const pct=100*c/L.n;
+  return `${pct<1?"under 1":Math.round(pct)}% of players said this`;}
 // owner tier editor
 let EDIT=false,editTarget=null;
 async function setOverride(pi,name,tier){
-  const k=pi+"|"+name; if(tier==null) delete OVR[k]; else OVR[k]=tier;
-  const a=PUZZLE.prompts[pi].answers.find(x=>x[0]===name); if(a) a[1]=tier==null?a.prior:tier;
+  const k=pi+"|"+name, before=OVR[k]; if(tier==null) delete OVR[k]; else OVR[k]=tier;
   try{ await STORE.setOverride(PUZZLE.date,k,tier); $("copied").textContent="Saved ✅"; }
-  catch(e){ $("copied").textContent="Couldn't save that change 😭"; }
-  renderRList();
+  catch(e){ if(before==null) delete OVR[k]; else OVR[k]=before; $("copied").textContent="Couldn't save that change 😭"; }
+  retier(); renderRList();
 }
 function applyPuzzle(){
   KEY="ebk-"+PUZZLE.date; prepKeys(); indexPrompts();
   $("dayline").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date}`;
-  const prev=load();
-  if(prev){ results=prev; idx=7; showResults(); }
+  const st=load(); results=st?st.r:[]; openAt=st?st.open:null; sent=st?st.sent:false;
+  const others=(PUZZLE.prompts[0].live||{}).n||0, played=others+(sent?1:0);
+  $("played").textContent=played>0?`${played.toLocaleString()} PLAYED`:"";
+  if(results.length===7){ showResults(); savePlay(); }   // savePlay: retry if it never reached the backend
+  else if(results.length||openAt){ $("go").textContent=`▼ CONTINUE · PROMPT ${results.length+1} OF 7 ▼`; }
 }
 $("go").disabled=true; $("go").textContent="LOADING THE FEED…";
 (async()=>{
-  try{ await within(STORE.init(),12000); }catch(e){}
-  let raw=null; try{ raw=await within((window.EBK_CONFIG?Supa:STORE).puzzle(today()),12000); }catch(e){}
-  if(raw&&Array.isArray(raw.prompts)&&raw.prompts.length>=7){ try{ PUZZLE=compilePuzzle(raw); }catch(e){ PUZZLE=compilePuzzle(RAW); } }
-  indexPrompts();
-  await loadLive();
+  try{ await within(STORE.init(),8000); }catch(e){}
+  let raw=null; try{ raw=await within((window.EBK_CONFIG?Supa:STORE).puzzle(today()),8000); }catch(e){}
+  if(validPuzzle(raw)){ try{ PUZZLE=compilePuzzle(raw); }catch(e){ PUZZLE=compilePuzzle(RAW); } }
+  indexPrompts(); prepKeys();
+  try{ await loadLive(); }catch(e){}
   if(IS_OWNER){ $("edit").style.display="block"; }
   $("go").disabled=false; $("go").textContent="▼ LOCK IN ▼";
   applyPuzzle();
