@@ -49,6 +49,9 @@ body.playing .ticker{display:none}
 @keyframes hue{to{filter:hue-rotate(360deg)}}
 .mute{position:fixed;top:14px;right:14px;z-index:36;background:#11142a;border:2px solid #000;color:#fff;font-size:18px;width:40px;height:40px;cursor:pointer;box-shadow:3px 3px 0 #000}
 /* ---------- world ---------- */
+/* The scrolling background is clipped to the screen: its decorations hang past the edges, which
+   made phone browsers zoom the whole page out and push the NEXT button off the bottom. */
+.worldclip{position:fixed;inset:0;overflow:hidden;pointer-events:none}
 #world{position:absolute;left:0;right:0;top:0;will-change:transform}
 .sky{position:absolute;left:0;right:0;top:-1400px;height:1400px;background:linear-gradient(#140826,#380d44 55%,#0d1430)}
 .cloud{position:absolute;background:rgba(255,45,117,.15);border:1px solid rgba(255,45,117,.3);border-radius:20px}
@@ -87,12 +90,31 @@ body.playing .ticker{display:none}
 .pipcap{font-size:9px;letter-spacing:.25em;color:#7a85b3;text-align:center;margin-top:4px;font-family:"Silkscreen",monospace}
 
 /* ---------- start ---------- */
-#start{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center}
+#start{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;overflow-y:auto;overflow-x:hidden}
 .title{margin-top:8vh;font-size:clamp(84px,17vw,170px);line-height:1;-webkit-text-stroke:4px #000;text-shadow:7px 7px 0 var(--pink),-6px -4px 0 var(--cyan),12px 12px 0 #000;animation:tilt 2.4s ease-in-out infinite}
 @keyframes tilt{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.04)}}
 .sub{margin-top:22px;font-size:clamp(14px,2vw,18px);letter-spacing:.35em;color:#000;background:var(--lime);padding:6px 14px;transform:rotate(-3deg);border:3px solid #000;box-shadow:4px 4px 0 #000}
 .blurb{margin-top:20px;font-size:13px;letter-spacing:.1em;color:var(--ink);font-weight:700;text-align:center;padding:0 16px}
-.startbox{position:absolute;top:calc(50vh + 70px);width:min(610px,92vw)}
+.startbox{position:absolute;top:calc(50vh + 70px);width:min(610px,92vw);padding-bottom:56px}
+/* @name for discovery credits */
+.nickrow{display:flex;align-items:center;gap:6px;margin-top:10px;font:700 11px "Silkscreen",monospace;letter-spacing:.15em;color:#9aa3c7}
+.nickrow input{flex:1;min-width:0;max-width:240px;padding:7px 10px;background:#0d1024;border:2px solid var(--line);color:var(--lime);font:700 13px "Space Mono",monospace;letter-spacing:.02em;outline:none}
+.nickrow input:focus{border-color:var(--lime)}
+.nickrow input::placeholder{color:#57608a;font-weight:400}
+/* yesterday's recap */
+.recap{margin-top:12px;background:rgba(12,10,26,.92);border:2px solid #000;box-shadow:4px 4px 0 var(--pink)}
+.recap summary{cursor:pointer;list-style:none;padding:12px 14px;font:700 13px "Silkscreen",monospace;letter-spacing:.15em;color:var(--lime)}
+.recap summary::-webkit-details-marker{display:none}
+.recap summary::after{content:" ▸ tap to expand";font-size:9px;color:var(--dim)}
+.recap[open] summary::after{content:" ▾"}
+.recap .best-line{display:block;margin-top:6px;font:700 12px "Space Mono",monospace;letter-spacing:.02em;color:#fff}
+.recap .best-line b{color:var(--ebk)}
+.recap .best-line span{color:var(--dim);font-weight:400}
+.recap-body{padding:0 14px 10px}
+.rq{border-top:1px solid #262b4d;padding:9px 0;font-size:12px;line-height:1.6;color:#c9cde4}
+.rq .rqq{font-size:11px;color:var(--dim);margin-bottom:2px}
+.rq b{color:#fff}
+.rq .npc b{color:var(--trap)}
 .bigbtn{width:100%;padding:22px;background:#11142a;border:3px solid var(--lime);color:#fff;font:700 clamp(16px,2.4vw,22px) "Silkscreen",monospace;letter-spacing:.3em;cursor:pointer;box-shadow:0 0 22px rgba(212,255,58,.3)}
 .bigbtn:hover{background:#1a1e3d;animation:quake .4s}
 .startrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:11px;letter-spacing:.2em;color:#9aa3c7;font-weight:700}
@@ -189,8 +211,39 @@ details.all[open] summary{margin-bottom:8px}
 .rrow .y span:last-child{font-size:11px;letter-spacing:.1em;white-space:nowrap;padding-top:3px}
 .deep{margin-top:8px;font-size:12px;line-height:1.55;color:#c9cde4;background:rgba(255,255,255,.04);padding:9px 10px;border-left:2px solid var(--ebk)}
 .deep a{color:var(--lime);text-decoration:none;font-weight:700;margin-left:4px}
-.rbtns{display:flex;gap:10px;margin-top:20px}
-.rbtns button{flex:1;padding:14px;font:700 13px "Silkscreen",monospace;letter-spacing:.2em;cursor:pointer;background:#11142a;color:#fff;border:2px solid var(--lime)}
+.rbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.rbtns button{flex:1 1 150px;padding:14px;font:700 13px "Silkscreen",monospace;letter-spacing:.15em;cursor:pointer;background:#11142a;color:#fff;border:2px solid var(--lime)}
+.rbtns button.story{border-color:var(--pink);box-shadow:0 0 14px rgba(255,45,117,.35)}
+.rbtns button:disabled{opacity:.6;cursor:wait}
+.reveal .disc{margin-top:8px;font:700 13px "Space Mono",monospace;color:var(--cyan);text-shadow:0 0 6px #000,2px 2px 0 #000}
+.reveal .disc:empty{display:none}
+.msg .review{display:block;font-weight:400;font-size:11px;color:var(--dim);letter-spacing:.04em;margin-top:2px}
+.credit{margin-top:4px;font-size:11px;color:var(--cyan)}
+/* admin review queue */
+#review{position:fixed;inset:0;z-index:70;background:rgba(5,5,16,.97);overflow-y:auto;padding:24px 16px 60px;font-size:13px}
+.rvbox{width:min(760px,100%);margin:0 auto}
+.rvhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.rvhead b{font-size:clamp(28px,6vw,44px);color:var(--lime)}
+#review button{padding:7px 10px;font:700 11px "Silkscreen",monospace;letter-spacing:.1em;cursor:pointer;background:#11142a;color:#fff;border:2px solid var(--lime)}
+#review button.ghost{border-color:var(--line);color:var(--dim)}
+#review button.bad{border-color:var(--trap);color:#ffb3bd}
+#review button:disabled{opacity:.5;cursor:wait}
+#review input,#review select{padding:7px 9px;background:#0d1024;color:var(--ink);border:2px solid var(--line);font:13px "Space Mono",monospace;min-width:0}
+.rvbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rvmsg{margin:10px 0;color:var(--dim);min-height:18px}
+.rvp{border:2px solid #262b4d;background:rgba(12,10,26,.9);padding:12px;margin-bottom:12px}
+.rvq{font-weight:700;color:#fff;margin-bottom:8px}
+.rvq span{color:var(--pink);margin-left:6px}
+.rvnone{color:var(--dim);font-size:12px}
+.rvrow{border-top:1px solid #262b4d;padding:9px 0}
+.rvg b{color:var(--lime);font-size:15px;overflow-wrap:anywhere}
+.rvn{color:var(--pink);font-weight:700}
+.rvwho{color:var(--dim);font-size:11px;margin-left:6px}
+.rvbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.rvform{display:grid;gap:8px;margin-top:8px;padding:10px;border-left:2px solid var(--lime);background:rgba(255,255,255,.03)}
+.rvform label{display:grid;gap:4px;font-size:11px;color:var(--dim);letter-spacing:.06em}
+.rvcredit{font-size:11px;color:var(--cyan)}
+.rverr{margin-top:6px;color:var(--trap);font-weight:700;font-size:12px}
 .rbtns button.ghost{border-color:var(--line);color:var(--dim)}
 .pct{margin-top:4px;font-size:11px;color:var(--cyan);letter-spacing:.04em}
 .reveal .pct{font-size:13px;margin-top:6px;text-shadow:0 0 6px #000,2px 2px 0 #000}
@@ -209,7 +262,7 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
 </style>
 </head>
 <body>
-<div id="world"></div>
+<div class="worldclip"><div id="world"></div></div>
 <div id="dvd">EBK</div>
 <button class="mute" id="mute" title="Sound">🔊</button>
 <div class="ticker"><div class="lab">VIRAL FEED 🚨</div><div class="run" id="tickrun"></div></div>
@@ -231,8 +284,10 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
   <div class="startbox">
     <button class="bigbtn" id="go">▼ POST YOUR TAKES ▼</button>
     <div class="startrow"><span id="dayline"></span><span id="played"></span></div>
+    <label class="nickrow">set your @<input id="nick" maxlength="20" placeholder="optional · for credits" spellcheck="false" autocapitalize="off" autocomplete="off"></label>
     <div class="howto">Any correct answer counts. Obscure takes pull millions of views. <span class="warn">⚠️ the 3 most obvious answers are NPC traps. say one and you get ratio'd 💀</span> Stuck? Type <b>skip</b>.
       <div class="tiers" id="tiers"></div></div>
+    <details class="recap" id="recap" hidden><summary>📼 YESTERDAY ON EBK<span class="best-line" id="recapTop"></span></summary><div class="recap-body" id="recapBody"></div></details>
   </div>
 </div>
 
@@ -247,7 +302,7 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
 
 <div class="bar" id="bar">
   <form class="barin" id="form" autocomplete="off">
-    <div class="ring" id="ring"><svg width="52" height="52"><circle cx="26" cy="26" r="22" fill="none" stroke="#1d2140" stroke-width="4"/><circle id="arc" cx="26" cy="26" r="22" fill="none" stroke="#4fe3ff" stroke-width="4" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><b id="secs">25</b></div>
+    <div class="ring" id="ring"><svg width="52" height="52"><circle cx="26" cy="26" r="22" fill="none" stroke="#1d2140" stroke-width="4"/><circle id="arc" cx="26" cy="26" r="22" fill="none" stroke="#4fe3ff" stroke-width="4" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><b id="secs">20</b></div>
     <input id="guess" placeholder="drop your take… (or type skip)" spellcheck="false" autocapitalize="off">
     <button class="send" type="submit">POST 📲</button>
   </form>
@@ -261,6 +316,7 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
   <div class="ans" id="rans"></div>
   <div class="pts" id="rpts"></div>
   <div class="fl" id="rfl"></div>
+  <div class="disc" id="rdisc"></div>
   <div class="pct" id="rpct"></div>
   <div class="best" id="roth"></div>
 </div>
@@ -274,11 +330,12 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
   <div class="rrank meme" id="rrank"></div><div class="roast" id="roast"></div>
   <div class="rgrid" id="rgrid"></div>
   <div id="rlist"></div>
-  <div class="rbtns"><button id="copy">COPY RESULTS</button><button class="ghost" id="reset">RESET (TEST)</button></div>
+  <div class="rbtns"><button id="copy">COPY RESULTS</button><button class="story" id="story">📸 SAVE STORY CARD</button><button class="ghost" id="reset">RESET (TEST)</button></div>
   <button class="edit" id="edit" style="display:none">✏️ EDIT TIERS</button>
   <div class="copied" id="copied"></div>
   <textarea id="sharetext" rows="4" readonly></textarea>
 </div></div>
+<div id="review" hidden></div>
 
 <script src="config.js"></script>
 <script>
@@ -522,7 +579,7 @@ function answerTable(p,mine,minTier,cap){
     const T=TIERS[ti];
     h+=`<div class="trow"><div class="tl" style="color:${T.color}">${T.name}</div><div class="chips">`+
       (()=>{let L=list; if(cap&&L.length>cap){const me=L.find(a=>a[0]===mine); L=L.slice(0,cap); if(me&&!L.includes(me)) L=[me,...L.slice(0,cap-1)];}
-        return L.map(a=>`<span class="c2${a[0]===mine?" me":""}" data-pi="${p.pi}" data-n="${encodeURIComponent(a[0])}" style="color:${T.color}"><span>${esc(a[0])}</span></span>`).join("")+(cap&&list.length>cap?`<span class="c2" style="color:var(--dim)"><span>+${list.length-cap} more</span></span>`:"");})()+`</div></div>`;
+        return L.map(a=>`<span class="c2${a[0]===mine?" me":""}" data-pi="${p.pi}" data-n="${encodeURIComponent(a[0])}" style="color:${T.color}"${a.extra?` title="${esc(discLine(a))}"`:""}><span>${a.extra?"🔍 ":""}${esc(a[0])}</span></span>`).join("")+(cap&&list.length>cap?`<span class="c2" style="color:var(--dim)"><span>+${list.length-cap} more</span></span>`:"");})()+`</div></div>`;
   }
   return h;
 }
@@ -599,7 +656,10 @@ $("form").addEventListener("submit",e=>{
     return; }
   clearSugg();
   { const W=["not a valid answer 💀 nobody clipped that","who told you that 😭 that flopped","not it chief, ratio'd","cap. that wouldn't even pull 12 views 🧢","that ain't it gang, try again"];
-    $("msg").classList.remove("hurry"); $("msg").textContent=`"${v}": ${W[Math.floor(Math.random()*W.length)]}`; SFX.wrong(); $("guess").value="";
+    const queued=reportGuess(idx,v);   // a real answer we don't have yet? it goes to the review queue
+    $("msg").classList.remove("hurry");
+    $("msg").innerHTML=`"${esc(v)}": ${esc(W[Math.floor(Math.random()*W.length)])}`+(queued?`<span class="review">not on the list... yet 👀 (sent for review)</span>`:"");
+    SFX.wrong(); $("guess").value="";
     $("form").classList.remove("shake"); void $("form").offsetWidth; $("form").classList.add("shake"); }
 });
 
@@ -637,6 +697,7 @@ function commit(ans,typed){
 
 function reveal(ans,skipped){
   const p=PUZZLE.prompts[idx], v=(results[idx]||{}).v||0; $("rpct").textContent=ans?shareLine(idx,ans[0]):"";
+  $("rdisc").textContent=ans&&ans.extra?discLine(ans):"";
   if(ans){
     const T=TIERS[ans[1]];
     const isTrap = ans[1] === 0;
@@ -722,6 +783,9 @@ function showResults(){
   $("reset").style.display=(LOCAL||IS_OWNER)?"":"none";
   $("results").classList.add("on"); document.body.classList.remove("playing");
   if(rankForViews(totV)>=4){SFX.horn();stamp("VIRAL 🔥","var(--lime)")}
+  // Draw the story card ahead of time so the share sheet opens straight from the tap
+  // (phones only allow it right after a tap, not after a slow drawing step).
+  setTimeout(()=>{prepareStory().catch(()=>{})},400);
 }
 
 function renderRList(){
@@ -732,6 +796,7 @@ function renderRList(){
     return `<div class="rrow"><div class="q">${k+1}. ${esc(p.shown)}</div>
       <div class="y"><span style="color:${T?T.color:"var(--dim)"}">${r.a?esc(r.a):(r.s?"Skipped":"No take")}</span><span style="color:${T?T.color:"var(--dim)"}">${resultTag}</span></div>
       ${sl?`<div class="pct">${sl}</div>`:""}
+      ${(()=>{const a=r.a&&p.answers.find(x=>x[0]===r.a);return a&&a.extra?`<div class="credit">${esc(discLine(a))}</div>`:""})()}
       <div class="deep"><b>${esc(d[0])}</b>${d[1]?": "+esc(d[1]):""}<a href="${esc(d[2])}" target="_blank" rel="noopener">SOURCE ↗</a></div>
       <details class="all"${(EDIT||open[k])?" open":""}><summary>▸ ALL ${p.answers.length} ANSWERS${EDIT?" · tap one to re-tier":""}</summary><div class="allbox">${answerTable(p,r.a,0)}</div></details></div>`;
   }).join("");
@@ -816,6 +881,35 @@ const Supa={
     const q=tier==null?SB.from("overrides").delete().match({puzzle_date:date,prompt_idx:+pi,answer})
                       :SB.from("overrides").upsert({puzzle_date:date,prompt_idx:+pi,answer,tier});
     const {error}=await q; if(error) throw error;
+  },
+  // The puzzle file for exactly this date (no falling back to an earlier one).
+  async puzzleExact(d){
+    const base=CFG.puzzlesPath||"puzzles";
+    try{ const r=await fetch(`${base}/${d}.json`,{cache:"no-store"}); if(!r.ok) return null; const p=await r.json(); return validPuzzle(p)?p:null; }catch(e){ return null; }
+  },
+  // Approved player-discovered answers (and extra aliases) for a day.
+  async extras(date){
+    if(!SB) return [];
+    const {data,error}=await SB.from("extra_answers").select("prompt_idx,answer,aliases,tier,discovered_by").eq("puzzle_date",date);
+    if(error) throw error; return data||[];
+  },
+  async submitGuess(date,pi,guess,key,nick){
+    if(!SB) return false;
+    const {data,error}=await SB.rpc("submit_guess",{p_date:date,p_prompt:pi,p_guess:guess,p_norm:key,p_player:UID,p_nickname:nick||null});
+    if(error) throw error; return data===true;
+  },
+  async recap(date){
+    if(!SB) return null;
+    const {data,error}=await SB.rpc("daily_recap",{p_date:date}); return error||!Array.isArray(data)?null:data;
+  },
+  async queue(date){
+    const {data,error}=await SB.rpc("submission_queue",{p_date:date}); if(error) throw error; return data||[];
+  },
+  async saveExtra(row){
+    const {error}=await SB.from("extra_answers").upsert(row,{onConflict:"puzzle_date,prompt_idx,answer"}); if(error) throw error;
+  },
+  async clearGuess(date,pi,key){
+    const {error}=await SB.from("submissions").delete().match({puzzle_date:date,prompt_idx:pi,guess_norm:key}); if(error) throw error;
   }
 };
 
@@ -846,12 +940,71 @@ function autoTier(p,a){
 }
 function retier(){PUZZLE.prompts.forEach((p,pi)=>p.answers.forEach(a=>{const o=OVR[pi+"|"+a[0]]; a[1]=Number.isInteger(o)&&o>=0&&o<=5?o:autoTier(p,a);}));}
 async function loadLive(){
-  const [per,ovr]=await Promise.all([
+  const [per,ovr,ex]=await Promise.all([
     within(Promise.resolve().then(()=>STORE.live(PUZZLE.date)).catch(()=>null),6000),
-    within(Promise.resolve().then(()=>STORE.overrides(PUZZLE.date)).catch(()=>null),6000)]);
+    within(Promise.resolve().then(()=>STORE.overrides(PUZZLE.date)).catch(()=>null),6000),
+    within(Promise.resolve().then(()=>STORE.extras(PUZZLE.date)).catch(()=>null),6000)]);
+  mergeExtras(PUZZLE,ex);
   if(Array.isArray(per)) PUZZLE.prompts.forEach((p,pi)=>{p.live=per[pi]||null});
   OVR=ovr&&typeof ovr==="object"?ovr:{};
   retier();
+}
+// ---------- discovered answers ----------
+const NICK_KEY="ebk-nick";
+const cleanNick=s=>String(s||"").trim().replace(/^@+/,"").replace(/[^A-Za-z0-9_.]/g,"").slice(0,20);
+function getNick(){try{return cleanNick(localStorage.getItem(NICK_KEY))}catch(e){return ""}}
+const discLine=a=>a.by?`🔍 discovered by @${a.by}`:"🔍 discovered by an anon legend";
+// Approved rows join the puzzle's answer lists. A row named like an existing answer only adds
+// its aliases (typo matching and "did you mean" pick them up when the keys are rebuilt).
+function mergeExtras(P,rows){
+  (Array.isArray(rows)?rows:[]).forEach(r=>{
+    const p=P.prompts[r.prompt_idx], name=String(r.answer||"").trim(); if(!p||!name) return;
+    const al=String(r.aliases||"").split("|").map(s=>s.trim()).filter(Boolean);
+    const ex=p.answers.find(a=>a[0]===name);
+    if(ex){ ex[2]=[ex[2],...al].filter(Boolean).join("|"); return; }
+    const t=Number.isInteger(r.tier)&&r.tier>=0&&r.tier<=5?r.tier:3;
+    const a=[name,t,al.join("|")]; a.prior=t; a.extra=true; a.by=cleanNick(r.discovered_by);
+    p.answers.push(a);
+  });
+}
+// Send a wrong guess to the review queue. Returns true if it was (or already had been) sent.
+const sentGuesses=new Set();
+function reportGuess(pi,raw){
+  if(!SB) return false;
+  const key=norm(raw);
+  if(key.length<2||key.length>80||/^(skip|y|ya|ye|yes|yeah|yep|yuh|no|nah|nope)$/.test(key)) return false;
+  const id=pi+"|"+key; if(sentGuesses.has(id)) return true;
+  if(sentGuesses.size>=60) return false;
+  sentGuesses.add(id);
+  STORE.submitGuess(PUZZLE.date,pi,raw.trim().slice(0,80),key,getNick()).catch(()=>{});
+  return true;
+}
+$("nick").value=getNick();
+$("nick").addEventListener("input",()=>{const el=$("nick"),v=cleanNick(el.value); if(v!==el.value) el.value=v;
+  try{ v?localStorage.setItem(NICK_KEY,v):localStorage.removeItem(NICK_KEY); }catch(e){} });
+
+// ---------- yesterday's lore drop ----------
+function addDays(d,n){const [y,m,dd]=d.split("-").map(Number),t=new Date(y,m-1,dd+n);
+  return t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0");}
+async function loadRecap(){
+  const y=addDays(today(),-1);
+  if(!SB||y===PUZZLE.date) return;      // never recap the puzzle being played (e.g. when today's file is missing)
+  const [rows,raw,ex]=await Promise.all([within(STORE.recap(y).catch(()=>null),6000),
+    within(STORE.puzzleExact(y).catch(()=>null),6000),within(STORE.extras(y).catch(()=>[]),6000)]);
+  if(!Array.isArray(rows)||!rows.length||!validPuzzle(raw)) return;
+  const P=compilePuzzle(raw); mergeExtras(P,ex);
+  const tierOf=(pi,name)=>{const a=P.prompts[pi].answers.find(a=>a[0]===name); return a?a[1]:-1;};
+  const items=rows.filter(r=>P.prompts[r.prompt_idx]&&r.top_answer).map(r=>{
+    let rare=null,rt=-2; (r.rarest_answers||[]).forEach(n=>{const t=tierOf(r.prompt_idx,n); if(t>rt){rt=t;rare=n}});
+    return {pi:r.prompt_idx,q:P.prompts[r.prompt_idx].shown,top:r.top_answer,pct:r.top_pct,rare,rt,rc:Number(r.rarest_count)};
+  }).filter(i=>i.rare);
+  if(!items.length) return;
+  const icon=t=>t>=0?TIERS[t].icon:"🗿";
+  const star=items.reduce((a,b)=>(b.rc<a.rc||(b.rc===a.rc&&b.rt>a.rt))?b:a);
+  $("recapTop").innerHTML=`rarest take of the day: <b>${esc(star.rare)}</b> ${icon(star.rt)} <span>· ${esc(star.q)}</span>`;
+  $("recapBody").innerHTML=items.map(i=>`<div class="rq"><div class="rqq">${i.pi+1}. ${esc(i.q)}</div>
+    <div class="npc">NPC of the day: <b>${esc(i.top)}</b> (${i.pct}% 💀)</div><div>rarest take: <b>${esc(i.rare)}</b> ${icon(i.rt)}</div></div>`).join("");
+  $("recap").hidden=false;
 }
 async function savePlay(){
   if(sent||sending||results.length!==QN) return;
@@ -881,6 +1034,177 @@ function applyPuzzle(){
   if(results.length===QN){ showResults(); savePlay(); }
   else if(results.length||openAt){ $("go").textContent=`▼ CONTINUE · LORE CHECK ${results.length+1} OF ${QN} ▼`; }
 }
+// ---------- story card (1080x1920 PNG for IG / TikTok stories) ----------
+let storyFile=null,storyKey="";
+const cssVar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const tierHex=t=>{const m=/var\((--[\w-]+)\)/.exec(TIERS[t].color); return m?cssVar(m[1]):TIERS[t].color;};
+const noEmoji=s=>String(s).replace(/[\p{Extended_Pictographic}️‍]/gu,"").replace(/\s+/g," ").trim();
+const siteLabel=()=>(location.host+location.pathname).replace(/index\.html$/,"").replace(/\/+$/,"");
+function rarestTake(){let b=null; results.forEach(r=>{if(r.t>=0&&(!b||r.t>b.t||(r.t===b.t&&r.v>b.v))) b=r}); return b;}
+function rrect(x,X,Y,w,h,r){x.beginPath(); if(x.roundRect){x.roundRect(X,Y,w,h,r);return}
+  x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();}
+function fitFont(x,text,family,weight,maxPx,maxW){let px=maxPx; do{x.font=`${weight} ${px}px ${family}`; if(x.measureText(text).width<=maxW) break; px-=4;}while(px>20); return x.font;}
+function memeText(x,t,X,Y,font,o){x.font=font; x.lineJoin="round";
+  (o.shadows||[]).forEach(([c,dx,dy])=>{x.strokeStyle=c;x.fillStyle=c;x.lineWidth=o.lw;x.strokeText(t,X+dx,Y+dy);x.fillText(t,X+dx,Y+dy)});
+  x.strokeStyle="#000";x.lineWidth=o.lw;x.strokeText(t,X,Y);x.fillStyle=o.fill;x.fillText(t,X,Y);}
+function wrapLines(x,text,maxW,max){const words=text.split(/\s+/),out=[];let line="";
+  words.forEach(w=>{const t=line?line+" "+w:w; if(x.measureText(t).width<=maxW||!line) line=t; else {out.push(line); line=w;}}); if(line) out.push(line);
+  if(out.length>max){out.length=max; let l=out[max-1]; while(l.length>1&&x.measureText(l+"…").width>maxW) l=l.slice(0,-1); out[max-1]=l+"…";}
+  return out;}
+function skull(x,cx,cy,s){const u=s/100; x.save(); x.translate(cx,cy); x.fillStyle="#fff";
+  x.beginPath(); x.arc(0,-6*u,36*u,Math.PI,0); x.lineTo(36*u,10*u); x.quadraticCurveTo(36*u,26*u,22*u,28*u); x.lineTo(22*u,40*u);
+  x.lineTo(-22*u,40*u); x.lineTo(-22*u,28*u); x.quadraticCurveTo(-36*u,26*u,-36*u,10*u); x.closePath(); x.fill();
+  x.fillStyle="#2a0008"; [-14,14].forEach(ex=>{x.beginPath(); x.ellipse(ex*u,2*u,10*u,11*u,0,0,Math.PI*2); x.fill();});
+  x.beginPath(); x.moveTo(0,14*u); x.lineTo(-5*u,23*u); x.lineTo(5*u,23*u); x.closePath(); x.fill();
+  [-11,-1.5,8].forEach(tx=>x.fillRect(tx*u,30*u,3*u,10*u)); x.restore();}
+async function drawStory(){
+  try{ await within(document.fonts.ready,3000);
+    await within(Promise.all(['400 120px Anton','700 40px Silkscreen','700 40px "Space Mono"'].map(f=>document.fonts.load(f))),3000); }catch(e){}
+  const W=1080,H=1920,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
+  const lime=cssVar("--lime")||"#d4ff3a",cyan=cssVar("--cyan")||"#00f2fe",pink=cssVar("--pink")||"#ff2d75";
+  let g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,"#1c0a35"); g.addColorStop(.45,"#0b0d1e"); g.addColorStop(1,"#05020c"); x.fillStyle=g; x.fillRect(0,0,W,H);
+  [[880,260,520,"rgba(255,45,117,.32)"],[150,1480,560,"rgba(0,242,254,.2)"],[930,1720,420,"rgba(212,255,58,.1)"]].forEach(([cx,cy,r,col])=>{
+    const rg=x.createRadialGradient(cx,cy,0,cx,cy,r); rg.addColorStop(0,col); rg.addColorStop(1,"rgba(0,0,0,0)"); x.fillStyle=rg; x.fillRect(0,0,W,H);});
+  x.fillStyle="rgba(0,0,0,.18)"; for(let y=0;y<H;y+=4) x.fillRect(0,y,W,1);
+  x.textAlign="center"; x.textBaseline="alphabetic";
+  // logo + sticker
+  const lg=x.createLinearGradient(W/2-260,0,W/2+260,0); lg.addColorStop(0,lime); lg.addColorStop(.5,cyan); lg.addColorStop(1,pink);
+  memeText(x,"EBK",W/2,330,"400 300px Anton",{fill:lg,lw:14,shadows:[["#000",24,24],[pink,12,12],[cyan,-10,-8]]});
+  x.save(); x.translate(W/2,432); x.rotate(-3*Math.PI/180); x.font="700 40px Silkscreen"; const sw=x.measureText("THE DAILY POST").width+70;
+  x.fillStyle="#000"; x.fillRect(-sw/2+8,-28,sw,72); x.fillStyle=lime; x.fillRect(-sw/2,-36,sw,72); x.lineWidth=5; x.strokeStyle="#000"; x.strokeRect(-sw/2,-36,sw,72);
+  x.fillStyle="#000"; x.textBaseline="middle"; x.fillText("THE DAILY POST",0,2); x.restore(); x.textBaseline="alphabetic";
+  x.font="700 38px Silkscreen"; x.fillStyle=pink; x.fillText(`EBK #${PUZZLE.num}  ·  ${PUZZLE.date}`,W/2,525);
+  // views, score, rank
+  const totV=totalViews(), vl=viewsLabel(totV);
+  memeText(x,vl,W/2,880,fitFont(x,vl,"Anton",400,330,960),{fill:cyan,lw:16,shadows:[["#000",16,16]]});
+  memeText(x,"VIEWS",W/2,1000,"400 120px Anton",{fill:"#fff",lw:10,shadows:[["#000",10,10]]});
+  x.font='700 40px "Space Mono"'; x.fillStyle="#9aa3c7"; x.fillText(`${totalScore()} / ${QN*100} PTS`,W/2,1075);
+  const R=rankForViews(totV), rn=noEmoji(TIERS[R].name).toUpperCase();
+  x.save(); x.translate(W/2,1205); x.rotate(-2*Math.PI/180); memeText(x,rn,0,0,fitFont(x,rn,"Anton",400,130,940),{fill:tierHex(R),lw:12,shadows:[["#000",10,10]]}); x.restore();
+  // one tile per lore check, drawn (not emoji) so it looks the same on every phone
+  const n=results.length,gap=14,s=Math.min(84,(960-gap*(n-1))/n),gx=(W-(n*s+(n-1)*gap))/2,gy=1275;
+  results.forEach((r,i)=>{const X=gx+i*(s+gap); x.fillStyle="rgba(0,0,0,.6)"; rrect(x,X+6,gy+6,s,s,s*.2); x.fill();
+    x.fillStyle=r.t>=0?tierHex(r.t):"#05060f"; rrect(x,X,gy,s,s,s*.2); x.fill(); x.lineWidth=4; x.strokeStyle=r.t>=0?"rgba(0,0,0,.5)":"#3a3f66"; x.stroke();
+    if(r.t===0) skull(x,X+s/2,gy+s/2-2,s*.72);});
+  // rarest take of the day
+  const b=rarestTake();
+  x.font="700 36px Silkscreen"; x.fillStyle=lime; x.fillText("MY RAREST TAKE",W/2,1455);
+  if(b){ x.font='700 62px "Space Mono"'; x.fillStyle="#fff"; const lines=wrapLines(x,`“${b.a}”`,940,2);
+    lines.forEach((l,i)=>x.fillText(l,W/2,1535+i*72));
+    const ty=1535+lines.length*72+28, tn=noEmoji(TIERS[b.t].name).toUpperCase();
+    memeText(x,tn,W/2,ty,fitFont(x,tn,"Anton",400,72,940),{fill:tierHex(b.t),lw:8,shadows:[]});
+    x.font='700 36px "Space Mono"'; x.fillStyle="#c9cde4"; x.fillText(`${viewsLabel(b.v)} views`,W/2,ty+52);
+  } else { x.font='700 52px "Space Mono"'; x.fillStyle="#fff"; x.fillText("no takes posted",W/2,1545); }
+  x.font="700 30px Silkscreen"; x.fillStyle=lime; x.fillText("CAN YOU GO DEEPER?",W/2,1812);
+  x.font='700 40px "Space Mono"'; x.fillStyle="rgba(255,255,255,.9)"; x.fillText(siteLabel(),W/2,1872);
+  return new Promise((res,rej)=>c.toBlob(bl=>bl?res(bl):rej(new Error("no image")),"image/png"));
+}
+async function prepareStory(){
+  const key=JSON.stringify([PUZZLE.date,results]); if(storyFile&&storyKey===key) return storyFile;
+  const blob=await drawStory(); storyFile=new File([blob],`ebk-${PUZZLE.num}-${PUZZLE.date}.png`,{type:"image/png"}); storyKey=key; return storyFile;
+}
+$("story").addEventListener("click",async()=>{
+  const btn=$("story"); if(btn.disabled) return;
+  let file=storyFile&&storyKey===JSON.stringify([PUZZLE.date,results])?storyFile:null;
+  if(!file){ btn.disabled=true; btn.textContent="COOKING… 🍳";
+    try{ file=await prepareStory(); }catch(e){ $("copied").textContent="Couldn't draw the card 😭"; }
+    btn.disabled=false; btn.textContent="📸 SAVE STORY CARD"; if(!file) return; }
+  // Phones: open the share sheet (straight to IG / TikTok). Everything else: download the PNG.
+  const phone=matchMedia("(pointer:coarse)").matches;
+  let canShare=false; try{ canShare=phone&&!!navigator.share&&!!navigator.canShare&&navigator.canShare({files:[file]}); }catch(e){}
+  if(canShare){
+    try{ await navigator.share({files:[file],title:`EBK #${PUZZLE.num}`}); $("copied").textContent="Posted? The algorithm thanks you 📲"; return; }
+    catch(e){ if(e&&e.name==="AbortError") return; }
+  }
+  const url=URL.createObjectURL(file), a=document.createElement("a"); a.href=url; a.download=file.name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),15000);
+  $("copied").textContent="Story card saved 📸 post it.";
+});
+
+// ---------- admin: review queue (#admin) ----------
+let RV=null;
+const splitAliases=s=>String(s||"").split(/[|,]/).map(t=>t.replace(/\|/g,"").trim().slice(0,80)).filter(Boolean);
+function joinAliases(...lists){const seen=new Set(),out=[]; lists.flat().forEach(a=>{const k=norm(a); if(k.length>=2&&!seen.has(k)){seen.add(k);out.push(a)}});
+  let s=out.join("|"); while(s.length>500){out.pop(); s=out.join("|");} return s;}
+function openReview(){
+  if(!IS_OWNER||!SB) return;
+  const box=$("review"); box.hidden=false;
+  box.innerHTML=`<div class="rvbox"><div class="rvhead"><b class="meme">REVIEW QUEUE</b><button type="button" class="ghost" data-act="close">✕ CLOSE</button></div>
+    <div class="rvbar"><input type="date" id="rvdate" value="${esc(PUZZLE.date)}"><button type="button" data-act="load">LOAD</button></div>
+    <div class="rvmsg" id="rvmsg"></div><div id="rvlist"></div></div>`;
+  loadReview(PUZZLE.date);
+}
+async function loadReview(date){
+  const say=t=>$("rvmsg").textContent=t; say("Loading…"); $("rvlist").innerHTML=""; RV=null;
+  try{
+    const [raw,items,ex]=await Promise.all([date===PUZZLE.date?null:STORE.puzzleExact(date),STORE.queue(date),STORE.extras(date)]);
+    const P=date===PUZZLE.date?PUZZLE:(raw?compilePuzzle(raw):null);
+    if(P&&P!==PUZZLE) mergeExtras(P,ex);
+    const n=P?P.prompts.length:MAXQ;
+    const prompts=[...Array(n)].map((_,i)=>{const p=P&&P.prompts[i], names=new Map();
+      if(p) p.answers.forEach(a=>names.set(a[0],{tier:a.prior!=null?a.prior:a[1],extra:!!a.extra}));
+      return {label:p?p.shown:`Lore check ${i+1} (no puzzle file for this date)`,names};});
+    RV={date,prompts,extras:ex,items:items.filter(r=>r.prompt_idx<n).map((r,k)=>({...r,k}))};
+    renderReview();
+    say(RV.items.length?`${RV.items.length} pending guess${RV.items.length===1?"":"es"} · most submitted first`:"Queue is empty 🫡");
+  }catch(e){ say("Couldn't load the queue: "+((e&&e.message)||e)); }
+}
+function rvRow(it){
+  const who=it.first_nickname?"@"+esc(it.first_nickname):"anon";
+  let form="";
+  if(it.mode==="approve") form=`<div class="rvform">
+    <label>SHOW AS<input data-f="name" value="${esc(it.guess)}" maxlength="80"></label>
+    <label>ALIASES (separate with |)<input data-f="aliases" value="" maxlength="500" placeholder="optional"></label>
+    <label>TIER<select data-f="tier">${TIERS.map((T,t)=>`<option value="${t}"${t===3?" selected":""}>${esc(T.name)}</option>`).join("")}</select></label>
+    <div class="rvcredit">credit: ${it.first_nickname?"@"+esc(it.first_nickname):"an anon legend"}</div>
+    <div class="rvbtns"><button type="button" data-act="do-approve" data-k="${it.k}">✅ CONFIRM APPROVE</button><button type="button" class="ghost" data-act="cancel" data-k="${it.k}">CANCEL</button></div></div>`;
+  if(it.mode==="merge"){ const names=[...RV.prompts[it.prompt_idx].names.keys()].sort((a,b)=>a.localeCompare(b));
+    form=`<div class="rvform"><label>ADD "${esc(it.guess)}" AS AN ALIAS OF<select data-f="target">${names.map(nm=>`<option value="${esc(nm)}">${esc(nm)}</option>`).join("")}</select></label>
+    <div class="rvbtns"><button type="button" data-act="do-merge" data-k="${it.k}"${names.length?"":" disabled"}>🔗 CONFIRM MERGE</button><button type="button" class="ghost" data-act="cancel" data-k="${it.k}">CANCEL</button></div></div>`; }
+  return `<div class="rvrow"><div class="rvg"><b>${esc(it.guess)}</b> <span class="rvn">×${Number(it.n)}</span><span class="rvwho">first: ${who}</span></div>
+    <div class="rvbtns"><button type="button" data-act="approve" data-k="${it.k}">APPROVE</button><button type="button" data-act="merge" data-k="${it.k}">MERGE AS ALIAS</button><button type="button" class="bad" data-act="reject" data-k="${it.k}">REJECT</button></div>
+    ${form}${it.err?`<div class="rverr">${esc(it.err)}</div>`:""}</div>`;
+}
+function renderReview(){
+  const by=RV.prompts.map(()=>[]); RV.items.forEach(it=>{if(!it.done) by[it.prompt_idx].push(it)});
+  $("rvlist").innerHTML=RV.prompts.map((p,i)=>`<div class="rvp"><div class="rvq">${i+1}. ${esc(p.label)}<span>${by[i].length?by[i].length+" pending":""}</span></div>
+    ${by[i].length?by[i].map(rvRow).join(""):`<div class="rvnone">nothing pending</div>`}</div>`).join("");
+}
+$("review").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-act]"); if(!b) return;
+  const act=b.dataset.act;
+  if(act==="close"){ $("review").hidden=true; if(location.hash==="#admin") history.replaceState(null,"",location.pathname+location.search); return; }
+  if(act==="load"){ loadReview($("rvdate").value||PUZZLE.date); return; }
+  const it=RV&&RV.items[+b.dataset.k]; if(!it||it.done) return;
+  if(act==="approve"||act==="merge"){ it.mode=act; it.err=""; renderReview(); return; }
+  if(act==="cancel"){ it.mode=null; it.err=""; renderReview(); return; }
+  const row=b.closest(".rvrow"), f=n=>row.querySelector(`[data-f="${n}"]`), P=RV.prompts[it.prompt_idx];
+  row.querySelectorAll("button").forEach(x=>x.disabled=true);
+  try{
+    if(act==="do-approve"){
+      const name=f("name").value.replace(/\|/g,"").trim().slice(0,80), tier=+f("tier").value;
+      if(!name) throw new Error("give it a name first");
+      const known=P.names.get(name);
+      if(known&&!known.extra) throw new Error(`"${name}" is already an answer. Use MERGE AS ALIAS instead.`);
+      const prev=RV.extras.find(r=>r.prompt_idx===it.prompt_idx&&r.answer===name);
+      const rec={puzzle_date:RV.date,prompt_idx:it.prompt_idx,answer:name,aliases:joinAliases(splitAliases(prev&&prev.aliases),splitAliases(f("aliases").value)),
+        tier,discovered_by:prev?prev.discovered_by:(cleanNick(it.first_nickname)||null)};
+      await STORE.saveExtra(rec); RV.extras=RV.extras.filter(r=>r!==prev).concat(rec); P.names.set(name,{tier,extra:true});
+    } else if(act==="do-merge"){
+      const target=f("target").value, info=P.names.get(target); if(!info) throw new Error("pick an answer");
+      const prev=RV.extras.find(r=>r.prompt_idx===it.prompt_idx&&r.answer===target);
+      const rec={puzzle_date:RV.date,prompt_idx:it.prompt_idx,answer:target,aliases:joinAliases(splitAliases(prev&&prev.aliases),[it.guess.replace(/\|/g,"")]),
+        tier:prev?prev.tier:info.tier,discovered_by:prev?prev.discovered_by:null};
+      await STORE.saveExtra(rec); RV.extras=RV.extras.filter(r=>r!==prev).concat(rec);
+    } else if(act!=="reject") return;
+    await STORE.clearGuess(RV.date,it.prompt_idx,it.guess_norm);
+    it.done=true; it.mode=null; it.err="";
+    $("rvmsg").textContent=`${act==="reject"?"Rejected":act==="do-merge"?"Merged":"Approved"}: ${it.guess}`;
+  }catch(err){ it.err="Couldn't do that: "+((err&&err.message)||err); }
+  renderReview();
+});
+addEventListener("hashchange",()=>{ if(location.hash==="#admin"&&IS_OWNER) openReview(); });
+
 $("go").disabled=true; $("go").textContent="LOADING YOUR FEED…";
 (async()=>{
   try{ await within(STORE.init(),8000); }catch(e){}
@@ -891,6 +1215,8 @@ $("go").disabled=true; $("go").textContent="LOADING YOUR FEED…";
   if(IS_OWNER){ $("edit").style.display="block"; }
   $("go").disabled=false; $("go").textContent="▼ POST YOUR TAKES ▼";
   applyPuzzle();
+  loadRecap().catch(()=>{});
+  if(location.hash==="#admin"&&IS_OWNER) openReview();
 })();
 </script>
 </body>

@@ -21,18 +21,34 @@ Daily rare-answer trivia about internet culture: memes, TikTok, YouTube, Insta, 
 
   Max score is 1000. The share text looks like `EBK #4 · my takes got 3.1M views 🔥`, then the 10-square grid, then your rank.
 
+### Community features (need Supabase)
+
+- **Discovered by credits**: when a player types something that isn't on the list (and isn't a "did you mean", a banned answer, or `skip`), it goes into a review queue and the player sees "not on the list... yet 👀 (sent for review)". Players can set an optional `@name` on the start screen. Approve a guess and it becomes a valid answer for everyone; its reveal says "🔍 discovered by @name" (or "an anon legend").
+- **Yesterday on EBK**: a collapsible card on the start screen with yesterday's NPC answer and rarest take for each question, plus the rarest take of the whole day. It only appears for lore checks at least 5 players answered, and only once that day is over everywhere (after 12:00 UTC the next day), so it can never spoil a puzzle someone is still playing.
+- **Story card**: "📸 SAVE STORY CARD" on the results screen draws a 1080×1920 PNG. Phones open the share sheet (Instagram, TikTok…); computers download the file.
+
+### Reviewing discovered answers
+
+Sign in as admin (see Setup) and open `https://your-site/#admin`. The review queue lists each lore check's pending guesses, most-submitted first, with who found it first. For each one:
+
+- **APPROVE**: set how it should be shown, any extra aliases (separated by `|`) and its tier. It becomes an answer for that day, credited to the first finder.
+- **MERGE AS ALIAS**: it's another way of writing an answer that already exists; players who type it get that answer.
+- **REJECT**: deletes it.
+
+Pick another date to review older days. Approvals take effect for anyone who loads the page afterwards.
+
 ## How it fits together
 
 - **`index.html`**: the whole game in one self-contained file (no build step).
 - **`puzzles/`**: one JSON file per day (`2026-11-12.json`) plus `index.json` listing the available dates. The game loads today's file, or the latest one before today.
-- **`supabase/schema.sql`**: the backend. It stores every finished game (for live rarity, "X% of creators posted this") and your tier overrides. The free Supabase tier is plenty.
+- **`supabase/schema.sql`**: the backend. It stores every finished game (for live rarity, "X% of creators posted this" and the daily recap), your tier overrides, the review queue and approved discovered answers. The free Supabase tier is plenty.
 - **`config.js`**: the two public Supabase values that connect the site to the backend.
 - **`tools/check_puzzles.py`**: checks your puzzle files for mistakes before you publish.
 - **Hosting**: any static host works (Vercel, Netlify, Cloudflare Pages, GitHub Pages).
 
 ## Setup (about 15 minutes)
 
-1. **Supabase**: create a free project at supabase.com. Open **SQL Editor**, paste all of `supabase/schema.sql`, and run it. (Running it again later is safe. It never deletes plays.)
+1. **Supabase**: create a free project at supabase.com. Open **SQL Editor**, paste all of `supabase/schema.sql`, and run it. Run it again whenever the file changes: that's always safe, and it never deletes plays, overrides, queued guesses or approved answers.
 2. **Keys**: in **Project Settings → API**, copy the Project URL and the public key (`anon`, or the newer `sb_publishable_...`) into `config.js`. Never use the `service_role` / secret key.
 3. **Deploy**: push this folder to GitHub and import it into Vercel / Netlify / Cloudflare Pages as a static site (no build command, output directory = root). For GitHub Pages: repo **Settings → Pages → Deploy from a branch → main / root**.
 4. **Auth** (for the tier editor): in **Authentication → URL Configuration**, set the Site URL to your site's address.
@@ -110,4 +126,5 @@ Three rules keep the tiers honest:
 - Players can't read each other's games or write to the tables directly. The browser can only call three functions (`submit_play`, `answer_counts`, `is_admin`) and read tier overrides.
 - One game per player per day, and each game must have the right shape (10 answers, or 7 for older puzzles; a score from 0 to 100 per answer given; not a future date).
 - At most 30 games per puzzle from one network address, so one person can't flood the rarity numbers. The address is stored only as a salted hash.
+- Review-queue guesses go in only through `submit_guess`: one row per player per question per guess, at most 60 guesses per player and 600 per network address per puzzle. Only admins can read the queue; only admins can approve answers.
 - A finished game is saved in the browser after every answer, so refreshing mid-game resumes it (with the clock still running) instead of giving a second try. If the backend is unreachable the game still works, and the result is sent on the next visit.
