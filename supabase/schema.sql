@@ -23,26 +23,43 @@ create table if not exists public.plays (
   id          bigint generated always as identity primary key,
   puzzle_date date        not null,
   player_id   text        not null,              -- random id stored in the player's browser
-  answers     text[]      not null,              -- 7 entries, null = skipped / timed out
+  answers     text[]      not null,              -- one entry per lore check, null = skipped / timed out
   score       int         not null default 0,
   ip_hash     text,                              -- salted hash, only used to cap spam
   created_at  timestamptz not null default now(),
-  unique (puzzle_date, player_id),
-  check (coalesce(array_length(answers, 1), 0) <= 7),
-  check (score between 0 and 700)
+  unique (puzzle_date, player_id)
 );
 -- Upgrading from the first version of this file: add the column it lacked.
 alter table public.plays add column if not exists ip_hash text;
 
--- Manual tier fixes made in the in-game editor (tier 0 = NPC ... 5 = Elite Ball Knowledge).
+-- Manual tier fixes made in the in-game editor (tier 0 = NPC Trap ... 5 = Internet Phenomenon).
 create table if not exists public.overrides (
   puzzle_date date not null,
-  prompt_idx  int  not null check (prompt_idx between 0 and 6),
+  prompt_idx  int  not null,
   answer      text not null,
-  tier        int  not null check (tier between 0 and 5),
+  tier        int  not null,
   updated_at  timestamptz not null default now(),
   primary key (puzzle_date, prompt_idx, answer)
 );
+
+-- Value limits. Dropped and re-added on every run, so changing the number of
+-- lore checks (10 per day now; it used to be 7) only means editing them here.
+do $$
+declare c record;
+begin
+  for c in
+    select conname, conrelid::regclass as tbl
+    from pg_constraint
+    where contype = 'c'
+      and conrelid in ('public.plays'::regclass, 'public.overrides'::regclass)
+  loop
+    execute format('alter table %s drop constraint %I', c.tbl, c.conname);
+  end loop;
+end $$;
+alter table public.plays     add constraint plays_answers_len   check (coalesce(array_length(answers, 1), 0) <= 10);
+alter table public.plays     add constraint plays_score_range   check (score between 0 and 1000);
+alter table public.overrides add constraint overrides_prompt_idx check (prompt_idx between 0 and 9);
+alter table public.overrides add constraint overrides_tier      check (tier between 0 and 5);
 
 -- Who can use the tier editor.
 create table if not exists public.admins (
@@ -111,8 +128,8 @@ begin
     return false;
   end if;
 
-  -- Exactly 7 entries, each either null or a short piece of text.
-  if jsonb_typeof(p_answers) <> 'array' or jsonb_array_length(p_answers) <> 7 then
+  -- Exactly 10 entries (or 7 for older puzzles), each either null or a short piece of text.
+  if jsonb_typeof(p_answers) <> 'array' or jsonb_array_length(p_answers) not in (7, 10) then
     return false;
   end if;
   if exists (
@@ -128,8 +145,9 @@ begin
     into v_answers, v_given
   from jsonb_array_elements(p_answers) with ordinality as e(v, ord);
 
-  -- Every answer is worth 10 to 100 points, always a multiple of 5.
-  if p_score % 5 <> 0 or p_score < v_given * 10 or p_score > v_given * 100 then
+  -- Answers are worth -25 (NPC trap) up to 100 points, always multiples of 5, and the
+  -- final score is never below 0. So: a multiple of 5, from 0 up to 100 per answer given.
+  if p_score % 5 <> 0 or p_score < 0 or p_score > v_given * 100 then
     return false;
   end if;
 

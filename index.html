@@ -3,26 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EBK</title>
+<title>EBK · The Daily Post</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#eef2ff; --dim:#8b93b3; --panel:rgba(10,10,28,.82); --line:#3a3f66;
-  --lime:#d4ff3a; --pink:#ff4fa3; --cyan:#4fe3ff;
-  --npc:#9aa0b8; --casual:#4ade80; --tuned:#facc15; --baller:#fb923c; --lore:#ff4f6d; --ebk:#c58bff;
+  --ink:#eef2ff; --dim:#8b93b3; --panel:rgba(12,10,26,.88); --line:#2e3357;
+  --lime:#d4ff3a; --pink:#ff2d75; --cyan:#00f2fe; --trap:#ff334b;
+  --npc:#ff334b; --casual:#4ade80; --tuned:#facc15; --baller:#fb923c; --lore:#ff4f6d; --buzz:#e2e6f3; --ebk:#c58bff;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
-body{font-family:"Space Mono",ui-monospace,monospace;color:var(--ink);background:#bfe0f2;transition:background-color .2s linear}
+body{font-family:"Space Mono",ui-monospace,monospace;color:var(--ink);background:#0b0d1e;transition:background-color .2s linear}
 .pixel{font-family:"Silkscreen",monospace}
-/* scanlines */
+/* scanlines / stream vibes */
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
-  background:repeating-linear-gradient(to bottom,rgba(0,0,0,.06) 0 1px,transparent 1px 3px)}
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,.08) 0 1px,transparent 1px 3px)}
 
 .meme{font-family:"Anton",Impact,sans-serif;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:3px 3px 0 #000;text-transform:uppercase;letter-spacing:.02em}
-.floater{position:absolute;font-size:30px;opacity:.5;animation:bob 3.2s ease-in-out infinite;pointer-events:none;filter:saturate(1.3)}
+.floater{position:absolute;font-size:26px;opacity:.45;animation:bob 3.2s ease-in-out infinite;pointer-events:none;filter:saturate(1.4)}
 @keyframes bob{50%{transform:translateY(-10px) rotate(8deg)}}
 .burst{position:fixed;z-index:45;font-size:34px;pointer-events:none;animation:fly 1s ease-out forwards}
 @keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(.6);opacity:0}}
@@ -39,29 +39,29 @@ body.playing .ticker{display:none}
 /* stickers */
 .sticker{position:absolute;color:#000;font:400 15px "Anton",Impact,sans-serif;text-transform:uppercase;padding:5px 10px;border:3px solid #000;box-shadow:3px 3px 0 #000;letter-spacing:.04em;animation:bob 2.6s ease-in-out infinite;white-space:nowrap}
 /* stamps + fry */
-.stamp{position:fixed;left:50%;top:44%;z-index:46;font:400 clamp(120px,24vw,220px) "Anton",Impact,sans-serif;-webkit-text-stroke:6px #000;paint-order:stroke fill;pointer-events:none;animation:stamp .7s cubic-bezier(.2,1.8,.4,1) forwards}
+.stamp{position:fixed;left:50%;top:44%;z-index:46;font:400 clamp(80px,18vw,180px) "Anton",Impact,sans-serif;-webkit-text-stroke:6px #000;paint-order:stroke fill;pointer-events:none;animation:stamp .7s cubic-bezier(.2,1.8,.4,1) forwards;white-space:nowrap}
 @keyframes stamp{0%{transform:translate(-50%,-50%) scale(3) rotate(-20deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1) rotate(-8deg);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1.1) rotate(-8deg);opacity:0}}
 .fried{animation:fry .6s steps(3)}
 @keyframes fry{0%,100%{filter:none}33%{filter:saturate(4) contrast(1.6) hue-rotate(25deg)}66%{filter:saturate(3) contrast(1.4) brightness(1.2)}}
-.title{background:linear-gradient(90deg,#fff,#d4ff3a,#4fe3ff,#ff4fa3,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 100%}
+.title{background:linear-gradient(90deg,#fff,#d4ff3a,#00f2fe,#ff2d75,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:300% 100%}
 .title.meme{color:transparent}
 .titlewrap{animation:hue 6s linear infinite}
 @keyframes hue{to{filter:hue-rotate(360deg)}}
 .mute{position:fixed;top:14px;right:14px;z-index:36;background:#11142a;border:2px solid #000;color:#fff;font-size:18px;width:40px;height:40px;cursor:pointer;box-shadow:3px 3px 0 #000}
 /* ---------- world ---------- */
 #world{position:absolute;left:0;right:0;top:0;will-change:transform}
-.sky{position:absolute;left:0;right:0;top:-1400px;height:1400px;background:linear-gradient(#7a5cff,#ff8fd0 55%,#9ef0ff)}
-.cloud{position:absolute;background:#fff;opacity:.85;box-shadow:16px 0 0 #fff,-16px 0 0 #fff,0 -12px 0 #fff,8px -12px 0 #fff}
-.surface{position:absolute;left:0;right:0;top:0;height:6px;background:var(--lime);box-shadow:0 0 18px var(--lime)}
-.surface-label{position:absolute;top:-28px;right:60px;font-size:11px;letter-spacing:.3em;color:#24324a}
-.phone{position:absolute;top:-92px;left:calc(50% - 400px);width:46px;height:84px;border:4px solid #1d2238;border-radius:8px;background:#2b3157}
+.sky{position:absolute;left:0;right:0;top:-1400px;height:1400px;background:linear-gradient(#140826,#380d44 55%,#0d1430)}
+.cloud{position:absolute;background:rgba(255,45,117,.15);border:1px solid rgba(255,45,117,.3);border-radius:20px}
+.surface{position:absolute;left:0;right:0;top:0;height:6px;background:var(--pink);box-shadow:0 0 18px var(--pink)}
+.surface-label{position:absolute;top:-28px;right:60px;font-size:11px;letter-spacing:.25em;color:var(--lime);font-weight:700}
+.phone{position:absolute;top:-92px;left:calc(50% - 400px);width:46px;height:84px;border:4px solid #201a38;border-radius:8px;background:#120c24}
 .phone::before{content:"";position:absolute;inset:6px 4px 14px;background:linear-gradient(var(--pink),var(--cyan))}
 .phone::after{content:"";position:absolute;bottom:3px;left:50%;width:8px;height:4px;margin-left:-4px;background:#8b93b3}
 .ruler{position:absolute;right:22px;top:0;width:1px;background:rgba(255,255,255,.18)}
 .tick{position:absolute;right:22px;height:1px;background:rgba(255,255,255,.35);width:8px}
-.tick.big{width:16px;background:rgba(255,255,255,.55)}
-.tick span{position:absolute;right:22px;top:-7px;font-size:10px;color:rgba(255,255,255,.45);white-space:nowrap}
-.lore{position:absolute;left:22px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.tick.big{width:16px;background:var(--lime)}
+.tick span{position:absolute;right:22px;top:-7px;font-size:10px;color:rgba(255,255,255,.6);white-space:nowrap;font-family:"Silkscreen",monospace}
+.lore{position:absolute;left:22px;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em}
 .lore::before{content:"";display:inline-block;width:28px;height:1px;background:rgba(255,255,255,.35);vertical-align:middle;margin-right:10px}
 .tierline{position:absolute;left:12%;right:56px;border-top:1px dashed rgba(255,255,255,.25);transition:opacity .4s}
 .tierline.fade{opacity:.2}
@@ -70,48 +70,53 @@ body.playing .ticker{display:none}
 .tag{position:absolute;left:50%;transform:translateX(-50%) rotate(-6deg);padding:8px 14px;background:#11142a;border:3px solid var(--lime);color:var(--lime);font-weight:700;font-size:16px;animation:wob .5s ease-in-out infinite alternate;white-space:nowrap;box-shadow:0 0 16px rgba(212,255,58,.35)}
 @keyframes wob{from{transform:translateX(-50%) rotate(-8deg)}to{transform:translateX(-50%) rotate(5deg)}}
 .tag.dead{border-color:var(--line);color:var(--dim);box-shadow:none;opacity:.55}
-.bubbles{position:absolute;left:50%;width:4px;height:4px;border:1px solid rgba(255,255,255,.5);border-radius:50%}
+.tag.trap{border-color:var(--trap);color:var(--trap);background:#240810;box-shadow:0 0 16px rgba(255,51,75,.4)}
+.bubbles{position:absolute;left:50%;width:4px;height:4px;border:1px solid rgba(255,45,117,.5);border-radius:50%}
 
 /* ---------- HUD ---------- */
 .hud{position:fixed;top:14px;left:0;right:0;display:flex;justify-content:center;align-items:flex-start;gap:clamp(20px,12vw,190px);z-index:20;pointer-events:none;opacity:0;transition:opacity .3s}
 .hud.on{opacity:1}
-.box{background:#11142a;border:2px solid #2a2f52;padding:6px 14px 7px;min-width:104px;clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px)}
-.box small{display:block;font-size:9px;letter-spacing:.3em;color:var(--dim)}
+.box{background:#11142a;border:2px solid #2a2f52;padding:6px 14px 7px;min-width:115px;clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px)}
+.box small{display:block;font-size:9px;letter-spacing:.25em;color:var(--dim)}
 .box b{font-size:19px}
 #hudDepth b{color:var(--cyan)} #hudScore b{color:var(--pink)}
 #hudScore{text-align:right}
 .pips{display:flex;gap:4px;margin-top:4px;justify-content:center}
 .pips i{width:12px;height:12px;background:#1d2140;border:1px solid #2f355e}
 .pips i.now{background:var(--pink);border-color:#fff}
-.pipcap{font-size:8px;letter-spacing:.3em;color:#3d4670;text-align:center;margin-top:4px}
+.pipcap{font-size:9px;letter-spacing:.25em;color:#7a85b3;text-align:center;margin-top:4px;font-family:"Silkscreen",monospace}
 
 /* ---------- start ---------- */
 #start{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center}
 .title{margin-top:8vh;font-size:clamp(84px,17vw,170px);line-height:1;-webkit-text-stroke:4px #000;text-shadow:7px 7px 0 var(--pink),-6px -4px 0 var(--cyan),12px 12px 0 #000;animation:tilt 2.4s ease-in-out infinite}
 @keyframes tilt{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.04)}}
 .sub{margin-top:22px;font-size:clamp(14px,2vw,18px);letter-spacing:.35em;color:#000;background:var(--lime);padding:6px 14px;transform:rotate(-3deg);border:3px solid #000;box-shadow:4px 4px 0 #000}
-.blurb{margin-top:20px;font-size:13px;letter-spacing:.1em;color:#1a1033;font-weight:700;text-align:center;padding:0 16px}
+.blurb{margin-top:20px;font-size:13px;letter-spacing:.1em;color:var(--ink);font-weight:700;text-align:center;padding:0 16px}
 .startbox{position:absolute;top:calc(50vh + 70px);width:min(610px,92vw)}
 .bigbtn{width:100%;padding:22px;background:#11142a;border:3px solid var(--lime);color:#fff;font:700 clamp(16px,2.4vw,22px) "Silkscreen",monospace;letter-spacing:.3em;cursor:pointer;box-shadow:0 0 22px rgba(212,255,58,.3)}
 .bigbtn:hover{background:#1a1e3d;animation:quake .4s}
-.startrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:11px;letter-spacing:.2em;color:#1a1033;font-weight:700}
-.howto{font-size:11px;letter-spacing:.1em;color:#c9cde4;margin-top:12px;line-height:1.7;background:rgba(10,10,28,.8);padding:12px 14px;border:2px solid #000}
-.howto b{color:var(--ink)}
+.startrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:11px;letter-spacing:.2em;color:#9aa3c7;font-weight:700}
+.howto{font-size:11px;letter-spacing:.08em;color:#c9cde4;margin-top:12px;line-height:1.7;background:rgba(12,10,26,.88);padding:12px 14px;border:2px solid #000}
+.howto b{color:var(--lime)}
+.howto .warn{color:var(--trap);font-weight:700}
 .tiers{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .tiers span{font-size:10px;letter-spacing:.08em;padding:4px 8px;border:1px solid var(--line);background:rgba(10,10,28,.6)}
 
-/* ---------- prompt card ---------- */
-.card{position:fixed;left:50%;top:27vh;transform:translateX(-50%);width:min(480px,90vw);background:var(--panel);border:2px solid #2a2f52;padding:18px 22px 16px;z-index:25;display:none;
-  clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
-.card.on{display:block;animation:drop .35s ease-out}
-@keyframes drop{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
-.card .k{font-size:10px;letter-spacing:.3em;color:var(--pink)}
-.card .cat{float:right;font-size:10px;letter-spacing:.12em;color:var(--dim)}
-.card h2{font-size:clamp(20px,3vw,26px);line-height:1.25;margin:10px 0 8px;font-weight:700}
-.card .hint{font-size:10px;letter-spacing:.14em;color:var(--dim)}
+/* ---------- Lore Check Card ---------- */
+.card{position:fixed;left:50%;top:24vh;transform:translateX(-50%);width:min(500px,92vw);background:#0a0a1e;border:0;padding:0;z-index:25;display:none}
+.card.on{display:block;animation:drop .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes drop{from{opacity:0;transform:translate(-50%,-18px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+.card-top{background:var(--lime);padding:7px 14px;display:flex;justify-content:space-between;align-items:center}
+.card .k{font-size:11px;letter-spacing:.25em;color:#000;font-weight:700;font-family:"Silkscreen",monospace}
+.card .cat{font-size:10px;letter-spacing:.12em;color:#1a1033;font-weight:700}
+.card-inner{padding:18px 22px 16px;border:3px solid var(--lime);border-top:0;position:relative}
+.card h2{font-size:clamp(20px,3vw,26px);line-height:1.25;margin:10px 0 10px;font-weight:700;color:#fff}
+.card .hint{font-size:11px;letter-spacing:.1em;color:var(--lime);opacity:.9}
+.card .hint b{color:var(--trap)}
+.card-corner{position:absolute;bottom:-3px;right:-3px;width:18px;height:18px;background:var(--lime);clip-path:polygon(100% 0,100% 100%,0 100%)}
 
 /* ---------- input bar ---------- */
-.bar{position:fixed;left:0;right:0;bottom:0;padding:16px 16px 22px;background:linear-gradient(transparent,rgba(5,5,16,.85) 40%);z-index:25;display:none}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:16px 16px 22px;background:linear-gradient(transparent,rgba(5,5,16,.9) 40%);z-index:25;display:none}
 .bar.on{display:block}
 .barin{width:min(620px,96vw);margin:0 auto;display:flex;align-items:center;gap:10px}
 .ring{position:relative;width:52px;height:52px;flex:none}
@@ -141,20 +146,20 @@ body.playing .ticker{display:none}
 .reveal.on{display:block;animation:rise .4s ease-out}
 @keyframes rise{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 .reveal .icon{font-size:54px;margin-bottom:8px;animation:bob 1.2s ease-in-out infinite}
-.reveal .tn{font-size:clamp(46px,8vw,76px);line-height:1;-webkit-text-stroke:3px #000;text-shadow:5px 5px 0 #000;animation:slam .45s cubic-bezier(.2,1.6,.4,1)}
+.reveal .tn{font-size:clamp(42px,7.5vw,72px);line-height:1;-webkit-text-stroke:3px #000;text-shadow:5px 5px 0 #000;animation:slam .45s cubic-bezier(.2,1.6,.4,1)}
 @keyframes slam{from{transform:scale(2.4) rotate(-10deg);opacity:0}to{transform:scale(1) rotate(-2deg);opacity:1}}
 .reveal .tn{transform:rotate(-2deg)}
 .reveal .ans{margin-top:12px;font-size:17px}
 .reveal .pts{margin-top:14px;font-size:15px;letter-spacing:.06em}
 .reveal .pts b{font-family:"Anton",Impact,sans-serif;font-size:24px;color:var(--lime)!important;letter-spacing:.04em}
-.reveal .pts b{color:#fff}
+.reveal .pts b.trap{color:var(--trap)!important}
 .reveal .fl{margin-top:10px;font-size:14px;color:#fff;font-weight:700;letter-spacing:.02em}
 .reveal .ans,.reveal .pts,.reveal .fl{text-shadow:0 0 6px #000,2px 2px 0 #000,-1px -1px 0 #000}
 .reveal .others{margin-top:16px;font-size:12px;color:var(--dim)}
 .best{margin-top:14px;background:rgba(8,6,22,.82);border:2px solid #000;padding:12px 12px 8px;text-align:left;max-height:calc(100vh - 11vh - 430px);min-height:140px;overflow-y:auto}
 .best h4{font:700 10px "Silkscreen",monospace;letter-spacing:.25em;color:var(--pink);margin-bottom:8px}
 .trow{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
-.trow .tl{flex:none;width:92px;font-size:10px;font-weight:700;letter-spacing:.06em;padding-top:5px;text-transform:uppercase}
+.trow .tl{flex:none;width:110px;font-size:10px;font-weight:700;letter-spacing:.06em;padding-top:5px;text-transform:uppercase}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .c2{font-size:12px;padding:3px 8px;border:1px solid currentColor;background:rgba(255,255,255,.04);max-width:100%;overflow-wrap:anywhere}
 .c2.me{background:currentColor}.c2.me span{color:#000;font-weight:700}
@@ -173,11 +178,11 @@ details.all[open] summary{margin-bottom:8px}
 @keyframes rise2{from{opacity:0}to{opacity:1}}
 .rbox{width:min(560px,100%);margin:0 auto;background:var(--panel);border:2px solid #2a2f52;padding:26px 22px}
 .rk{font-size:10px;letter-spacing:.3em;color:var(--pink)}
-.rdepth{font-size:clamp(54px,12vw,86px);color:var(--cyan)!important;line-height:1.1;margin-top:8px}
+.rdepth{font-size:clamp(48px,11vw,80px);color:var(--cyan)!important;line-height:1.1;margin-top:8px}
 .rsub{font-size:13px;color:var(--dim);letter-spacing:.08em}
-.rrank{font-size:34px;margin:14px 0 4px;transform:rotate(-2deg);display:inline-block}
+.rrank{font-size:32px;margin:14px 0 4px;transform:rotate(-2deg);display:inline-block}
 .roast{font-size:13px;color:#fff;font-weight:700;margin-bottom:12px}
-.rgrid{font-size:26px;letter-spacing:4px;margin-bottom:18px}
+.rgrid{font-size:clamp(15px,5vw,26px);letter-spacing:1px;margin-bottom:18px;white-space:nowrap}
 .rrow{border-top:1px solid #262b4d;padding:14px 0}
 .rrow .q{font-size:11px;color:var(--dim);letter-spacing:.04em;margin-bottom:6px}
 .rrow .y{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:15px}
@@ -200,44 +205,51 @@ details.all[open] summary{margin-bottom:8px}
 .editing #rlist .c2[data-n]{cursor:pointer}
 .copied{text-align:center;font-size:12px;color:var(--dim);margin-top:10px;min-height:16px}
 textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:#0d1024;color:var(--ink);border:1px solid var(--line);padding:10px;display:none}
-@media (max-width:520px){.mute{top:72px;right:8px;width:34px;height:34px;font-size:15px}.sticker{display:none}#dvd{font-size:16px}.bar{padding:14px 10px 18px}.barin,.track,.msg{width:100%}.surface-label{display:none}.send{padding:14px 10px;letter-spacing:.1em}.barin{gap:6px}.track,.msg{padding-left:58px}.card{top:22vh}.phone{display:none}.lore{display:none}.hud{gap:10px}.box{min-width:84px}}
+@media (max-width:520px){.mute{top:72px;right:8px;width:34px;height:34px;font-size:15px}.sticker{display:none}#dvd{font-size:16px}.bar{padding:14px 10px 18px}.barin,.track,.msg{width:100%}.surface-label{display:none}.send{padding:14px 10px;letter-spacing:.1em}.barin{gap:6px}.track,.msg{padding-left:58px}.card{top:20vh}.phone{display:none}.lore{display:none}.hud{gap:10px}.box{min-width:90px}}
 </style>
 </head>
 <body>
 <div id="world"></div>
 <div id="dvd">EBK</div>
 <button class="mute" id="mute" title="Sound">🔊</button>
-<div class="ticker"><div class="lab">BREAKING 🚨</div><div class="run" id="tickrun"></div></div>
+<div class="ticker"><div class="lab">VIRAL FEED 🚨</div><div class="run" id="tickrun"></div></div>
 
 <div class="hud" id="hud">
-  <div class="box" id="hudDepth"><small>SCROLLED</small><b id="hd">0m</b></div>
-  <div><div class="pips" id="pips"></div><div class="pipcap" id="pipcap">PROMPT 1 OF 7</div></div>
-  <div class="box" id="hudScore"><small>AURA</small><b id="hs">0</b></div>
+  <div class="box" id="hudDepth"><small>TOTAL VIEWS</small><b id="hd">0</b></div>
+  <div><div class="pips" id="pips"></div><div class="pipcap" id="pipcap"></div></div>
+  <div class="box" id="hudScore"><small>SCORE</small><b id="hs">0</b></div>
 </div>
 
 <div id="start">
   <div class="titlewrap"><div class="title meme">EBK</div></div>
-  <div class="sub pixel">THE DAILY ROT 🧠</div>
-  <div class="blurb">7 prompts · 25 seconds each · rarer answers = more aura 🗿</div>
+  <div class="sub pixel">THE DAILY POST 📱</div>
+  <div class="blurb" id="blurb">10 lore checks · 20s each · rarer takes blow up on the feed 🚀</div>
   <div class="sticker" style="left:8%;top:30%;background:var(--lime);transform:rotate(-12deg)">no cap 🧢</div>
-  <div class="sticker" style="right:9%;top:24%;background:var(--pink);color:#fff;transform:rotate(9deg)">certified hood classic</div>
-  <div class="sticker" style="right:12%;top:42%;background:var(--cyan);transform:rotate(-6deg);animation-delay:.8s">+1000 aura</div>
-  <div class="sticker" style="left:11%;top:46%;background:#fff;transform:rotate(7deg);animation-delay:1.3s">ohio approved 🌽</div>
+  <div class="sticker" style="right:9%;top:24%;background:var(--pink);color:#fff;transform:rotate(9deg)">certified viral 📱</div>
+  <div class="sticker" style="right:12%;top:42%;background:var(--cyan);transform:rotate(-6deg);animation-delay:.8s">+1M views 📈</div>
+  <div class="sticker" style="left:11%;top:46%;background:#fff;transform:rotate(7deg);animation-delay:1.3s">algorithm test 🧪</div>
   <div class="startbox">
-    <button class="bigbtn" id="go">▼ LOCK IN ▼</button>
+    <button class="bigbtn" id="go">▼ POST YOUR TAKES ▼</button>
     <div class="startrow"><span id="dayline"></span><span id="played"></span></div>
-    <div class="howto">Any correct answer counts. The more obscure it is, the deeper you go. <b>Obvious answers barely move you.</b> Stuck? Type <b>skip</b>.
+    <div class="howto">Any correct answer counts. Obscure takes pull millions of views. <span class="warn">⚠️ the 3 most obvious answers are NPC traps. say one and you get ratio'd 💀</span> Stuck? Type <b>skip</b>.
       <div class="tiers" id="tiers"></div></div>
   </div>
 </div>
 
-<div class="card" id="card"><span class="cat" id="ccat"></span><div class="k" id="ck">PROMPT 1 OF 7</div><h2 id="ctext"></h2><div class="hint">▼ rarer answers scroll deeper ▼</div></div>
+<div class="card" id="card">
+  <div class="card-top"><div class="k" id="ck"></div><span class="cat" id="ccat"></span></div>
+  <div class="card-inner">
+    <h2 id="ctext"></h2>
+    <div class="hint">🔥 Rarer take = more views · <b>NPC answers get RATIO'D 💀</b></div>
+    <div class="card-corner"></div>
+  </div>
+</div>
 
 <div class="bar" id="bar">
   <form class="barin" id="form" autocomplete="off">
     <div class="ring" id="ring"><svg width="52" height="52"><circle cx="26" cy="26" r="22" fill="none" stroke="#1d2140" stroke-width="4"/><circle id="arc" cx="26" cy="26" r="22" fill="none" stroke="#4fe3ff" stroke-width="4" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><b id="secs">25</b></div>
-    <input id="guess" placeholder="type one answer… (or skip)" spellcheck="false" autocapitalize="off">
-    <button class="send" type="submit">SEND</button>
+    <input id="guess" placeholder="drop your take… (or type skip)" spellcheck="false" autocapitalize="off">
+    <button class="send" type="submit">POST 📲</button>
   </form>
   <div class="track"><div id="trk"></div></div>
   <div class="msg" id="msg"></div>
@@ -252,7 +264,7 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
   <div class="pct" id="rpct"></div>
   <div class="best" id="roth"></div>
 </div>
-<button class="next" id="next">NEXT ▼</button>
+<button class="next" id="next">NEXT TAKE ▼</button>
 
 <div class="editor" id="editor"><div class="ek">MOVE "<span id="edname"></span>" TO:</div><div id="edbtns"></div></div>
 <div id="results"><div class="rbox">
@@ -270,38 +282,70 @@ textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:
 
 <script src="config.js"></script>
 <script>
+// Format views count
+function viewsLabel(n){
+  if(!n) return "0";
+  if(n>=1000000) return (n/1000000).toFixed(n>=10000000?0:1).replace(/\.0$/,"")+"M";
+  if(n>=1000) return (n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,"")+"K";
+  return String(Math.round(n));
+}
+
+// Puzzle files can write prompts as Lore Checks ("Drop a ... ⚽") or the old way ("Name a ...").
+// Old-style ones get converted, keeping "a"/"an" right, and get an emoji if they have none.
+function formatLoreCheck(text){
+  let t=String(text||"").trim(); if(!t) return "";
+  t=t.replace(/^Name (an?) /i,(_,art)=>`Drop ${art.toLowerCase()} `);
+  if(!/\p{Extended_Pictographic}️?$/u.test(t)) t+=" 👀";
+  return t;
+}
+
+// vmin..vmax: each post gets a random view count in its tier's range (stored with the result).
+// sq: the share-grid square. Colours match the squares so the grid reads the same as the game.
 const TIERS=[
-  {name:"NPC",pts:10,color:"var(--npc)",sq:"⬜",icon:"🤖",fl:"Literally everyone said this. NPC behaviour.",burst:"🤖😐🫠",roast:"Your FYP is 100% default settings. Scroll harder."},
-  {name:"Casual",pts:15,color:"var(--casual)",sq:"🟩",icon:"😐",fl:"Mid but valid. We move.",burst:"👍😐✅",roast:"You go outside sometimes. Weird flex but ok."},
-  {name:"Tuned In",pts:30,color:"var(--tuned)",sq:"🟨",icon:"👀",fl:"Okay, you've been on the app today 👀",burst:"👀📱🔥",roast:"Healthy amount of brainrot. Suspiciously balanced."},
-  {name:"Ball Knower",pts:60,color:"var(--baller)",sq:"🟧",icon:"🧠",fl:"LOCKED IN. Actual ball knowledge.",burst:"🧠🔥💯",roast:"You know ball. Your screen time knows it too."},
-  {name:"Deep Lore",pts:85,color:"var(--lore)",sq:"🟥",icon:"💀",fl:"Bro is NOT touching grass 💀",burst:"💀😭🔥💯",roast:"Seek help. Respectfully. 💀"},
-  {name:"Elite Ball Knowledge",pts:100,color:"var(--ebk)",sq:"🟪",icon:"🗿",fl:"ELITE BALL KNOWLEDGE. +∞ aura 🗿",burst:"🗿👑💀🔥💯😭",roast:"Terminally online. The algorithm fears you. 🗿"}
+  {name:"RATIO'D 💀",vmin:8,vmax:40,vlabel:"8–40",pts:0,color:"var(--trap)",sq:"💀",icon:"💀",fl:"RATIO'D! Bot views only. Bro fell for the NPC trap 💀",burst:"💀😭🤡📉",roast:"Bro posted the most default NPC takes possible. Bot views and ratio'd in the comments."},
+  {name:"Local Buzz",vmin:800,vmax:3000,vlabel:"0.8K–3K",pts:15,color:"var(--buzz)",sq:"⬜",icon:"😐",fl:"Mid take, your aunt liked it. We move.",burst:"👍😐📱",roast:"Local fame unlocked. Most of your views are mutuals."},
+  {name:"On The FYP",vmin:20000,vmax:90000,vlabel:"20K–90K",pts:35,color:"var(--casual)",sq:"🟩",icon:"👀",fl:"The algorithm pushed your clip 👀",burst:"👀📱🔥",roast:"Solid algorithm push. You know enough to stay relevant."},
+  {name:"Trending",vmin:150000,vmax:500000,vlabel:"150K–500K",pts:65,color:"var(--tuned)",sq:"🟨",icon:"🧠",fl:"Trending on the FYP! Actual ball knowledge.",burst:"🧠🔥💯",roast:"Trending creator status. Your screen time is paying off."},
+  {name:"Went Viral",vmin:900000,vmax:1800000,vlabel:"0.9M–1.8M",pts:85,color:"var(--baller)",sq:"🟧",icon:"😭",fl:"Comment section is an unhinged warzone 😭🔥",burst:"💀😭🔥💯",roast:"Certified viral hit. The algorithm has you on lock."},
+  {name:"Internet Phenomenon",vmin:3000000,vmax:8000000,vlabel:"3M–8M",pts:100,color:"var(--ebk)",sq:"🟪",icon:"🗿",fl:"Breaking the whole internet. +∞ aura 🗿",burst:"🗿👑💀🔥💯😭",roast:"Internet Phenomenon. Terminally online legend. The entire internet clipped it 🗿"}
 ];
 const MISS="⬛";
-// Built-in copy of puzzle #1 (puzzles/2026-11-12.json). Only used when the puzzle files can't be
-// loaded: the page opened straight from disk, or running as a Claude artifact.
-const RAW={"date":"2026-11-12","num":1,"prompts":[{"text":"Name a footballer who became a meme","cat":"Sports","list":["1:Cristiano Ronaldo|ronaldo|cr7|siuu|siu|penaldo|cristiano","1:Lionel Messi|messi|ankara messi|leo messi|pessi","2:Neymar|neymar roll|neymar jr","2:Harry Maguire|maguire|slabhead","3:Erling Haaland|haaland","3:Kylian Mbappé|mbappe|donatello|ninja turtle","3:Zlatan Ibrahimović|zlatan|ibrahimovic|ibra","3:Luis Suárez|suarez|bite","4:Zinedine Zidane|zidane|headbutt","4:Antony|antony spin","4:Paul Pogba|pogba|dab","4:Harry Kane|kane|trophy curse","4:Cole Palmer|palmer|cold palmer","4:Ronaldinho","5:Jude Bellingham|bellingham","5:Romelu Lukaku|lukaku|first touch","5:Steven Gerrard|gerrard|the slip","5:N'Golo Kanté|kante","5:Jack Grealish|grealish|socks","5:Mario Balotelli|balotelli|why always me","5:Ronaldo Nazário|r9|r9 haircut|fat ronaldo","5:Sergio Ramos|ramos","5:Emiliano Martínez|dibu|emi martinez","5:Darwin Núñez|darwin nunez|nunez","5:Richarlison|pigeon","5:Eden Hazard|hazard|burger","6:Phil Jones|phil jones faces","6:Jesse Lingard|lingard|jlingz","6:Peter Crouch|crouch|robot","6:Gareth Bale|bale|golf","6:Pepe","6:André Onana|onana","6:David de Gea|de gea|dave saves","6:Jordan Pickford|pickford","6:Bruno Fernandes|bruno","6:Dele Alli|dele|hand trick","6:Arjen Robben|robben|cut inside","6:Mesut Özil|ozil","6:Jamie Vardy|vardy","6:Gerard Piqué|pique","6:Guillermo Ochoa|ochoa|memo ochoa","6:Adama Traoré|adama","7:Gonzalo Higuaín|higuain","7:Diego Costa","7:Loris Karius|karius","7:Kepa Arrizabalaga|kepa","7:Marouane Fellaini|fellaini","8:Nicklas Bendtner|lord bendtner|bendtner","8:Emile Heskey|heskey time|heskey","8:Will Grigg|will griggs on fire|grigg","8:Adebayo Akinfenwa|akinfenwa|the beast","8:Ben Brereton Díaz|brereton|ben brereton","9:Ali Dia","10:Carlos Kaiser|kaiser|carlos henrique raposo","10:Maxim Tsigalko|tsigalko|maksim tsyhalka"],"deep":[["Ali Dia","Signed by Southampton in 1996 after a fake call 'from George Weah'. Played 53 minutes. Legendary.","https://en.wikipedia.org/w/index.php?search=Ali%20Dia"],["Maxim Tsigalko","A Belarusian striker with two international caps who was an unstoppable goal machine in Championship Manager 01/02. A cult hero to a generation of gamers.","https://en.wikipedia.org/w/index.php?search=Maxim%20Tsigalko"]]},{"text":"Name a meme that came from SpongeBob","cat":"Classic internet memes","list":["1:Mocking SpongeBob|spongemock","1:Ight Imma Head Out|aight imma head out|imma head out","2:Imagination|spongebob rainbow|imagination spongebob|rainbow","2:Surprised Patrick|shocked patrick","3:Handsome Squidward","3:Spongegar|caveman spongebob|primitive sponge","3:Savage Patrick|evil patrick|angry patrick","3:Squidward Window|squidward looking out the window","3:Tired SpongeBob","3:Blurry Mr. Krabs|confused mr krabs","3:Is Mayonnaise an Instrument|mayonnaise","3:No, This Is Patrick|is this the krusty krab","3:My Leg!","4:One Eternity Later|time cards|spongebob time card|a few moments later","4:Krusty Krab vs Chum Bucket","4:Bold and Brash","4:Dirty Dan|pinhead larry","4:Chocolate Guy|chocolate","4:DoodleBob|me hoy minoy","4:Krusty Krab Pizza","4:I'm Ready","5:Sweet Victory","5:Goofy Goober Rock|goofy goober","5:The Inner Machinations of My Mind Are an Enigma|inner machinations","5:Squidward Dab","5:F Is for Friends|fun song","5:Magic Conch|magic conch shell|all hail the magic conch","5:Push It Somewhere Else|push bikini bottom somewhere else","5:Patrick's Wallet","5:I Don't Need It|i need it","5:Krabby Patty Secret Formula|secret formula","5:Plankton and Karen|karen computer","5:Gary Meow|gary","6:Wumbo|wumbology","6:Weenie Hut Jr's|weenie hut jr","6:Firmly Grasp It","6:Leedle Leedle Lee","6:Future Squidward|squidward future","6:Rock Bottom","6:Ripped Pants","6:Campfire Song|campfire song song","6:Mermaid Man|evil","6:Ol' Reliable|old reliable","6:Hash-Slinging Slasher","7:Squilliam","7:Ravioli Ravioli Give Me the Formuoli|ravioli ravioli","7:Funnier Than 24","7:Nosferatu","7:Are You Feeling It Now Mr. Krabs|are you feeling it now|oh yeah mr krabs","8:Smitty Werbenjägermanjensen|smitty|he was number one","8:The Ugly Barnacle","8:DEUUEAUGH|deuueaugh fish|deaugh","8:Hoopla!","9:Moar Krabs|moar|morbid krabs","10:Spengbab"],"deep":[["Spengbab","Deliberately grotesque SpongeBob fan art that started circulating in 2006 and became a 4chan in-joke.","https://knowyourmeme.com/search?q=spengbab"],["Moar Krabs","A single distorted frame of Mr. Krabs from the episode 'Jellyfish Hunter' that became a YouTube Poop staple.","https://knowyourmeme.com/search?q=moar%20krabs"]]},{"text":"Name a brainrot term from 2023 or later","cat":"Brainrot and slang","list":["1:Skibidi|skibidi toilet","1:Rizz|rizzler","1:6 7|six seven","2:Sigma","2:Gyatt|gyat","3:Fanum Tax|fanum","3:Ohio|only in ohio","3:Aura|aura farming|aura points","3:Mewing|mew","3:Cooked","3:Delulu","3:Tung Tung Tung Sahur|tung tung sahur|tung tung","4:Italian Brainrot","4:Tralalero Tralala|tralalero","4:Mogging|mog|mogged","4:Glazing|glaze","4:Crashout|crash out","4:Unc|chopped unc","4:Looksmaxxing|looksmaxing|looksmax","4:Lock In|locked in","4:Yapping|yap","4:Let Him Cook","4:Hawk Tuah","4:Labubu","5:Demure|very demure very mindful|very demure","5:Brat|brat summer","5:Chill Guy","5:Pookie","5:Twin","5:Goofy Ahh|ahh","5:Zesty","5:Chopped","5:Bombardiro Crocodilo|bombardiro","5:Ballerina Cappuccina|ballerina","5:Grimace Shake","5:Low Taper Fade","5:Chicken Jockey","5:Winter Arc","6:Clanker","6:Erm What the Sigma|what the sigma","6:Big Back","6:Huzz","6:Sybau","6:Costco Guys|we bring the boom|boom","6:Bombastic Side Eye","6:Brr Brr Patapim|patapim","6:Chimpanzini Bananini","6:Cappuccino Assassino","6:Those Who Know","6:Type Shi|type shit","7:Sticking Out Your Gyatt for the Rizzler|sticking out your gyat","7:Brokie","7:Ts Pmo|ts pmo icl","7:What the Helly","7:Baby Gronk","7:Just Put the Fries in the Bag|put the fries in the bag|fries in the bag","8:Mango Mango Mango|mango","8:Still Water","8:Lirili Larila","8:Trippi Troppi","8:La Vaca Saturno Saturnita|vaca saturno","8:Gurt|yo gurt|gurt yo","8:41","9:Balkan Rage","9:Sdiybt|start digging in your butt twin|start digging in yo butt twin","9:Gegagedigedagedago|gegagedi"],"deep":[["Balkan Rage","One of the buzzwords kids stacked into 'those who know 💀' comment chains in late 2024, right next to still water and mango mango mango.","https://knowyourmeme.com/search?q=balkan%20rage"],["Sdiybt","Short for 'start digging in yo butt, twin'. A summer 2025 comment-section acronym that started with a SpongeBob edit.","https://knowyourmeme.com/search?q=sdiybt"]]},{"text":"Name a YouTuber famous for Minecraft","cat":"Gaming","list":["1:Dream","1:Technoblade|techno","2:DanTDM|dan tdm|thediamondminecart","3:PewDiePie|pewds","3:TommyInnit|tommy","3:GeorgeNotFound|george","3:Sapnap","3:Stampy|stampylonghead|stampy cat","3:Aphmau","3:CaptainSparklez|captain sparklez","3:Preston|prestonplayz","4:SSundee","4:Tubbo","4:Ranboo","4:Wilbur Soot|wilbur","4:Philza|ph1lza","4:Quackity","4:Grian","4:Mumbo Jumbo|mumbo","4:Unspeakable|unspeakablegaming","5:Karl Jacobs|karl","5:Skeppy","5:BadBoyHalo|bbh","5:PopularMMOs|pat and jen","5:Jelly","5:Sky Does Minecraft|skydoesminecraft|sky","6:LDShadowLady|lizzie","6:iBallisticSquid|squid","6:Bajan Canadian|bajancanadian|mitch","6:JeromeASF|jerome","6:Vikkstar123|vikkstar|vik","6:Fundy","6:Yogscast|lewis and simon","6:GoodTimesWithScar|scar","6:Smallishbeans|joel","6:Hypixel","7:Fruitberries","7:Smajor|scott smajor|dangthatsalongname","7:Antvenom","7:Etho|etho slab|ethoslab","7:Xisuma|xisumavoid","7:BdoubleO100|bdubs","7:Docm77|doc","7:TangoTek|tango","7:Iskall85|iskall","7:ImpulseSV|impulse","7:SethBling","7:GeminiTay|gem","7:PearlescentMoon|pearl","8:ZombieCleo|cleo","8:Cubfan135|cub","8:FalseSymmetry|false","8:Keralis","8:Stressmonster101|stress","8:Sips","8:Rendog|ren","8:Zedaph","8:VintageBeef|beef","8:Bodil40|bodil","8:xBCrafted|xb","8:Joe Hills","9:TinFoilChef|tfc","9:Guude","9:Generikb","10:kurtjmac|kurt j mac|far lands or bust","10:paulsoaresjr|paul soares jr|paul soares"],"deep":[["kurtjmac","Spent 14 years walking to Minecraft's Far Lands in his series Far Lands or Bust, setting off in March 2011 and finally arriving in October 2025.","https://en.wikipedia.org/w/index.php?search=Far%20Lands%20or%20Bust"],["paulsoaresjr","Made 'How to Survive Your First Night', the tutorial that taught Minecraft's earliest players the basics back in the Alpha days.","https://www.youtube.com/results?search_query=paulsoaresjr%20how%20to%20survive%20your%20first%20night"]]},{"text":"Name a TikTok or Instagram star","cat":"TikTok trends and sounds","list":["1:Charli D'Amelio|charli","1:Khaby Lame|khaby","2:Addison Rae|addison","2:Bella Poarch","3:Dixie D'Amelio|dixie","3:Zach King","3:Alix Earle","3:Bryce Hall","3:Druski","4:Loren Gray","4:Noah Beck","4:Brent Rivera","4:Lele Pons","4:Keith Lee","4:Hawk Tuah Girl|haliey welch|hawk tuah","4:Salt Bae","4:Hasbulla","4:Livvy Dunne|olivia dunne","5:Josh Richards","5:Chase Hudson|lil huddy|huddy","5:Avani Gregg|avani","5:Brittany Broski|broski|kombucha girl","5:Nara Smith","5:Costco Guys|we bring the boom|big justice","5:Bobbi Althoff","5:King Bach","5:Mikayla Nogueira|mikayla","5:Uncle Roger|nigel ng","5:Nick DiGiovanni","5:Stokes Twins","5:Alan Chikin Chow|alan chow","5:Lexi Rivera","5:Ashton Hall","5:Dan Bilzerian|bilzerian","6:Spencer X","6:Michael Le|justmaiko","6:Hannah Stocking","6:Ben Azelart","6:Drew Afualo","6:Baby Ariel","6:Jacob Sartorius","6:Pinkydoll","6:Jools Lebron","6:Tabitha Brown","7:Anwar Jibawi","7:Pierson Wodzynski|pierson","7:Zhong","7:Chris Olsen","7:Amelie Zilber","7:Lisa and Lena","7:Danielle Cohn","7:Francis Bourgeois","7:Emily Mariko","7:Thomas Petrou","8:Tinx","8:Tube Girl|sabrina bahsoon","8:Reesa Teesa","8:Nathan Apodaca|doggface208|doggface","8:Jen Selter","9:Jalaiah Harmon|jalaiah","9:Curtis Roach","10:Ryland Storms"],"deep":[["Jalaiah Harmon","The Georgia teenager who choreographed the Renegade, one of TikTok's biggest dances ever, and waited months to get the credit for it.","https://en.wikipedia.org/w/index.php?search=Jalaiah%20Harmon"],["Curtis Roach","Detroit rapper whose March 2020 clip of himself pounding the floor and chanting 'bored in the house' became the lockdown anthem, later remade with Tyga.","https://knowyourmeme.com/search?q=bored%20in%20the%20house"]]},{"text":"Name a rapper with a famous ad-lib","cat":"Music","list":["1:Migos|quavo|offset|takeoff","1:Travis Scott|its lit|la flame","2:DJ Khaled|another one|we the best","2:Playboi Carti|slatt|carti","3:Lil Jon|yeah|okay","3:Pop Smoke|woo","3:21 Savage","3:Future","3:Young Thug|thugger","3:Lil Uzi Vert|uzi","3:Cardi B|okurrr|okurr","4:Gucci Mane|burr|gucci","4:Rick Ross|ross|huh","4:2 Chainz|tru|two chainz","4:Lil Pump|esskeetit","4:Metro Boomin|metro boomin want some more|metro","4:Ice Spice|grah","4:Lil Wayne|weezy","4:DaBaby|lets go","4:Mustard|mustard on the beat|dj mustard","5:Lil Baby","5:Megan Thee Stallion|megan|meg","5:Kodak Black|kodak","5:Chief Keef|bang|sosa","5:Lil Yachty|lil boat","5:Lil Durk|smurk|durk","5:Snoop Dogg|fo shizzle|snoop","5:Pitbull|dale|mr worldwide","5:Fetty Wap|1738|yeah baby","5:Soulja Boy|youuu","5:Busta Rhymes|busta","5:Desiigner|panda","5:Big Shaq|skrrrah|mans not hot","5:Jay-Z|hov","6:Jeezy|young jeezy|yeaah","6:French Montana|haan","6:Waka Flocka Flame|waka flocka|bow|waka","6:Flavor Flav|yeah boy","6:Ty Dolla $ign|ty dolla sign","6:Fivio Foreign|fivio","6:Birdman","6:Big Sean","6:Blueface|yeah aight","6:Sheck Wes","7:808 Mafia","7:Pusha T|yugh|pusha","7:Juicy J","7:ScHoolboy Q|yawk","7:Master P|make em say uhh|uhh","7:DJ Drama|gangsta grillz","8:Jadakiss","8:Mike Jones|who mike jones","8:Jim Jones|ballin","8:Juelz Santana|juelz","8:MadeinTYO|made in tokyo|skrrt skrrt","9:Westside Gunn","9:N.O.R.E.|noreaga","10:OJ da Juiceman|juiceman","10:Max B"],"deep":[["OJ da Juiceman","Gucci Mane's late-2000s running mate, who turned shouting 'AYE!' and 'OKAY!' into his whole style. Best known for 'Make tha Trap Say Aye'.","https://en.wikipedia.org/w/index.php?search=OJ%20da%20Juiceman"],["Westside Gunn","Co-founder of Griselda Records. His gun-noise ad-libs ('BRRRT', 'DOOT DOOT DOOT') are basically his signature.","https://en.wikipedia.org/w/index.php?search=Westside%20Gunn"]]},{"text":"Name an animal that went viral","cat":"Animals, brands and random viral stuff","list":["1:Grumpy Cat|tardar sauce","1:Doge|kabosu","2:Harambe","2:Moo Deng","3:Keyboard Cat","3:Pop Cat|oatmeal","3:Big Floppa|floppa","3:Smudge|woman yelling at cat|smudge the cat","3:Cheems|balltze","4:Pedro Raccoon|pedro","4:Maxwell the Cat|maxwell","4:OIIA Cat|spinning cat|oiia","4:Huh Cat","4:Chipi Chipi Chapa Chapa Cat|chipi chipi","4:Banana Cat","4:Capybara","5:Sad Hamster","5:Bingus","5:Walter|nelson the bull terrier","5:Pesto the Penguin|pesto","5:Rat Dance|dancing rat","5:Lil Bub","5:Peanut the Squirrel|peanut|pnut","5:Happy Happy Happy Cat|happy cat","6:Boo the Pomeranian|boo","6:Fiona the Hippo|fiona","6:Doug the Pug|doug","6:Jiffpom","6:Gabe the Dog|bork|gabe","6:Sneezing Panda","6:Dramatic Chipmunk|dramatic prairie dog","6:Honey Badger","6:Wednesday Frog|it is wednesday my dudes","6:Noodle the Pug|noodle|bones day","6:Emmanuel the Emu|emmanuel","6:Pizza Rat","7:Paul the Octopus|paul","7:Maru","7:Nala Cat|nala","7:Fat Bear Week|otis","7:Tuna the Dog|tuna|tunameltsmyheart","7:Ikea Monkey|darwin","7:April the Giraffe|april","7:Bunny the Talking Dog|bunny","8:Knut the Polar Bear|knut","8:Venus the Two-Faced Cat|venus","8:Hamilton the Hipster Cat|hamilton","8:Crusoe the Dachshund|crusoe","8:Esther the Wonder Pig|esther","8:Colonel Meow","8:Fenton","8:Mishka the Talking Husky|mishka","8:Jorts|jorts the cat","8:Ceiling Cat","9:Nils Olav","9:Longcat","9:Heidi the Cross-Eyed Opossum|heidi","10:Sockington|sockamillion"],"deep":[["Sockington","A cat from Massachusetts who became one of Twitter's first animal celebrities in 2009, passing 1.5 million followers.","https://en.wikipedia.org/w/index.php?search=Sockington"],["Nils Olav","A king penguin at Edinburgh Zoo who was officially knighted by the Norwegian King's Guard. Sir Nils.","https://en.wikipedia.org/w/index.php?search=Nils%20Olav"]]}]};
-function tierFor(i,n){n=n||100;const f=i/n;
-  return f<.08?0:f<.20?1:f<.40?2:f<.65?3:f<.88?4:5;}
+const MAXQ=10;                            // most lore checks a puzzle can have (keep in sync with tools/check_puzzles.py + schema.sql)
+let QN=MAXQ;                              // lore checks in the loaded puzzle: 10, or 7 for older puzzle files
+const DROP=[20,150,300,550,800,1000];     // how far down the feed each tier scrolls you
+const TRAPS=3;                            // an unscored list treats its first 3 entries as the NPC traps
+const rollViews=t=>{const T=TIERS[t];return T.vmin+Math.floor(Math.random()*(T.vmax-T.vmin+1));};
+const midViews=t=>Math.round((TIERS[t].vmin+TIERS[t].vmax)/2);
+
+const RAW={"date":"2026-11-12","num":1,"prompts":[{"text":"Name a footballer who became a meme","cat":"Sports","list":["1:Cristiano Ronaldo|ronaldo|cr7|siuu|siu|penaldo|cristiano","1:Lionel Messi|messi|ankara messi|leo messi|pessi","1:Neymar|neymar roll|neymar jr","2:Harry Maguire|maguire|slabhead","3:Erling Haaland|haaland","3:Kylian Mbappé|mbappe|donatello|ninja turtle","3:Zlatan Ibrahimović|zlatan|ibrahimovic|ibra","3:Luis Suárez|suarez|bite","4:Zinedine Zidane|zidane|headbutt","4:Antony|antony spin","4:Paul Pogba|pogba|dab","4:Harry Kane|kane|trophy curse","4:Cole Palmer|palmer|cold palmer","4:Ronaldinho","5:Jude Bellingham|bellingham","5:Romelu Lukaku|lukaku|first touch","5:Steven Gerrard|gerrard|the slip","5:N'Golo Kanté|kante","5:Jack Grealish|grealish|socks","5:Mario Balotelli|balotelli|why always me","5:Ronaldo Nazário|r9|r9 haircut|fat ronaldo","5:Sergio Ramos|ramos","5:Emiliano Martínez|dibu|emi martinez","5:Darwin Núñez|darwin nunez|nunez","5:Richarlison|pigeon","5:Eden Hazard|hazard|burger","6:Phil Jones|phil jones faces","6:Jesse Lingard|lingard|jlingz","6:Peter Crouch|crouch|robot","6:Gareth Bale|bale|golf","6:Pepe","6:André Onana|onana","6:David de Gea|de gea|dave saves","6:Jordan Pickford|pickford","6:Bruno Fernandes|bruno","6:Dele Alli|dele|hand trick","6:Arjen Robben|robben|cut inside","6:Mesut Özil|ozil","6:Jamie Vardy|vardy","6:Gerard Piqué|pique","6:Guillermo Ochoa|ochoa|memo ochoa","6:Adama Traoré|adama","6:Loris Karius|karius","7:Gonzalo Higuaín|higuain","7:Diego Costa","7:Kepa Arrizabalaga|kepa","7:Marouane Fellaini|fellaini","8:Nicklas Bendtner|lord bendtner|bendtner","8:Emile Heskey|heskey time|heskey","8:Will Grigg|will griggs on fire|grigg","8:Adebayo Akinfenwa|akinfenwa|the beast","8:Ben Brereton Díaz|brereton|ben brereton","9:Ali Dia","10:Carlos Kaiser|kaiser|carlos henrique raposo","10:Maxim Tsigalko|tsigalko|maksim tsyhalka"],"deep":[["Ali Dia","Signed by Southampton in 1996 after a fake call 'from George Weah'. Played 53 minutes. Legendary.","https://en.wikipedia.org/w/index.php?search=Ali%20Dia"],["Maxim Tsigalko","A Belarusian striker with two international caps who was an unstoppable goal machine in Championship Manager 01/02. A cult hero to a generation of gamers.","https://en.wikipedia.org/w/index.php?search=Maxim%20Tsigalko"]],"drop":"Drop a footballer who became a meme ⚽"},{"text":"Name a meme that came from SpongeBob","cat":"Classic internet memes","list":["1:Mocking SpongeBob|spongemock","1:Ight Imma Head Out|aight imma head out|imma head out","1:Imagination|spongebob rainbow|imagination spongebob|rainbow","2:Surprised Patrick|shocked patrick","3:Handsome Squidward","3:Spongegar|caveman spongebob|primitive sponge","3:Savage Patrick|evil patrick|angry patrick","3:Squidward Window|squidward looking out the window","3:Tired SpongeBob","3:Blurry Mr. Krabs|confused mr krabs","3:Is Mayonnaise an Instrument|mayonnaise","3:No, This Is Patrick|is this the krusty krab","3:My Leg!","4:One Eternity Later|time cards|spongebob time card|a few moments later","4:Krusty Krab vs Chum Bucket","4:Bold and Brash","4:Dirty Dan|pinhead larry","4:Chocolate Guy|chocolate","4:DoodleBob|me hoy minoy","4:Krusty Krab Pizza","4:I'm Ready","5:Sweet Victory","5:Goofy Goober Rock|goofy goober","5:The Inner Machinations of My Mind Are an Enigma|inner machinations","5:Squidward Dab","5:F Is for Friends|fun song","5:Magic Conch|magic conch shell|all hail the magic conch","5:Push It Somewhere Else|push bikini bottom somewhere else","5:Patrick's Wallet","5:I Don't Need It|i need it","5:Krabby Patty Secret Formula|secret formula","5:Plankton and Karen|karen computer","5:Gary Meow|gary","6:Wumbo|wumbology","6:Weenie Hut Jr's|weenie hut jr","6:Firmly Grasp It","6:Leedle Leedle Lee","6:Future Squidward|squidward future","6:Rock Bottom","6:Ripped Pants","6:Campfire Song|campfire song song","6:Mermaid Man|evil","6:Ol' Reliable|old reliable","6:Hash-Slinging Slasher","7:Squilliam","7:Ravioli Ravioli Give Me the Formuoli|ravioli ravioli","7:Funnier Than 24","7:Nosferatu","7:Are You Feeling It Now Mr. Krabs|are you feeling it now|oh yeah mr krabs","7:Smitty Werbenjägermanjensen|smitty|he was number one","7:Krusty Krab Training Video|training video","8:The Ugly Barnacle","8:DEUUEAUGH|deuueaugh fish|deaugh","9:Moar Krabs|moar|morbid krabs","10:Spengbab"],"deep":[["Spengbab","Deliberately grotesque SpongeBob fan art that started circulating in 2006 and became a 4chan in-joke.","https://knowyourmeme.com/search?q=spengbab"],["Moar Krabs","A single distorted frame of Mr. Krabs from the episode 'Jellyfish Hunter' that became a YouTube Poop staple.","https://knowyourmeme.com/search?q=moar%20krabs"]],"drop":"Drop a meme that came from SpongeBob 🧽"},{"text":"Name a brainrot term from 2023 or later","cat":"Brainrot and slang","list":["1:Skibidi|skibidi toilet","1:Rizz|rizzler","1:6 7|six seven","2:Sigma","2:Gyatt|gyat","3:Fanum Tax|fanum","3:Ohio|only in ohio","3:Aura|aura farming|aura points","3:Mewing|mew","3:Cooked","3:Delulu","3:Tung Tung Tung Sahur|tung tung sahur|tung tung","4:Italian Brainrot","4:Tralalero Tralala|tralalero","4:Mogging|mog|mogged","4:Glazing|glaze","4:Crashout|crash out","4:Unc|chopped unc","4:Looksmaxxing|looksmaxing|looksmax","4:Lock In|locked in","4:Yapping|yap","4:Let Him Cook","4:Hawk Tuah","4:Labubu","5:Demure|very demure very mindful|very demure","5:Brat|brat summer","5:Chill Guy","5:Pookie","5:Twin","5:Goofy Ahh|ahh","5:Zesty","5:Chopped","5:Bombardiro Crocodilo|bombardiro","5:Ballerina Cappuccina|ballerina","5:Grimace Shake","5:Low Taper Fade","5:Chicken Jockey","5:Winter Arc","6:Clanker","6:Erm What the Sigma|what the sigma","6:Big Back","6:Huzz","6:Sybau","6:Costco Guys|we bring the boom|boom","6:Bombastic Side Eye","6:Brr Brr Patapim|patapim","6:Chimpanzini Bananini","6:Cappuccino Assassino","6:Those Who Know","6:Type Shi|type shit","6:41","7:Sticking Out Your Gyatt for the Rizzler|sticking out your gyat","7:Brokie","7:Ts Pmo|ts pmo icl","7:What the Helly","7:Baby Gronk","7:Just Put the Fries in the Bag|put the fries in the bag|fries in the bag","7:Lirili Larila","7:Trippi Troppi","7:La Vaca Saturno Saturnita|vaca saturno","7:Gurt|yo gurt|gurt yo","8:Mango Mango Mango|mango","8:Still Water","8:Gegagedigedagedago|gegagedi","9:Balkan Rage","9:Sdiybt|start digging in your butt twin|start digging in yo butt twin"],"deep":[["Balkan Rage","One of the buzzwords kids stacked into 'those who know 💀' comment chains in late 2024, right next to still water and mango mango mango.","https://knowyourmeme.com/search?q=balkan%20rage"],["Sdiybt","Short for 'start digging in yo butt, twin'. A summer 2025 comment-section acronym that started with a SpongeBob edit.","https://knowyourmeme.com/search?q=sdiybt"]],"drop":"Drop a brainrot term from 2023 or later 🧠"},{"text":"Name a YouTuber famous for Minecraft","cat":"Gaming","list":["1:Dream","1:Technoblade|techno","1:DanTDM|dan tdm|thediamondminecart","3:PewDiePie|pewds","3:TommyInnit|tommy","3:GeorgeNotFound|george","3:Sapnap","3:Stampy|stampylonghead|stampy cat","3:Aphmau","3:CaptainSparklez|captain sparklez","3:Preston|prestonplayz","4:SSundee","4:Tubbo","4:Ranboo","4:Wilbur Soot|wilbur","4:Philza|ph1lza","4:Quackity","4:Grian","4:Mumbo Jumbo|mumbo","4:Unspeakable|unspeakablegaming","5:Karl Jacobs|karl","5:Skeppy","5:BadBoyHalo|bbh","5:PopularMMOs|pat and jen","5:Jelly","5:Sky Does Minecraft|skydoesminecraft|sky","6:LDShadowLady|lizzie","6:iBallisticSquid|squid","6:Bajan Canadian|bajancanadian|mitch","6:JeromeASF|jerome","6:Vikkstar123|vikkstar|vik","6:Fundy","6:Yogscast|lewis and simon","6:GoodTimesWithScar|scar","6:Smallishbeans|joel","6:Hypixel","7:Fruitberries","7:Smajor|scott smajor|dangthatsalongname","7:Antvenom","7:Etho|etho slab|ethoslab","7:Xisuma|xisumavoid","7:BdoubleO100|bdubs","7:Docm77|doc","7:TangoTek|tango","7:Iskall85|iskall","7:ImpulseSV|impulse","7:SethBling","7:GeminiTay|gem","7:PearlescentMoon|pearl","7:Sips","8:ZombieCleo|cleo","8:Cubfan135|cub","8:FalseSymmetry|false","8:Keralis","8:Stressmonster101|stress","8:Rendog|ren","8:Zedaph","8:VintageBeef|beef","8:Bodil40|bodil","8:xBCrafted|xb","8:Joe Hills","9:TinFoilChef|tfc","9:Guude","9:Generikb","10:kurtjmac|kurt j mac|far lands or bust","10:paulsoaresjr|paul soares jr|paul soares"],"deep":[["kurtjmac","Spent 14 years walking to Minecraft's Far Lands in his series Far Lands or Bust, setting off in March 2011 and finally arriving in October 2025.","https://en.wikipedia.org/w/index.php?search=Far%20Lands%20or%20Bust"],["paulsoaresjr","Made 'How to Survive Your First Night', the tutorial that taught Minecraft's earliest players the basics back in the Alpha days.","https://www.youtube.com/results?search_query=paulsoaresjr%20how%20to%20survive%20your%20first%20night"]],"drop":"Drop a YouTuber famous for Minecraft ⛏️"},{"text":"Name a TikTok or Instagram star","cat":"TikTok trends and sounds","list":["1:Charli D'Amelio|charli","1:Khaby Lame|khaby","1:Addison Rae|addison","2:Bella Poarch","3:Dixie D'Amelio|dixie","3:Zach King","3:Alix Earle","3:Bryce Hall","3:Druski","4:Loren Gray","4:Noah Beck","4:Brent Rivera","4:Lele Pons","4:Keith Lee","4:Hawk Tuah Girl|haliey welch|hawk tuah","4:Salt Bae","4:Hasbulla","4:Livvy Dunne|olivia dunne","5:Josh Richards","5:Chase Hudson|lil huddy|huddy","5:Avani Gregg|avani","5:Brittany Broski|broski|kombucha girl","5:Nara Smith","5:Costco Guys|we bring the boom|big justice","5:Bobbi Althoff","5:King Bach","5:Mikayla Nogueira|mikayla","5:Uncle Roger|nigel ng","5:Nick DiGiovanni","5:Stokes Twins","5:Alan Chikin Chow|alan chow","5:Lexi Rivera","5:Ashton Hall","5:Dan Bilzerian|bilzerian","6:Spencer X","6:Michael Le|justmaiko","6:Hannah Stocking","6:Ben Azelart","6:Drew Afualo","6:Baby Ariel","6:Jacob Sartorius","6:Pinkydoll","6:Jools Lebron","6:Tabitha Brown","6:Nathan Apodaca|doggface208|doggface|ocean spray guy|ocean spray","6:Ryland Storms","7:Anwar Jibawi","7:Pierson Wodzynski|pierson","7:Zhong","7:Chris Olsen","7:Amelie Zilber","7:Lisa and Lena","7:Danielle Cohn","7:Francis Bourgeois","7:Emily Mariko","7:Thomas Petrou","7:Reesa Teesa","8:Tinx","8:Tube Girl|sabrina bahsoon","8:Jen Selter","9:Jalaiah Harmon|jalaiah","9:Curtis Roach"],"deep":[["Jalaiah Harmon","The Georgia teenager who choreographed the Renegade, one of TikTok's biggest dances ever, and waited months to get the credit for it.","https://en.wikipedia.org/w/index.php?search=Jalaiah%20Harmon"],["Curtis Roach","Detroit rapper whose March 2020 clip of himself pounding the floor and chanting 'bored in the house' became the lockdown anthem, later remade with Tyga.","https://knowyourmeme.com/search?q=bored%20in%20the%20house"]],"drop":"Drop a TikTok or Instagram star 📱"},{"text":"Name a rapper with a famous ad-lib","cat":"Music","list":["1:Migos|quavo|offset|takeoff","1:Travis Scott|its lit|la flame","1:DJ Khaled|another one|we the best","2:Playboi Carti|slatt|carti","3:Lil Jon|yeah|okay","3:Pop Smoke|woo","3:21 Savage","3:Future","3:Young Thug|thugger","3:Lil Uzi Vert|uzi","3:Cardi B|okurrr|okurr","4:Gucci Mane|burr|gucci","4:Rick Ross|ross|huh","4:2 Chainz|tru|two chainz","4:Lil Pump|esskeetit","4:Metro Boomin|metro boomin want some more|metro","4:Ice Spice|grah","4:Lil Wayne|weezy","4:DaBaby|lets go","4:Mustard|mustard on the beat|dj mustard","5:Lil Baby","5:Megan Thee Stallion|megan|meg","5:Kodak Black|kodak","5:Chief Keef|bang|sosa","5:Lil Yachty|lil boat","5:Lil Durk|smurk|durk","5:Snoop Dogg|fo shizzle|snoop","5:Pitbull|dale|mr worldwide","5:Fetty Wap|1738|yeah baby","5:Soulja Boy|youuu","5:Busta Rhymes|busta","5:Desiigner|panda","5:Big Shaq|skrrrah|mans not hot","5:Jay-Z|hov","6:Jeezy|young jeezy|yeaah","6:French Montana|haan","6:Waka Flocka Flame|waka flocka|bow|waka","6:Flavor Flav|yeah boy","6:Ty Dolla $ign|ty dolla sign","6:Fivio Foreign|fivio","6:Birdman","6:Big Sean","6:Blueface|yeah aight","6:Sheck Wes","7:808 Mafia","7:Pusha T|yugh|pusha","7:Juicy J","7:ScHoolboy Q|yawk","7:Master P|make em say uhh|uhh","7:DJ Drama|gangsta grillz","7:Mike Jones|who mike jones","8:Jadakiss","8:Jim Jones|ballin","8:Juelz Santana|juelz","8:MadeinTYO|made in tokyo|skrrt skrrt","9:Westside Gunn","10:OJ da Juiceman|juiceman","10:Max B"],"deep":[["OJ da Juiceman","Gucci Mane's late-2000s running mate, who turned shouting 'AYE!' and 'OKAY!' into his whole style. Best known for 'Make tha Trap Say Aye'.","https://en.wikipedia.org/w/index.php?search=OJ%20da%20Juiceman"],["Westside Gunn","Co-founder of Griselda Records. His gun-noise ad-libs ('BRRRT', 'DOOT DOOT DOOT') are basically his signature.","https://en.wikipedia.org/w/index.php?search=Westside%20Gunn"]],"drop":"Drop a rapper with a famous ad-lib 🎤"},{"text":"Name an animal that went viral","cat":"Animals, brands and random viral stuff","list":["1:Grumpy Cat|tardar sauce","1:Doge|kabosu","1:Harambe","2:Moo Deng","3:Keyboard Cat","3:Pop Cat|oatmeal","3:Big Floppa|floppa","3:Smudge|woman yelling at cat|smudge the cat","3:Cheems|balltze","4:Pedro Raccoon|pedro","4:Maxwell the Cat|maxwell","4:OIIA Cat|spinning cat|oiia","4:Huh Cat","4:Chipi Chipi Chapa Chapa Cat|chipi chipi","4:Banana Cat","4:Capybara","5:Sad Hamster","5:Bingus","5:Walter|nelson the bull terrier","5:Pesto the Penguin|pesto","5:Rat Dance|dancing rat","5:Lil Bub","5:Peanut the Squirrel|peanut|pnut","5:Happy Happy Happy Cat|happy cat","6:Boo the Pomeranian|boo","6:Fiona the Hippo|fiona","6:Doug the Pug|doug","6:Jiffpom","6:Gabe the Dog|bork|gabe","6:Sneezing Panda","6:Dramatic Chipmunk|dramatic prairie dog","6:Honey Badger","6:Wednesday Frog|it is wednesday my dudes","6:Noodle the Pug|noodle|bones day","6:Emmanuel the Emu|emmanuel","6:Pizza Rat","7:Paul the Octopus|paul","7:Maru","7:Nala Cat|nala","7:Fat Bear Week|otis","7:Tuna the Dog|tuna|tunameltsmyheart","7:Ikea Monkey|darwin","7:April the Giraffe|april","7:Bunny the Talking Dog|bunny","7:Fenton","8:Knut the Polar Bear|knut","8:Venus the Two-Faced Cat|venus","8:Hamilton the Hipster Cat|hamilton","8:Crusoe the Dachshund|crusoe","8:Esther the Wonder Pig|esther","8:Colonel Meow","8:Mishka the Talking Husky|mishka","8:Jorts|jorts the cat","8:Ceiling Cat","9:Nils Olav","9:Longcat","9:Heidi the Cross-Eyed Opossum|heidi","10:Sockington|sockamillion"],"deep":[["Sockington","A cat from Massachusetts who became one of Twitter's first animal celebrities in 2009, passing 1.5 million followers.","https://en.wikipedia.org/w/index.php?search=Sockington"],["Nils Olav","A king penguin at Edinburgh Zoo who was officially knighted by the Norwegian King's Guard. Sir Nils.","https://en.wikipedia.org/w/index.php?search=Nils%20Olav"]],"drop":"Drop an animal that went viral 🐾"},{"text":"Name a viral video from before 2013","cat":"Old internet","list":["1:Charlie Bit My Finger|charlie bit me","1:Gangnam Style|psy","1:Rickroll|rick roll|never gonna give you up|rick astley","2:Nyan Cat","3:Friday|rebecca black","3:Chocolate Rain|tay zonday","3:Double Rainbow","3:Keyboard Cat","3:David After Dentist|is this real life","3:Leave Britney Alone|chris crocker","3:Kony 2012|kony","3:Ain't Nobody Got Time for That|sweet brown","3:Bed Intruder|hide yo kids|hide yo wife|antoine dodson","4:Me at the Zoo|first youtube video","4:Dramatic Chipmunk|dramatic prairie dog|dramatic look","4:Sneezing Baby Panda|sneezing panda","4:Annoying Orange","4:Fred|fred figglehorn","4:Overly Attached Girlfriend","4:Numa Numa|numa numa guy|gary brolsma","4:Leeroy Jenkins","4:Trololo|trololo man|eduard khil","4:The Duck Song|got any grapes","5:Evolution of Dance","5:Star Wars Kid","5:Peanut Butter Jelly Time|peanut butter jelly","5:Charlie the Unicorn|candy mountain","5:Ultimate Dog Tease|talking dog","5:Boom Goes the Dynamite","6:Diet Coke and Mentos|mentos|eepybird","6:Llamas with Hats","6:Lazy Sunday|chronicles of narnia rap","6:Badger Badger Badger|badgers|mushroom mushroom","6:Potter Puppet Pals|mysterious ticking noise","6:Shoes|liam kyle sullivan","6:Daft Hands","6:Chad Vader","7:Battle at Kruger","7:Free Hugs Campaign|free hugs","7:Lonelygirl15","8:All Your Base Are Belong to Us|all your base|aybabtu","8:Afro Ninja","8:Canon Rock|funtwo","9:Dancing Baby|ooga chaka baby|baby cha cha","9:Bus Uncle|the bus uncle","9:Where the Hell Is Matt|matt harding"],"deep":[["Dancing Baby","A 3D baby doing the cha-cha that spread by email in 1996. One of the first viral videos ever, nearly a decade before YouTube.","https://en.wikipedia.org/w/index.php?search=Dancing%20Baby"],["Bus Uncle","A 2006 phone video of a man's furious rant at a younger passenger on a Hong Kong bus. It was YouTube's most-viewed video in May 2006, and 'you have pressure, I have pressure' became a catchphrase.","https://en.wikipedia.org/w/index.php?search=The%20Bus%20Uncle"]],"drop":"Drop a viral video from before 2013 📹"},{"text":"Name a streamer (Twitch, Kick or YouTube)","cat":"Streamers","list":["1:Kai Cenat|kai","1:IShowSpeed|speed|ishow speed","2:xQc","1:Ninja|tyler blevins","3:Pokimane|poki","3:Adin Ross|adin","3:CaseOh","3:Jynxzi","3:Ludwig","3:Asmongold|asmon","3:Dr Disrespect|doc|the doc","3:TimTheTatman|tim","3:Shroud","4:HasanAbi|hasan","4:Valkyrae|rae","4:Tfue","4:Summit1g|summit","4:Sketch","4:Amouranth","4:Duke Dennis","4:Fanum","4:Agent 00","4:Lacy","4:N3on|neon","4:Tyler1","4:Moistcr1tikal|penguinz0|charlie","4:Sykkuno","4:Corpse Husband|corpse","5:Mizkif","5:Sodapoppin|soda","5:Myth","5:DrLupo|lupo","5:Disguised Toast|toast","5:Emiru","5:Marlon","5:Ibai","5:Northernlion","5:Jerma985|jerma","5:Hikaru|gmhikaru","5:QTCinderella|qt","5:Stable Ronaldo","5:Plaqueboymax|plaqueboy max","6:Lirik","6:Forsen","6:Destiny","6:Kitboga","6:TheGrefg|grefg","6:Gaules","6:Trainwrecks|trainwreckstv","6:Vinesauce|vinny","6:Squeex","6:Nmplol","6:ConnorEatsPants","7:CohhCarnage|cohh","7:Kripparrian|kripp","7:Day9|sean plott","7:Atrioc","7:LilyPichu","7:Greekgodx|greek","8:Trihex","8:Mang0","8:PhantomL0rd|phantomlord","8:itmeJP","8:DSP|darksydephil","9:Siglemic","9:LobosJr|lobos","10:Justin Kan|justintv|justin tv"],"deep":[["Justin Kan","Co-founded Justin.tv and livestreamed his own life around the clock in 2007. Justin.tv later became Twitch.","https://en.wikipedia.org/w/index.php?search=Justin%20Kan"],["Siglemic","Early-Twitch Super Mario 64 speedrunner who held the 120-star world record and streamed 12-hour days chasing it.","https://www.google.com/search?q=Siglemic%20Super%20Mario%2064"]],"drop":"Drop a streamer (Twitch, Kick or YouTube) 🎮"},{"text":"Name a viral challenge","cat":"Trends","list":["1:Ice Bucket Challenge|ice bucket|als ice bucket challenge","1:Mannequin Challenge|mannequin","1:Tide Pod Challenge|tide pod|tide pods","2:Bottle Flip Challenge|bottle flip|water bottle flip","3:Cinnamon Challenge|cinnamon","3:Kiki Challenge|in my feelings|keke challenge|kiki","3:One Chip Challenge|one chip|paqui","3:Harlem Shake","3:Bottle Cap Challenge|bottle cap","3:Milk Crate Challenge|milk crate","4:Chubby Bunny","4:Ghost Pepper Challenge|ghost pepper","4:Planking","4:Running Man Challenge|running man","4:Don't Rush Challenge|dont rush","4:Flip the Switch","4:Devious Licks|devious lick","4:Momo Challenge|momo","4:Bird Box Challenge|bird box","4:10 Year Challenge|ten year challenge","4:Invisible Box Challenge|invisible box","4:Silhouette Challenge|silhouette","4:Renegade|renegade challenge","4:Try Not to Laugh Challenge|try not to laugh","4:24 Hour Challenge|24 hour overnight challenge|overnight challenge","5:Kylie Jenner Lip Challenge|lip challenge|kylie jenner challenge","5:Pillow Challenge","5:Salt and Ice Challenge|salt and ice","5:Cup Song|cups|cup challenge","5:Mentos Challenge|coke and mentos","5:Hit or Miss Challenge|hit or miss","6:Eat It or Wear It Challenge|eat it or wear it","6:Whisper Challenge","6:WAP Challenge","7:Bean Boozled Challenge|bean boozled|beanboozled","8:Gallon Challenge|milk gallon challenge","8:Banana Sprite Challenge|banana sprite","8:22 Pushup Challenge|22 push up challenge|22 pushups","8:Dragon's Breath Challenge|dragons breath","9:Saltine Cracker Challenge|saltine challenge|cracker challenge","9:Neknomination|neknominate","9:Cold Water Challenge"],"deep":[["Cold Water Challenge","The spring 2014 'jump in cold water or donate' fundraiser that evolved into the Ice Bucket Challenge a few months later.","https://knowyourmeme.com/search?q=cold%20water%20challenge"],["Saltine Cracker Challenge","Eat six saltines in 60 seconds with no water. Sounds easy, almost impossible. A 2000s YouTube classic.","https://knowyourmeme.com/search?q=saltine%20cracker%20challenge"]],"drop":"Drop a viral challenge 🧊"}]};
+
+// Tier for an entry with no score: the first 3 are the traps, the rest spread out by list position.
+function tierFor(i,n){if(i<TRAPS) return 0; const f=(i-TRAPS)/Math.max(1,n-TRAPS);
+  return f<.15?1:f<.40?2:f<.65?3:f<.88?4:5;}
 const wsearch=q=>"https://en.wikipedia.org/w/index.php?search="+encodeURIComponent(q);
-function tierFromScore(s){return s<=2?0:s===3?1:s<=5?2:s<=7?3:s===8?4:5;}
+// 1 = NPC trap, 2-3 = Local Buzz, 4-5 = On The FYP, 6-7 = Trending, 8 = Went Viral, 9-10 = Internet Phenomenon
+function tierFromScore(s){return s===1?0:s<=3?1:s<=5?2:s<=7?3:s===8?4:5;}
+// Puzzles have 10 lore checks; files from before the switch have 7. Anything else is refused.
+const promptCount=raw=>!raw||!Array.isArray(raw.prompts)?0:raw.prompts.length>=MAXQ?MAXQ:raw.prompts.length===7?7:0;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function validPuzzle(raw){
-  return !!raw&&Array.isArray(raw.prompts)&&raw.prompts.length>=7&&
-    raw.prompts.slice(0,7).every(p=>p&&String(p.text||"").trim()&&Array.isArray(p.list)&&p.list.some(s=>String(s).trim()));
+  const n=promptCount(raw);
+  return n>0&&raw.prompts.slice(0,n).every(p=>p&&String(p.text||p.drop||"").trim()&&Array.isArray(p.list)&&p.list.some(s=>String(s).trim()));
 }
 function compilePuzzle(raw){
-  return {date:String(raw.date),num:raw.num||1,prompts:raw.prompts.slice(0,7).map(p=>{
+  return {date:String(raw.date),num:raw.num||1,prompts:raw.prompts.slice(0,promptCount(raw)).map(p=>{
     const L=(p.list||[]).filter(s=>String(s).trim());
     const answers=L.map((s,i)=>{let str=String(s),sc=null;const m=str.match(/^\s*(10|[1-9])\s*:\s*(.+)$/);if(m){sc=+m[1];str=m[2]}
       const [n,...al]=str.split("|");const a=[n.trim(),sc!=null?tierFromScore(sc):tierFor(i,L.length),al.join("|")];a.prior=a[1];return a});
     const deep=(p.deep&&p.deep.length?p.deep:answers.slice(-2).map(a=>[a[0],"",""])).map(d=>[String(d[0]),String(d[1]||""),/^https:\/\//.test(d[2]||"")?d[2]:wsearch(String(d[0]))]);
-    return {text:String(p.text),cat:String(p.cat||""),answers,deep,ban:(p.ban||[]).map(x=>norm(String(x))),live:null};
+    // "drop" is the question as players see it; without one, the "Name a ..." text is rewritten.
+    const shown=String(p.drop||"").trim()||formatLoreCheck(p.text);
+    return {text:String(p.text||""),shown,cat:String(p.cat||""),answers,deep,ban:(p.ban||[]).map(x=>norm(String(x))),live:null};
   })};
 }
 let PUZZLE=compilePuzzle(RAW);
 function indexPrompts(){PUZZLE.prompts.forEach((p,i)=>p.pi=i);} indexPrompts();
+
 // ---------- matching ----------
 function norm(s){
   return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()
@@ -346,7 +390,6 @@ function match(prompt,guess){
   return (bd<=tol&&!tie)?best:null;
 }
 
-
 function levFull(a,b){
   let prev=Array.from({length:b.length+1},(_,i)=>i);
   for(let i=1;i<=a.length;i++){const cur=[i];for(let j=1;j<=b.length;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}
@@ -364,28 +407,33 @@ function suggest(prompt,guess){
   }
   return bs<=0.4?best:null;
 }
+
 // ---------- state ----------
 const $=id=>document.getElementById(id);
 let KEY="ebk-"+PUZZLE.date;
-const PXM=0.55;               // pixels per meter
-const MAXD=7600;
-let depth=0,score=0,idx=0,results=[],cam=0,locked=true,timer=null,deadline=0;
-let openAt=null;              // {i: prompt index, dl: wall-clock deadline} while a prompt's clock is running
-let sent=false,sending=false; // has this finished game reached the backend?
-const LIMIT=25000, CIRC=138.2, COUNTDOWN=2400;
-const total=()=>results.reduce((s,r)=>s+(r.t>=0?TIERS[r.t].pts:0),0);
+const PXM=0.55;
+const MAXD=MAXQ*DROP[5]+600;
+let depth=0,score=0,views=0,idx=0,results=[],cam=0,locked=true,timer=null,deadline=0;
+let openAt=null;
+let sent=false,sending=false;
+const LIMIT=20000, CIRC=138.2, COUNTDOWN=2400;
+// Total views = the views each post actually showed during the game (stored per result).
+const totalViews=()=>results.reduce((s,r)=>s+(r.v||0),0);
+// Traps can push the running total below zero; the score shown and sent is never negative.
+const totalScore=()=>Math.max(0,results.reduce((s,r)=>s+(r.t>=0?TIERS[r.t].pts:0),0));
+const totalDepth=()=>results.reduce((s,r)=>s+(r.t>=0?DROP[r.t]:0),0);
 
-// Progress is saved after every answer, so a refresh mid-game resumes instead of restarting.
-function save(){try{localStorage.setItem(KEY,JSON.stringify({v:2,r:results,open:openAt,sent}))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({v:3,r:results,open:openAt,sent}))}catch(e){}}
 function load(){
   try{
-    let s=JSON.parse(localStorage.getItem(KEY)||"null");
-    if(Array.isArray(s)) s=s.length===7?{r:s}:null;   // first version stored just the finished results
-    if(!s||!Array.isArray(s.r)||s.r.length>7) return null;
-    const okRow=r=>r&&(r.a===null||typeof r.a==="string")&&Number.isInteger(r.t)&&r.t>=-1&&r.t<=5&&(r.t>=0)===(r.a!==null);
+    const s=JSON.parse(localStorage.getItem(KEY)||"null");
+    if(!s||!Array.isArray(s.r)||s.r.length>QN) return null;
+    const okRow=r=>r&&(r.a===null||typeof r.a==="string")&&Number.isInteger(r.t)&&r.t>=-1&&r.t<=5&&(r.t>=0)===(r.a!==null)&&
+      (r.v===undefined||(Number.isInteger(r.v)&&(r.t>=0?r.v>=TIERS[r.t].vmin&&r.v<=TIERS[r.t].vmax:r.v===0)));
     if(!s.r.every(okRow)) return null;
     const o=s.open, open=o&&o.i===s.r.length&&typeof o.dl==="number"?{i:o.i,dl:o.dl}:null;
-    return {r:s.r.map(r=>({a:r.a,t:r.t,s:!!r.s})),open,sent:!!s.sent};
+    // Saves from before views were stored get the middle of their tier's range.
+    return {r:s.r.map(r=>({a:r.a,t:r.t,s:!!r.s,v:r.v!==undefined?r.v:(r.t>=0?midViews(r.t):0)})),open,sent:!!s.sent};
   }catch(e){return null}
 }
 
@@ -394,22 +442,25 @@ const world=$("world");
 function el(cls,css,html){const d=document.createElement("div");d.className=cls;if(css)Object.assign(d.style,css);if(html!=null)d.innerHTML=html;world.appendChild(d);return d}
 function buildWorld(){
   el("sky");
-  [[12,-520,20,10],[30,-430,28,12],[70,-560,24,10],[84,-400,18,9],[55,-640,30,12]].forEach(([x,y,w,h])=>el("cloud",{left:x+"%",top:y+"px",width:w+"px",height:h+"px"}));
+  [[12,-520,120,40],[30,-430,160,50],[70,-560,140,40],[84,-400,100,35],[55,-640,150,45]].forEach(([x,y,w,h])=>el("cloud",{left:x+"%",top:y+"px",width:w+"px",height:h+"px"}));
   el("phone");
-  el("surface",null,'<div class="surface-label pixel">THE SURFACE WEB</div>');
-  const EM="💀🔥🗿😭💯🧠👀📱🤑😤🫠🤯✨🚨";const em=[...EM];let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
-  for(let m=150;m<MAXD;m+=170){el("floater",{top:(m*PXM+rnd()*60)+"px",left:(rnd()<.5?2+rnd()*12:78+rnd()*10)+"%",animationDelay:(rnd()*3)+"s",fontSize:(22+rnd()*18)+"px"},em[Math.floor(rnd()*em.length)])}
+  el("surface",null,'<div class="surface-label pixel">📱 YOUR FOR YOU PAGE</div>');
+  const EM=["❤️ 2.4M","🔥 VIRAL","💀 RATIO","💬 45K","🔁 88K","🗿 AURA","📱 FYP","📈 1.2M","👀 CLIPPED","✨ +1000","🚨 NPC"];
+  let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
+  for(let m=150;m<MAXD;m+=170){
+    el("floater",{top:(m*PXM+rnd()*60)+"px",left:(rnd()<.5?2+rnd()*12:75+rnd()*12)+"%",animationDelay:(rnd()*3)+"s",fontSize:(14+rnd()*10)+"px"},EM[Math.floor(rnd()*EM.length)]);
+  }
   el("ruler",{height:(MAXD*PXM)+"px"});
-  for(let m=100;m<=MAXD;m+=100){const big=m%500===0;el("tick"+(big?" big":""),{top:(m*PXM)+"px"},big?`<span>-${m}m</span>`:"")}
-  [[250,"fyp loading... 📲"],[900,"the algorithm has noticed you 👁️"],[1800,"brainrot levels: concerning"],[2800,"you now know what fanum tax means"],[3800,"touch grass signal lost 📵"],[4800,"screen time: yes"],[5800,"terminally online 💀"],[6800,"🗿 elite ball knowledge zone 🗿"]]
+  for(let m=100;m<=MAXD;m+=100) el("tick"+(m%500===0?" big":""),{top:(m*PXM)+"px"});
+  [[250,"algorithm test in progress 📲"],[900,"escaping the 200-view jail 👁️"],[2000,"FYP push initiated 📈"],[3300,"the comments are heating up 💬"],[4600,"certified viral hit 🔥"],[6000,"trending in all regions 🌍"],[7400,"comment section is a warzone 💀"],[8800,"brands are in your DMs 📩"],[9800,"🗿 internet phenomenon zone 🗿"]]
     .forEach(([m,t])=>el("lore",{top:(m*PXM)+"px"},t));
 }
 function bgFor(m){
-  const stops=[[0,[158,240,255]],[60,[60,60,200]],[1500,[52,24,120]],[3500,[60,10,80]],[5500,[30,4,40]],[7600,[8,2,12]]];
+  const stops=[[0,[11,13,30]],[700,[22,10,38]],[2500,[36,12,50]],[5000,[28,8,42]],[7600,[16,6,28]],[MAXD,[6,2,14]]];
   for(let i=1;i<stops.length;i++){if(m<=stops[i][0]){const [a,ca]=stops[i-1],[b,cb]=stops[i];const t=(m-a)/(b-a);return `rgb(${ca.map((c,k)=>Math.round(c+(cb[k]-c)*t)).join(",")})`}}
-  return "rgb(6,2,10)";
+  return "rgb(6,2,14)";
 }
-function setCam(m){ // m = depth (meters) at ~42% of viewport
+function setCam(m){
   cam=m; const y=-(m*PXM)+innerHeight*0.42;
   world.style.transform=`translateY(${y}px)`;
   document.body.style.backgroundColor=bgFor(Math.max(0,m+innerHeight*0.2/PXM));
@@ -418,14 +469,15 @@ function camSurface(){ setCam(-0.2*innerHeight/PXM); }
 
 // ---------- HUD ----------
 function hud(){
-  $("hd").textContent=Math.round(depth).toLocaleString()+"m"; $("hs").textContent=score;
+  $("hd").textContent=viewsLabel(views); $("hs").textContent=score;
   $("pips").innerHTML=PUZZLE.prompts.map((_,k)=>{const r=results[k];return `<i class="${k===idx&&!r?"now":""}" style="${r?`background:${r.t>=0?TIERS[r.t].color:"#000"};border-color:${r.t>=0?TIERS[r.t].color:"#2f355e"}`:""}"></i>`}).join("");
-  $("pipcap").textContent=idx<7?`PROMPT ${idx+1} OF 7`:"DIVE COMPLETE";
+  $("pipcap").textContent=idx<QN?`LORE CHECK ${idx+1} OF ${QN}`:"FEED MAXED 🗿";
 }
 
 let pending=null;
 function clearSugg(){pending=null;$("msg").classList.remove("sugg");}
-// ---------- brainrot fx ----------
+
+// ---------- audio fx ----------
 let AC=null,muted=false;try{muted=localStorage.getItem("ebk-mute")==="1"}catch(e){}
 $("mute").textContent=muted?"🔇":"🔊";
 $("mute").onclick=()=>{muted=!muted;$("mute").textContent=muted?"🔇":"🔊";try{localStorage.setItem("ebk-mute",muted?"1":"0")}catch(e){}};
@@ -433,40 +485,54 @@ function ac(){ if(muted) return null; try{ AC=AC||new (window.AudioContext||wind
 function tone(f0,f1,dur,type,vol,delay){const a=ac();if(!a)return;const t0=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f0,t0);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t0+dur);g.gain.setValueAtTime(vol||.3,t0);g.gain.exponentialRampToValueAtTime(.001,t0+dur);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+dur+.02)}
 const SFX={
   boom(){tone(150,38,.9,"sine",.9);tone(80,30,.9,"triangle",.5)},
-  wrong(){tone(220,90,.35,"square",.15)},
+  wrong(){tone(220,90,.35,"square",.2)},
   tick(){tone(900,900,.05,"square",.05)},
   win(t){const base=[392,440,523,587,659,784][t];[0,.09,.18].forEach((d,i)=>tone(base*[1,1.25,1.5][i],base*[1,1.25,1.5][i],.25,"square",.12,d))},
   horn(){[0,.18,.36].forEach(d=>{tone(466,440,.16,"sawtooth",.18,d);tone(587,560,.16,"sawtooth",.12,d)})}
 };
-const HEAD=["local man finds out what fanum tax means, immediately regrets it","scientists confirm 6 7 is still not funny, kids say it anyway","Ohio declared brainrot capital of the world for 4th year running","grandma accidentally hits the griddy at thanksgiving dinner","study finds average screen time now 'yes'","man with 0 aura attempts to rizz, outcome devastating","Duolingo owl spotted outside user's house again","NPC sighting reported at local Walmart, says 'hello traveler'","teen explains skibidi lore to parents for 3 hours, nobody survives","experts warn: touching grass may cause side effects","sigma male caught smiling, career over","cat spins for 9 hours straight, internet loses it","your FYP has been flagged for excessive brainrot"];
+const HEAD=[
+  "teen drops obscure lore, pulls 2.4M views in 10 minutes",
+  "man posts NPC answer, instantly ratio'd by 40,000 angry comments",
+  "algorithm confirms today's FYP is 99% certified brainrot",
+  "grandma hits the griddy on TikTok Live, gains 500K followers",
+  "study finds average screen time now 'astronomical'",
+  "creator posts most obvious take possible, loses 1,000 aura points",
+  "Duolingo owl spotted live streaming outside creator's window",
+  "NPC sighting reported at local Target, repeats 'skibidi' for 2 hours",
+  "teen explains deep lore for 4 hours, viewer views pass 10M",
+  "experts warn: touching grass may cause withdrawal from the algorithm",
+  "sigma creator caught smiling on stream, sponsor immediately pulls out",
+  "cat spinning for 12 hours straight breaks all engagement records"
+];
 $("tickrun").textContent=HEAD.concat(HEAD).join("   🔥   ");
-(function dvd(){const d=$("dvd");let x=60,y=120,vx=1.4,vy=1.1;const C=["#d4ff3a","#4fe3ff","#ff4fa3","#facc15","#c58bff","#fb923c"];let ci=0;
+(function dvd(){const d=$("dvd");let x=60,y=120,vx=1.4,vy=1.1;const C=["#d4ff3a","#00f2fe","#ff2d75","#facc15","#c58bff","#fb923c"];let ci=0;
   function step(){const w=innerWidth-d.offsetWidth,h=innerHeight-d.offsetHeight-24;x+=vx;y+=vy;let hit=0;
     if(x<=0||x>=w){vx=-vx;x=Math.max(0,Math.min(w,x));hit++} if(y<=0||y>=h){vy=-vy;y=Math.max(0,Math.min(h,y));hit++}
-    if(hit){ci=(ci+1)%C.length;d.style.color=C[ci]; if(hit===2){d.textContent="CORNER 🤯";setTimeout(()=>d.textContent="EBK",1500)}}
+    if(hit){ci=(ci+1)%C.length;d.style.color=C[ci]; if(hit===2){d.textContent="VIRAL 🤯";setTimeout(()=>d.textContent="EBK",1500)}}
     d.style.transform=`translate(${x}px,${y}px)`;requestAnimationFrame(step)}
   requestAnimationFrame(step)})();
-function stamp(txt,color){const s=document.createElement("div");s.className="stamp";s.textContent=txt;s.style.color=color;document.body.appendChild(s);setTimeout(()=>s.remove(),900)}
+function stamp(txt,color){const s=document.createElement("div");s.className="stamp";s.textContent=txt;s.style.color=color;document.body.appendChild(s);setTimeout(()=>s.remove(),950)}
 function fry(){document.body.classList.remove("fried");void document.body.offsetWidth;document.body.classList.add("fried")}
+
 // ---------- answer lists ----------
 function answerTable(p,mine,minTier,cap){
   let h="";
   for(let ti=5;ti>=minTier;ti--){
     const list=p.answers.filter(a=>a[1]===ti); if(!list.length) continue;
     const T=TIERS[ti];
-    h+=`<div class="trow"><div class="tl" style="color:${T.color}">${T.name} ${T.pts}</div><div class="chips">`+
+    h+=`<div class="trow"><div class="tl" style="color:${T.color}">${T.name}</div><div class="chips">`+
       (()=>{let L=list; if(cap&&L.length>cap){const me=L.find(a=>a[0]===mine); L=L.slice(0,cap); if(me&&!L.includes(me)) L=[me,...L.slice(0,cap-1)];}
         return L.map(a=>`<span class="c2${a[0]===mine?" me":""}" data-pi="${p.pi}" data-n="${encodeURIComponent(a[0])}" style="color:${T.color}"><span>${esc(a[0])}</span></span>`).join("")+(cap&&list.length>cap?`<span class="c2" style="color:var(--dim)"><span>+${list.length-cap} more</span></span>`:"");})()+`</div></div>`;
   }
   return h;
 }
+
 // ---------- flow ----------
 let tierLines=[];
 function startGame(){
   document.body.classList.add("playing"); ac(); primeInput();
   $("start").style.display="none"; $("hud").classList.add("on");
-  // A fresh game starts at zero; a game interrupted by a refresh picks up where it stopped.
-  idx=results.length; score=total(); depth=score*10;
+  idx=results.length; views=totalViews(); score=totalScore(); depth=totalDepth();
   const resume=!!(openAt&&openAt.i===idx);
   animateCam(depth,700,()=>startPrompt(resume));
 }
@@ -476,8 +542,6 @@ function animateCam(to,ms,done){
   requestAnimationFrame(f);
 }
 let cdTimer=null;
-// Shows the answer bar and focuses it. Called straight from a tap/click so phones open the
-// keyboard (they refuse to when focus happens later, from a timer).
 function primeInput(){
   clearSugg(); locked=true; clearInterval(timer);
   const m=$("msg"); m.classList.remove("hurry","wait"); m.textContent="";
@@ -487,14 +551,14 @@ function primeInput(){
 function startPrompt(resume){
   const p=PUZZLE.prompts[idx]; hud();
   $("reveal").classList.remove("on"); $("next").classList.remove("on");
-  $("ck").textContent=`PROMPT ${idx+1} OF 7`; $("ccat").textContent=p.cat; $("ctext").textContent=p.text;
+  $("ck").textContent=`📱 LORE CHECK ${idx+1} OF ${QN}`; $("ccat").textContent=p.cat; $("ctext").textContent=p.shown;
   $("card").classList.add("on"); $("bar").classList.add("on");
-  tierLines.forEach(n=>n.remove()); tierLines=TIERS.map(T=>el("tierline",{top:((depth+T.pts*10)*PXM)+"px"},`<span style="color:${T.color}">${T.name.toUpperCase()} · ${T.pts}</span>`));
+  tierLines.forEach(n=>n.remove());
+  tierLines=TIERS.map((T,i)=>el("tierline",{top:((depth+DROP[i])*PXM)+"px"},`<span style="color:${T.color}">${T.name} · ${T.vlabel} views</span>`));
   clearInterval(cdTimer);
-  // Resuming a prompt whose clock was already running: no fresh countdown, just the time that's left.
   if(resume&&openAt&&openAt.i===idx){ openInput(Math.max(0,Math.min(LIMIT,openAt.dl-Date.now()))); return; }
   openAt={i:idx,dl:Date.now()+COUNTDOWN+LIMIT}; save();
-  let n=3; const m=$("msg"), show=()=>{m.classList.remove("hurry","sugg");m.classList.add("wait");m.innerHTML=`loading the feed 📲 · clock starts in <b>${n}</b>`};
+  let n=3; const m=$("msg"), show=()=>{m.classList.remove("hurry","sugg");m.classList.add("wait");m.innerHTML=`loading the feed 📲 · drop starts in <b>${n}</b>`};
   show(); SFX.tick();
   cdTimer=setInterval(()=>{n--; if(n>0){show();SFX.tick()}else{clearInterval(cdTimer);openInput(LIMIT)}},COUNTDOWN/3);
 }
@@ -508,21 +572,21 @@ function drawTimer(left){
   const f=left/LIMIT;
   $("secs").textContent=Math.ceil(left/1000);
   $("arc").setAttribute("stroke-dashoffset",CIRC*(1-f));
-  $("arc").setAttribute("stroke",left<6000?"#ff4f6d":"#4fe3ff");
+  $("arc").setAttribute("stroke",left<6000?"#ff4f6d":"#00f2fe");
   $("ring").classList.toggle("low",left<6000);
   $("trk").style.width=(f*100)+"%";
 }
 function tick(){
   const left=Math.max(0,deadline-Date.now());
   drawTimer(left);
-  if(left<6000&&left>0&&!$("msg").textContent&&!pending){$("msg").textContent="HURRY UP BRO 😭";$("msg").classList.add("hurry");}
+  if(left<6000&&left>0&&!$("msg").textContent&&!pending){$("msg").textContent="POST IT BEFORE THE CLOCK RUNS OUT 😭";$("msg").classList.add("hurry");}
   if(left<=0) commit(null,"");
 }
 $("form").addEventListener("submit",e=>{
   e.preventDefault(); if(locked) return;
   const v=$("guess").value.trim(); if(!v) return;
   if(v.toLowerCase()==="skip"){ commit(null,"skip"); return; }
-  if((PUZZLE.prompts[idx].ban||[]).includes(norm(v))){ clearSugg(); $("msg").classList.remove("hurry"); $("msg").textContent=`"${v}" is literally on the banned list 💀 read the prompt`; $("guess").value=""; SFX.wrong(); return; }
+  if((PUZZLE.prompts[idx].ban||[]).includes(norm(v))){ clearSugg(); $("msg").classList.remove("hurry"); $("msg").textContent=`"${v}" is on the blacklist 💀 nice try NPC`; $("guess").value=""; SFX.wrong(); return; }
   if(pending&&/^(y|ya|ye|yes|yeah|yep|yuh)$/i.test(v)){ const a=pending; clearSugg(); commit(a,v); return; }
   const a=match(PUZZLE.prompts[idx],v);
   if(a){ clearSugg(); commit(a,v); return; }
@@ -534,99 +598,145 @@ $("form").addEventListener("submit",e=>{
     $("sn").onclick=()=>{clearSugg();$("msg").textContent="aight, keep guessing 🫡";$("guess").focus();};
     return; }
   clearSugg();
-  { const W=["nah that's not on the list 💀","who told you that 😭","not it chief","cap. try again 🧢","that ain't it gang"]; $("msg").classList.remove("hurry"); $("msg").textContent=`"${v}": ${W[Math.floor(Math.random()*W.length)]}`; SFX.wrong(); $("guess").value="";
+  { const W=["not a valid answer 💀 nobody clipped that","who told you that 😭 that flopped","not it chief, ratio'd","cap. that wouldn't even pull 12 views 🧢","that ain't it gang, try again"];
+    $("msg").classList.remove("hurry"); $("msg").textContent=`"${v}": ${W[Math.floor(Math.random()*W.length)]}`; SFX.wrong(); $("guess").value="";
     $("form").classList.remove("shake"); void $("form").offsetWidth; $("form").classList.add("shake"); }
 });
+
 function commit(ans,typed){
   if(locked) return; locked=true; clearInterval(timer); clearSugg();
   $("bar").classList.remove("on"); $("card").classList.remove("on");
-  const t=ans?ans[1]:-1, sink=ans?TIERS[t].pts*10:0;
+  const t=ans?ans[1]:-1;
+  const isTrap = ans && t === 0;
+  const sink = ans ? DROP[t] : 0;
   const skipped=!ans&&typed==="skip";
-  results.push({a:ans?ans[0]:null,t,s:skipped});
-  openAt=null; save();                       // locked in: a refresh from here on can't replay this prompt
-  if(results.length===7) savePlay();
-  const tag=el("tag"+(ans?"":" dead"),{top:(depth*PXM)+"px"},ans?`"${esc(ans[0])}"`:(skipped?"SKIPPED":"TIME'S UP"));
-  if(ans) tag.style.borderColor=TIERS[t].color, tag.style.color=TIERS[t].color;
-  const d0=depth,d1=depth+sink,t0=performance.now(),ms=ans?1400+sink*1.3:600;
+  const v=ans?rollViews(t):0;              // this post's view count, kept so a reload shows the same number
+  results.push({a:ans?ans[0]:null,t,s:skipped,v});
+  openAt=null; save();
+  if(results.length===QN) savePlay();
+
+  const tagClass = ans ? (isTrap ? "tag trap" : "tag") : "tag dead";
+  const tagText = ans ? `"${esc(ans[0])}" · ${isTrap ? "RATIO'D 💀" : viewsLabel(v)+" views"}` : (skipped?"SKIPPED":"TIME'S UP");
+  const tag=el(tagClass,{top:(depth*PXM)+"px"},tagText);
+  if(ans&&!isTrap){ tag.style.borderColor=TIERS[t].color; tag.style.color=TIERS[t].color; }
+
+  const d0=depth, d1=depth+sink, v0=views, v1=totalViews(), t0=performance.now(), ms=ans?1300+Math.min(sink,800)*1.2:600;
   setCam(d0);
   function f(now){
     const k=Math.min(1,(now-t0)/ms), e=1-Math.pow(1-k,3), d=d0+(d1-d0)*e;
-    tag.style.top=(d*PXM)+"px"; setCam(d); depth=d; $("hd").textContent=Math.round(d).toLocaleString()+"m";
-    if(k<1) requestAnimationFrame(f); else { depth=d1; score+=ans?TIERS[t].pts:0; hud();
-      setTimeout(()=>{tag.style.opacity=0; tierLines.forEach(n=>n.classList.add("fade")); setTimeout(()=>tag.remove(),400); reveal(ans,skipped);},350); }
+    tag.style.top=(d*PXM)+"px"; setCam(d); depth=d;
+    $("hd").textContent=viewsLabel(v0+(v1-v0)*e);          // views tick up while the post sinks
+    if(k<1) requestAnimationFrame(f); else {
+      depth=d1; views=v1; score=totalScore();
+      hud();
+      setTimeout(()=>{tag.style.opacity=0; tierLines.forEach(n=>n.classList.add("fade")); setTimeout(()=>tag.remove(),400); reveal(ans,skipped);},350);
+    }
   }
   requestAnimationFrame(f);
 }
+
 function reveal(ans,skipped){
-  const p=PUZZLE.prompts[idx]; $("rpct").textContent=ans?shareLine(idx,ans[0]):"";
-  if(ans){const T=TIERS[ans[1]];
-    $("ricon").textContent=T.icon; $("rtn").textContent=T.name.toUpperCase(); $("rtn").style.color=T.color;
-    $("rans").textContent=`"${ans[0]}"`; $("rpts").innerHTML=`<b>+${T.pts} PTS</b> · scrolled ${T.pts*10}m`; $("rfl").textContent=T.fl;
-  }else{
-    if(skipped){ $("ricon").textContent="⏭️"; $("rtn").textContent="SKIPPED"; $("rtn").style.color="var(--dim)";
-      $("rans").textContent="Fair enough"; $("rpts").innerHTML="<b>+0 PTS</b> · didn't move"; $("rfl").textContent="Knowing when to fold is its own kind of aura.";
+  const p=PUZZLE.prompts[idx], v=(results[idx]||{}).v||0; $("rpct").textContent=ans?shareLine(idx,ans[0]):"";
+  if(ans){
+    const T=TIERS[ans[1]];
+    const isTrap = ans[1] === 0;
+    $("ricon").textContent=T.icon;
+    $("rtn").textContent=T.name;
+    $("rtn").style.color=T.color;
+    $("rans").textContent=`"${ans[0]}"`;
+    if(isTrap){
+      $("rpts").innerHTML=`<b class="trap">0 PTS</b> · ${v} bot views · RATIO'D`;
     } else {
-    $("ricon").textContent="⏰"; $("rtn").textContent="TIME"; $("rtn").style.color="var(--dim)";
-    $("rans").textContent="No answer"; $("rpts").innerHTML="<b>+0 PTS</b> · didn't move"; $("rfl").textContent="The feed waits for no one."; }
+      $("rpts").innerHTML=`<b>+${viewsLabel(v)} VIEWS</b> · +${T.pts} PTS`;
+    }
+    $("rfl").textContent=T.fl;
+  }else{
+    if(skipped){
+      $("ricon").textContent="⏭️"; $("rtn").textContent="SKIPPED"; $("rtn").style.color="var(--dim)";
+      $("rans").textContent="Skipped the drop"; $("rpts").innerHTML="<b>0 VIEWS</b> · skipped"; $("rfl").textContent="Knowing when to skip is its own kind of aura.";
+    } else {
+      $("ricon").textContent="⏰"; $("rtn").textContent="TIME'S UP"; $("rtn").style.color="var(--dim)";
+      $("rans").textContent="Didn't post in time"; $("rpts").innerHTML="<b>0 VIEWS</b> · flopped"; $("rfl").textContent="The algorithm waits for no one.";
+    }
   }
-  $("roth").innerHTML=`<h4>SOME OF THE DEEPEST ANSWERS</h4>`+answerTable(p,ans?ans[0]:null,3,10)+
+  $("roth").innerHTML=`<h4>RAREST TAKES (MOST VIEWS)</h4>`+answerTable(p,ans?ans[0]:null,3,10)+
     `<details class="all"><summary>▸ SEE ALL ${p.answers.length} ANSWERS</summary><div class="allbox">${answerTable(p,ans?ans[0]:null,0)}</div></details>`;
   $("roth").scrollTop=0;
-  $("next").textContent=idx===6?"SEE RESULTS ▼":"NEXT ▼";
+  $("next").textContent=idx===QN-1?"SEE TOTAL VIEWS ▼":"NEXT TAKE ▼";
   $("reveal").classList.add("on"); $("next").classList.add("on"); $("next").focus(); revealAt=Date.now();
-  if(ans){const T=TIERS[ans[1]],B=[...T.burst],n=ans[1]>=3?22:10;
+  
+  if(ans){
+    const T=TIERS[ans[1]],B=[...T.burst],n=ans[1]>=3?22:10;
     for(let i=0;i<n;i++){const s=document.createElement("span");s.className="burst";s.textContent=B[i%B.length];
       const a=Math.random()*Math.PI*2,dist=120+Math.random()*260;
       s.style.left=(innerWidth/2-17)+"px";s.style.top=(innerHeight*0.3)+"px";
       s.style.setProperty("--dx",Math.cos(a)*dist+"px");s.style.setProperty("--dy",Math.sin(a)*dist+"px");s.style.setProperty("--r",(Math.random()*720-360)+"deg");
       document.body.appendChild(s);setTimeout(()=>s.remove(),1100);}
     if(ans[1]>=4){document.body.classList.remove("shakeall");void document.body.offsetWidth;document.body.classList.add("shakeall");}
-    if(ans[1]===5){SFX.horn();fry();stamp("W","var(--lime)")} else if(ans[1]===4){SFX.boom();fry()} else if(ans[1]===0){SFX.boom();stamp("NPC","#9aa0b8")} else SFX.win(ans[1]);}
-  else { SFX.boom(); stamp("L","var(--lore)"); }
+    
+    if(ans[1]===0){
+      SFX.boom(); SFX.wrong(); fry(); stamp("RATIO'D 💀","var(--trap)");
+    } else if(ans[1]===5){
+      SFX.horn(); fry(); stamp(viewsLabel(v)+" 🔥","var(--lime)");
+    } else if(ans[1]===4){
+      SFX.boom(); fry(); stamp("VIRAL 📈","var(--cyan)");
+    } else {
+      SFX.win(ans[1]);
+    }
+  } else {
+    SFX.boom(); stamp("FLOPOFF 💀","var(--lore)");
+  }
 }
+
 let revealAt=0;
 $("next").addEventListener("click",()=>{
-  // Ignore strays: the button being hidden, or Enter still held down from sending the answer.
   if(!$("next").classList.contains("on")||Date.now()-revealAt<350) return;
   $("reveal").classList.remove("on"); $("next").classList.remove("on");
   idx++;
-  if(idx<7){ primeInput(); startPrompt(); } else { save(); savePlay(); hud(); showResults(); }
+  if(idx<QN){ primeInput(); startPrompt(); } else { save(); savePlay(); hud(); showResults(); }
 });
 
 // ---------- results ----------
-function rankFor(total){
-  if(total>=600) return 5; if(total>=420) return 4; if(total>=280) return 3; if(total>=170) return 2; if(total>=90) return 1; return 0;
-}
+// Final rank by total views, per 10 lore checks (scaled down for 7-question puzzles). Each threshold
+// is 10 x the lowest views of that tier, so a game spent entirely in one tier always earns at least
+// that tier's rank, and can never reach the next one (e.g. 10 x 3K = 30K < 200K for On The FYP).
+const RANK_AT=[0,8000,200000,1500000,9000000,30000000];
+function rankForViews(v){let r=0;RANK_AT.forEach((min,i)=>{if(v>=min*QN/MAXQ)r=i});return r;}
 function showResults(){
   tierLines.forEach(n=>n.remove()); tierLines=[];
   clearInterval(timer); clearInterval(cdTimer);
   $("bar").classList.remove("on"); $("card").classList.remove("on");
-  const tot=total(); score=tot; depth=tot*10; idx=7;
+  const totV=totalViews(); const totS=totalScore();
+  views=totV; score=totS; depth=totalDepth(); idx=QN;
   setCam(depth); hud(); $("hud").classList.add("on"); $("start").style.display="none";
-  const grid=results.map(r=>r.t>=0?TIERS[r.t].sq:MISS).join(""), R=TIERS[rankFor(tot)];
-  $("rk").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date}`;
-  $("rdepth").textContent=(tot*10).toLocaleString()+"m";
-  $("rsub").textContent=`${tot} / 700 aura · max depth 7,000m`;
-  $("rrank").textContent=R.name.toUpperCase(); $("rrank").style.color=R.color; $("roast").textContent=R.roast;
+  
+  const grid=results.map(r=>r.t>=0?TIERS[r.t].sq:MISS).join("");
+  const R=TIERS[rankForViews(totV)];
+  $("rk").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date} 📱`;
+  $("rdepth").textContent=viewsLabel(totV)+" VIEWS";
+  $("rsub").textContent=`${totS} / ${QN*100} pts · Peak Algorithm Reach`;
+  $("rrank").textContent=R.name; $("rrank").style.color=R.color; $("roast").textContent=R.roast;
   $("rgrid").textContent=grid;
   renderRList();
-  $("sharetext").value=`EBK #${PUZZLE.num} · ${(tot*10).toLocaleString()}m · ${tot} aura 🗿\n${grid}\n${R.name}`;
-  // Replaying the same day is a testing tool: only on your own machine, or for the owner.
+  $("sharetext").value=`EBK #${PUZZLE.num} · my takes got ${viewsLabel(totV)} views 🔥\n${grid}\n${R.name}`;
   $("reset").style.display=(LOCAL||IS_OWNER)?"":"none";
   $("results").classList.add("on"); document.body.classList.remove("playing");
-  if(tot>=420){SFX.horn();stamp("W","var(--lime)")}
+  if(rankForViews(totV)>=4){SFX.horn();stamp("VIRAL 🔥","var(--lime)")}
 }
+
 function renderRList(){
   const open=[...document.querySelectorAll("#rlist details")].map(d=>d.open);
   $("rlist").innerHTML=PUZZLE.prompts.map((p,k)=>{
     const r=results[k],T=r.t>=0?TIERS[r.t]:null, d=p.deep.find(x=>x[0]!==r.a)||p.deep[0], sl=shareLine(k,r.a);
-    return `<div class="rrow"><div class="q">${k+1}. ${esc(p.text)}</div>
-      <div class="y"><span style="color:${T?T.color:"var(--dim)"}">${r.a?esc(r.a):(r.s?"Skipped":"No answer")}</span><span style="color:${T?T.color:"var(--dim)"}">${T?T.name.toUpperCase()+" +"+T.pts:"+0"}</span></div>
+    const resultTag = T ? (r.t === 0 ? `RATIO'D · ${r.v} bot views` : `${viewsLabel(r.v)} views (+${T.pts})`) : "+0";
+    return `<div class="rrow"><div class="q">${k+1}. ${esc(p.shown)}</div>
+      <div class="y"><span style="color:${T?T.color:"var(--dim)"}">${r.a?esc(r.a):(r.s?"Skipped":"No take")}</span><span style="color:${T?T.color:"var(--dim)"}">${resultTag}</span></div>
       ${sl?`<div class="pct">${sl}</div>`:""}
       <div class="deep"><b>${esc(d[0])}</b>${d[1]?": "+esc(d[1]):""}<a href="${esc(d[2])}" target="_blank" rel="noopener">SOURCE ↗</a></div>
       <details class="all"${(EDIT||open[k])?" open":""}><summary>▸ ALL ${p.answers.length} ANSWERS${EDIT?" · tap one to re-tier":""}</summary><div class="allbox">${answerTable(p,r.a,0)}</div></details></div>`;
   }).join("");
 }
+
 $("rlist").addEventListener("click",e=>{
   if(!EDIT) return; const c=e.target.closest(".c2[data-n]"); if(!c) return;
   editTarget={pi:+c.dataset.pi,name:decodeURIComponent(c.dataset.n)};
@@ -637,7 +747,7 @@ $("edbtns").addEventListener("click",e=>{const b=e.target.closest("button"); if(
   if(b.dataset.t==="x") return; setOverride(editTarget.pi,editTarget.name,b.dataset.t==="auto"?null:+b.dataset.t);});
 $("edit").addEventListener("click",()=>{EDIT=!EDIT;document.body.classList.toggle("editing",EDIT);$("edit").textContent=EDIT?"DONE EDITING":"✏️ EDIT TIERS";renderRList();});
 $("copy").addEventListener("click",async()=>{
-  try{await navigator.clipboard.writeText($("sharetext").value);$("copied").textContent="Copied. Go flex in the group chat.";}
+  try{await navigator.clipboard.writeText($("sharetext").value);$("copied").textContent="Copied! Go flex in the group chat 📱";}
   catch(e){$("sharetext").style.display="block";$("sharetext").select();$("copied").textContent="Copy it from the box below.";}
 });
 $("reset").addEventListener("click",()=>{
@@ -648,64 +758,33 @@ $("go").addEventListener("click",()=>{ if(!$("go").disabled) startGame(); });
 
 // ---------- init ----------
 buildWorld();
-$("tiers").innerHTML=TIERS.map(T=>`<span style="color:${T.color}">${T.name} ${T.pts}</span>`).join("");
+$("tiers").innerHTML=TIERS.map(T=>`<span style="color:${T.color}">${T.sq} ${T.name} (${T.pts} pts)</span>`).join("");
 camSurface();
 addEventListener("resize",()=>{ if($("start").style.display==="none") setCam(cam); else camSurface(); });
 function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 const within=(p,ms)=>Promise.race([p,new Promise(res=>setTimeout(()=>res(null),ms))]);
-// ---------- data layer: Claude artifact db OR Supabase (standalone site) ----------
+
+// ---------- data layer: Supabase backend ----------
 const CFG=window.EBK_CONFIG||{};
-const MODE=CFG.supabaseUrl&&CFG.supabaseAnonKey?"supabase":"claude";
 const LOCAL=location.protocol==="file:"||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
 let DB=null,USER=null,UID=null,IS_OWNER=false,OVR={},SB=null;
-function aggregate(rows){ // rows: arrays of 7 answers (null = none) from OTHER players
-  const per=PUZZLE.prompts.map(()=>({n:0,c:{}}));
-  rows.forEach(a=>a.slice(0,7).forEach((ans,pi)=>{const P=per[pi];if(!P)return;P.n++;if(ans)P.c[ans]=(P.c[ans]||0)+1;}));
-  return per;
-}
-const Claude={
-  async init(){
-    if(!window.claude||typeof window.claude.use!=="function") return;
-    DB=await within(window.claude.use("db"),10000);
-    USER=await within(window.claude.use("user"),10000);
-    if(USER){ UID=await within(USER.id(),5000); IS_OWNER=!!(await within(USER.isOwner(),5000)); }
-  },
-  async puzzle(d){
-    if(!DB) return null;
-    const snap=await within(DB.doc("puzzles/"+d).get(),10000);
-    if(snap&&snap.exists) return snap.data();
-    const q=await within(DB.collection("puzzles").where("date","<=",d).orderBy("date","desc").limit(1).get(),10000);
-    return q&&!q.empty?q.docs[0].data():null;
-  },
-  async live(date){
-    if(!DB) return null; const q=await within(DB.collection("plays").limit(1000).get(),10000); if(!q) return null;
-    const rows=[]; q.docs.forEach(d=>{ if(d.id===UID) return; const day=(d.data()||{})[date]; if(day&&Array.isArray(day.a)) rows.push(day.a); });
-    return aggregate(rows);
-  },
-  async overrides(date){ if(!DB) return {}; const o=await within(DB.doc("overrides/"+date).get(),10000); return o&&o.exists?Object.assign({},o.data()||{}):{}; },
-  async savePlay(date,answers,score){
-    if(!DB||!UID) return false; const ref=DB.doc("plays/"+UID); const cur=await within(ref.get(),10000);
-    const entry={[date]:{a:answers,s:score,t:Date.now()}};
-    if(cur&&cur.exists) await ref.update(entry); else await ref.set(entry);
-    return true;
-  },
-  async setOverride(date,key,tier){ const data={}; Object.keys(OVR).forEach(x=>data[x]=OVR[x]); await DB.doc("overrides/"+date).set(data); }
-};
+
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 function playerId(){
   const make=()=>crypto.randomUUID?crypto.randomUUID():"p-"+Math.random().toString(36).slice(2)+"-"+Date.now();
   try{ let id=localStorage.getItem("ebk-pid"); if(!id){ id=make(); localStorage.setItem("ebk-pid",id);} return id; }catch(e){ return make(); }
 }
+
 const Supa={
   async init(){
     UID=playerId();
+    if(!CFG.supabaseUrl||!CFG.supabaseAnonKey) return;
     if(!window.supabase) await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2");
     SB=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey);
     const {data}=await SB.auth.getSession(); const session=data&&data.session;
     if(session){ const r=await SB.rpc("is_admin"); IS_OWNER=!!(r&&r.data===true); }
     if(location.hash==="#admin"&&!IS_OWNER) showAdminLogin(session&&session.user?session.user.email:null);
   },
-  // Today's puzzle file, or else the newest one dated before today.
   async puzzle(d){
     const base=CFG.puzzlesPath||"puzzles";
     const get=async u=>{ try{ const r=await fetch(u,{cache:"no-store"}); return r.ok?await r.json():null; }catch(e){ return null; } };
@@ -715,27 +794,31 @@ const Supa={
     p=await get(`${base}/${dates[dates.length-1]}.json`); return validPuzzle(p)?p:null;
   },
   async live(date){
+    if(!SB) return null;
     const {data,error}=await SB.rpc("answer_counts",{p_date:date,p_player:UID}); if(error||!Array.isArray(data)) return null;
     const per=PUZZLE.prompts.map(()=>({n:0,c:{}}));
     data.forEach(row=>{const P=per[row.prompt_idx], n=Number(row.n); if(!P||!(n>0)) return; if(row.answer==null) P.n=n; else P.c[row.answer]=n;});
     return per;
   },
   async overrides(date){
-    const {data,error}=await SB.from("overrides").select("prompt_idx,answer,tier").eq("puzzle_date",date); if(error) throw error;
+    if(!SB) return {};
+    const {data,error}=await SB.from("overrides").select("prompt_idx,answer,tier").eq("puzzle_date",date); if(error) return {};
     const o={}; (data||[]).forEach(r=>o[r.prompt_idx+"|"+r.answer]=r.tier); return o;
   },
-  // true = the backend has dealt with it (stored, or turned down for good); a network failure throws so we retry later.
   async savePlay(date,answers,score){
+    if(!SB) return false;
     const {error}=await SB.rpc("submit_play",{p_date:date,p_player:UID,p_answers:answers,p_score:score}); if(error) throw error;
     return true;
   },
   async setOverride(date,key,tier){
+    if(!SB) return;
     const [pi,...rest]=key.split("|"); const answer=rest.join("|");
     const q=tier==null?SB.from("overrides").delete().match({puzzle_date:date,prompt_idx:+pi,answer})
                       :SB.from("overrides").upsert({puzzle_date:date,prompt_idx:+pi,answer,tier});
     const {error}=await q; if(error) throw error;
   }
 };
+
 function showAdminLogin(signedInAs){
   const box=document.createElement("div"); box.className="editor on";
   if(signedInAs){
@@ -747,29 +830,22 @@ function showAdminLogin(signedInAs){
   box.querySelector("#admgo").onclick=async()=>{const em=box.querySelector("#adm").value.trim(); if(!em) return;
     const say=t=>box.querySelector("#admmsg").textContent=t; say("Sending…");
     try{
-      // shouldCreateUser:false = only accounts you created in the Supabase dashboard can get a link.
       const {error}=await SB.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
       say(error?"Couldn't send: "+error.message:"Check your email for the link ✅");
     }catch(e){ say("Couldn't send. Check your connection and try again."); }
   };
 }
-const STORE=MODE==="supabase"?Supa:Claude;
 
-// ---------- live rarity + overrides ----------
-// Share of players that puts an answer in each tier: 25%+ NPC ... under 1% Elite.
+const STORE=Supa;
+
 function liveTierFromShare(sh){return sh>=.25?0:sh>=.12?1:sh>=.06?2:sh>=.03?3:sh>=.01?4:5;}
-// The puzzle's own score counts as PRIOR_N imaginary players who answered at that tier's typical
-// rate, so a handful of real players nudges a tier and hundreds decide it. Without this, an obvious
-// answer that the first few players happen not to say would shoot straight to the top tier.
 const PRIOR_SHARE=[.35,.17,.085,.042,.017,.004], PRIOR_N=50;
 function autoTier(p,a){
   const L=p.live; if(!L||L.n<3) return a.prior;
   return liveTierFromShare(((L.c[a[0]]||0)+PRIOR_N*PRIOR_SHARE[a.prior])/(L.n+PRIOR_N));
 }
-// Tier of every answer = the owner's override if there is one, otherwise score blended with live rarity.
 function retier(){PUZZLE.prompts.forEach((p,pi)=>p.answers.forEach(a=>{const o=OVR[pi+"|"+a[0]]; a[1]=Number.isInteger(o)&&o>=0&&o<=5?o:autoTier(p,a);}));}
 async function loadLive(){
-  // Both are optional extras: if the backend is slow or down, the game still starts on puzzle scores alone.
   const [per,ovr]=await Promise.all([
     within(Promise.resolve().then(()=>STORE.live(PUZZLE.date)).catch(()=>null),6000),
     within(Promise.resolve().then(()=>STORE.overrides(PUZZLE.date)).catch(()=>null),6000)]);
@@ -778,15 +854,15 @@ async function loadLive(){
   retier();
 }
 async function savePlay(){
-  if(sent||sending||results.length!==7) return;
+  if(sent||sending||results.length!==QN) return;
   sending=true;
-  try{ if(await STORE.savePlay(PUZZLE.date,results.map(r=>r.a||null),total())){ sent=true; save(); } }catch(e){}
+  try{ if(await STORE.savePlay(PUZZLE.date,results.map(r=>r.a||null),totalScore())){ sent=true; save(); } }catch(e){}
   sending=false;
 }
 function shareLine(pi,name){const L=PUZZLE.prompts[pi].live; if(!L||L.n<3||!name) return ""; const c=L.c[name]||0;
-  if(!c) return `nobody else has said this yet 🤯`; const pct=100*c/L.n;
-  return `${pct<1?"under 1":Math.round(pct)}% of players said this`;}
-// owner tier editor
+  if(!c) return `nobody else has posted this yet 🤯`; const pct=100*c/L.n;
+  return `${pct<1?"under 1":Math.round(pct)}% of creators posted this`;}
+
 let EDIT=false,editTarget=null;
 async function setOverride(pi,name,tier){
   const k=pi+"|"+name, before=OVR[k]; if(tier==null) delete OVR[k]; else OVR[k]=tier;
@@ -796,22 +872,24 @@ async function setOverride(pi,name,tier){
 }
 function applyPuzzle(){
   KEY="ebk-"+PUZZLE.date; prepKeys(); indexPrompts();
+  QN=PUZZLE.prompts.length;
+  $("blurb").textContent=`${QN} lore checks · ${LIMIT/1000}s each · rarer takes blow up on the feed 🚀`;
   $("dayline").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date}`;
   const st=load(); results=st?st.r:[]; openAt=st?st.open:null; sent=st?st.sent:false;
   const others=(PUZZLE.prompts[0].live||{}).n||0, played=others+(sent?1:0);
   $("played").textContent=played>0?`${played.toLocaleString()} PLAYED`:"";
-  if(results.length===7){ showResults(); savePlay(); }   // savePlay: retry if it never reached the backend
-  else if(results.length||openAt){ $("go").textContent=`▼ CONTINUE · PROMPT ${results.length+1} OF 7 ▼`; }
+  if(results.length===QN){ showResults(); savePlay(); }
+  else if(results.length||openAt){ $("go").textContent=`▼ CONTINUE · LORE CHECK ${results.length+1} OF ${QN} ▼`; }
 }
-$("go").disabled=true; $("go").textContent="LOADING THE FEED…";
+$("go").disabled=true; $("go").textContent="LOADING YOUR FEED…";
 (async()=>{
   try{ await within(STORE.init(),8000); }catch(e){}
-  let raw=null; try{ raw=await within((window.EBK_CONFIG?Supa:STORE).puzzle(today()),8000); }catch(e){}
+  let raw=null; try{ raw=await within(STORE.puzzle(today()),8000); }catch(e){}
   if(validPuzzle(raw)){ try{ PUZZLE=compilePuzzle(raw); }catch(e){ PUZZLE=compilePuzzle(RAW); } }
   indexPrompts(); prepKeys();
   try{ await loadLive(); }catch(e){}
   if(IS_OWNER){ $("edit").style.display="block"; }
-  $("go").disabled=false; $("go").textContent="▼ LOCK IN ▼";
+  $("go").disabled=false; $("go").textContent="▼ POST YOUR TAKES ▼";
   applyPuzzle();
 })();
 </script>

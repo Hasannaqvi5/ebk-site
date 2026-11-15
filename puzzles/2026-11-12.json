@@ -8,7 +8,7 @@
    "list": [
     "1:Cristiano Ronaldo|ronaldo|cr7|siuu|siu|penaldo|cristiano",
     "1:Lionel Messi|messi|ankara messi|leo messi|pessi",
-    "2:Neymar|neymar roll|neymar jr",
+    "1:Neymar|neymar roll|neymar jr",
     "2:Harry Maguire|maguire|slabhead",
     "3:Erling Haaland|haaland",
     "3:Kylian Mbappé|mbappe|donatello|ninja turtle",
@@ -48,9 +48,9 @@
     "6:Gerard Piqué|pique",
     "6:Guillermo Ochoa|ochoa|memo ochoa",
     "6:Adama Traoré|adama",
+    "6:Loris Karius|karius",
     "7:Gonzalo Higuaín|higuain",
     "7:Diego Costa",
-    "7:Loris Karius|karius",
     "7:Kepa Arrizabalaga|kepa",
     "7:Marouane Fellaini|fellaini",
     "8:Nicklas Bendtner|lord bendtner|bendtner",
@@ -73,7 +73,8 @@
      "A Belarusian striker with two international caps who was an unstoppable goal machine in Championship Manager 01/02. A cult hero to a generation of gamers.",
      "https://en.wikipedia.org/w/index.php?search=Maxim%20Tsigalko"
     ]
-   ]
+   ],
+   "drop": "Drop a footballer who became a meme ⚽"
   },
   {
    "text": "Name a meme that came from SpongeBob",
@@ -81,7 +82,7 @@
    "list": [
     "1:Mocking SpongeBob|spongemock",
     "1:Ight Imma Head Out|aight imma head out|imma head out",
-    "2:Imagination|spongebob rainbow|imagination spongebob|rainbow",
+    "1:Imagination|spongebob rainbow|imagination spongebob|rainbow",
     "2:Surprised Patrick|shocked patrick",
     "3:Handsome Squidward",
     "3:Spongegar|caveman spongebob|primitive sponge",
@@ -128,10 +129,10 @@
     "7:Funnier Than 24",
     "7:Nosferatu",
     "7:Are You Feeling It Now Mr. Krabs|are you feeling it now|oh yeah mr krabs",
-    "8:Smitty Werbenjägermanjensen|smitty|he was number one",
+    "7:Smitty Werbenjägermanjensen|smitty|he was number one",
+    "7:Krusty Krab Training Video|training video",
     "8:The Ugly Barnacle",
     "8:DEUUEAUGH|deuueaugh fish|deaugh",
-    "8:Hoopla!",
     "9:Moar Krabs|moar|morbid krabs",
     "10:Spengbab"
    ],
@@ -146,7 +147,8 @@
      "A single distorted frame of Mr. Krabs from the episode 'Jellyfish Hunter' that became a YouTube Poop staple.",
      "https://knowyourmeme.com/search?q=moar%20krabs"
     ]
-   ]
+   ],
+   "drop": "Drop a meme that came from SpongeBob 🧽"
   },
   {
    "text": "Name a brainrot term from 2023 or later",
@@ -202,22 +204,22 @@
     "6:Cappuccino Assassino",
     "6:Those Who Know",
     "6:Type Shi|type shit",
+    "6:41",
     "7:Sticking Out Your Gyatt for the Rizzler|sticking out your gyat",
     "7:Brokie",
     "7:Ts Pmo|ts pmo icl",
     "7:What the Helly",
     "7:Baby Gronk",
     "7:Just Put the Fries in the Bag|put the fries in the bag|fries in the bag",
+    "7:Lirili Larila",
+    "7:Trippi Troppi",
+    "7:La Vaca Saturno Saturnita|vaca saturno",
+    "7:Gurt|yo gurt|gurt yo",
     "8:Mango Mango Mango|mango",
     "8:Still Water",
-    "8:Lirili Larila",
-    "8:Trippi Troppi",
-    "8:La Vaca Saturno Saturnita|vaca saturno",
-    "8:Gurt|yo gurt|gurt yo",
-    "8:41",
+    "8:Gegagedigedagedago|gegagedi",
     "9:Balkan Rage",
-    "9:Sdiybt|start digging in your butt twin|start digging in yo butt twin",
-    "9:Gegagedigedagedago|gegagedi"
+    "9:Sdiybt|start digging in your butt twin|start digging in yo butt twin"
    ],
    "deep": [
     [
@@ -230,7 +232,8 @@
      "Short for 'start digging in yo butt, twin'. A summer 2025 comment-section acronym that started with a SpongeBob edit.",
      "https://knowyourmeme.com/search?q=sdiybt"
     ]
-   ]
+   ],
+   "drop": "Drop a brainrot term from 2023 or later 🧠"
   },
   {
    "text": "Name a YouTuber famous for Minecraft",
@@ -238,7 +241,7 @@
    "list": [
     "1:Dream",
     "1:Technoblade|techno",
-    "2:DanTDM|dan tdm|thediamondminecart",
+    "1:DanTDM|dan tdm|thediamondminecart",
     "3:PewDiePie|pewds",
     "3:TommyInnit|tommy",
     "3:GeorgeNotFound|george",
@@ -285,12 +288,12 @@
     "7:SethBling",
     "7:GeminiTay|gem",
     "7:PearlescentMoon|pearl",
+    "7:Sips",
     "8:ZombieCleo|cleo",
     "8:Cubfan135|cub",
     "8:FalseSymmetry|false",
     "8:Keralis",
     "8:Stressmonster101|stress",
-    "8:Sips",
     "8:Rendog|ren",
     "8:Zedaph",
     "8:VintageBeef|beef",
@@ -314,7 +317,8 @@
      "Made 'How to Survive Your First Night', the tutorial that taught Minecraft's earliest players the basics back in the Alpha days.",
      "https://www.youtube.com/results?search_query=paulsoaresjr%20how%20to%20survive%20your%20first%20night"
     ]
-   ]
+   ],
+   "drop": "Drop a YouTuber famous for Minecraft ⛏️"
   },
   {
    "text": "Name a TikTok or Instagram star",
@@ -322,7 +326,7 @@
    "list": [
     "1:Charli D'Amelio|charli",
     "1:Khaby Lame|khaby",
-    "2:Addison Rae|addison",
+    "1:Addison Rae|addison",
     "2:Bella Poarch",
     "3:Dixie D'Amelio|dixie",
     "3:Zach King",
@@ -364,6 +368,8 @@
     "6:Pinkydoll",
     "6:Jools Lebron",
     "6:Tabitha Brown",
+    "6:Nathan Apodaca|doggface208|doggface|ocean spray guy|ocean spray",
+    "6:Ryland Storms",
     "7:Anwar Jibawi",
     "7:Pierson Wodzynski|pierson",
     "7:Zhong",
@@ -374,14 +380,12 @@
     "7:Francis Bourgeois",
     "7:Emily Mariko",
     "7:Thomas Petrou",
+    "7:Reesa Teesa",
     "8:Tinx",
     "8:Tube Girl|sabrina bahsoon",
-    "8:Reesa Teesa",
-    "8:Nathan Apodaca|doggface208|doggface",
     "8:Jen Selter",
     "9:Jalaiah Harmon|jalaiah",
-    "9:Curtis Roach",
-    "10:Ryland Storms"
+    "9:Curtis Roach"
    ],
    "deep": [
     [
@@ -394,7 +398,8 @@
      "Detroit rapper whose March 2020 clip of himself pounding the floor and chanting 'bored in the house' became the lockdown anthem, later remade with Tyga.",
      "https://knowyourmeme.com/search?q=bored%20in%20the%20house"
     ]
-   ]
+   ],
+   "drop": "Drop a TikTok or Instagram star 📱"
   },
   {
    "text": "Name a rapper with a famous ad-lib",
@@ -402,7 +407,7 @@
    "list": [
     "1:Migos|quavo|offset|takeoff",
     "1:Travis Scott|its lit|la flame",
-    "2:DJ Khaled|another one|we the best",
+    "1:DJ Khaled|another one|we the best",
     "2:Playboi Carti|slatt|carti",
     "3:Lil Jon|yeah|okay",
     "3:Pop Smoke|woo",
@@ -450,13 +455,12 @@
     "7:ScHoolboy Q|yawk",
     "7:Master P|make em say uhh|uhh",
     "7:DJ Drama|gangsta grillz",
+    "7:Mike Jones|who mike jones",
     "8:Jadakiss",
-    "8:Mike Jones|who mike jones",
     "8:Jim Jones|ballin",
     "8:Juelz Santana|juelz",
     "8:MadeinTYO|made in tokyo|skrrt skrrt",
     "9:Westside Gunn",
-    "9:N.O.R.E.|noreaga",
     "10:OJ da Juiceman|juiceman",
     "10:Max B"
    ],
@@ -471,7 +475,8 @@
      "Co-founder of Griselda Records. His gun-noise ad-libs ('BRRRT', 'DOOT DOOT DOOT') are basically his signature.",
      "https://en.wikipedia.org/w/index.php?search=Westside%20Gunn"
     ]
-   ]
+   ],
+   "drop": "Drop a rapper with a famous ad-lib 🎤"
   },
   {
    "text": "Name an animal that went viral",
@@ -479,7 +484,7 @@
    "list": [
     "1:Grumpy Cat|tardar sauce",
     "1:Doge|kabosu",
-    "2:Harambe",
+    "1:Harambe",
     "2:Moo Deng",
     "3:Keyboard Cat",
     "3:Pop Cat|oatmeal",
@@ -521,13 +526,13 @@
     "7:Ikea Monkey|darwin",
     "7:April the Giraffe|april",
     "7:Bunny the Talking Dog|bunny",
+    "7:Fenton",
     "8:Knut the Polar Bear|knut",
     "8:Venus the Two-Faced Cat|venus",
     "8:Hamilton the Hipster Cat|hamilton",
     "8:Crusoe the Dachshund|crusoe",
     "8:Esther the Wonder Pig|esther",
     "8:Colonel Meow",
-    "8:Fenton",
     "8:Mishka the Talking Husky|mishka",
     "8:Jorts|jorts the cat",
     "8:Ceiling Cat",
@@ -547,7 +552,220 @@
      "A king penguin at Edinburgh Zoo who was officially knighted by the Norwegian King's Guard. Sir Nils.",
      "https://en.wikipedia.org/w/index.php?search=Nils%20Olav"
     ]
-   ]
+   ],
+   "drop": "Drop an animal that went viral 🐾"
+  },
+  {
+   "text": "Name a viral video from before 2013",
+   "cat": "Old internet",
+   "list": [
+    "1:Charlie Bit My Finger|charlie bit me",
+    "1:Gangnam Style|psy",
+    "1:Rickroll|rick roll|never gonna give you up|rick astley",
+    "2:Nyan Cat",
+    "3:Friday|rebecca black",
+    "3:Chocolate Rain|tay zonday",
+    "3:Double Rainbow",
+    "3:Keyboard Cat",
+    "3:David After Dentist|is this real life",
+    "3:Leave Britney Alone|chris crocker",
+    "3:Kony 2012|kony",
+    "3:Ain't Nobody Got Time for That|sweet brown",
+    "3:Bed Intruder|hide yo kids|hide yo wife|antoine dodson",
+    "4:Me at the Zoo|first youtube video",
+    "4:Dramatic Chipmunk|dramatic prairie dog|dramatic look",
+    "4:Sneezing Baby Panda|sneezing panda",
+    "4:Annoying Orange",
+    "4:Fred|fred figglehorn",
+    "4:Overly Attached Girlfriend",
+    "4:Numa Numa|numa numa guy|gary brolsma",
+    "4:Leeroy Jenkins",
+    "4:Trololo|trololo man|eduard khil",
+    "4:The Duck Song|got any grapes",
+    "5:Evolution of Dance",
+    "5:Star Wars Kid",
+    "5:Peanut Butter Jelly Time|peanut butter jelly",
+    "5:Charlie the Unicorn|candy mountain",
+    "5:Ultimate Dog Tease|talking dog",
+    "5:Boom Goes the Dynamite",
+    "6:Diet Coke and Mentos|mentos|eepybird",
+    "6:Llamas with Hats",
+    "6:Lazy Sunday|chronicles of narnia rap",
+    "6:Badger Badger Badger|badgers|mushroom mushroom",
+    "6:Potter Puppet Pals|mysterious ticking noise",
+    "6:Shoes|liam kyle sullivan",
+    "6:Daft Hands",
+    "6:Chad Vader",
+    "7:Battle at Kruger",
+    "7:Free Hugs Campaign|free hugs",
+    "7:Lonelygirl15",
+    "8:All Your Base Are Belong to Us|all your base|aybabtu",
+    "8:Afro Ninja",
+    "8:Canon Rock|funtwo",
+    "9:Dancing Baby|ooga chaka baby|baby cha cha",
+    "9:Bus Uncle|the bus uncle",
+    "9:Where the Hell Is Matt|matt harding"
+   ],
+   "deep": [
+    [
+     "Dancing Baby",
+     "A 3D baby doing the cha-cha that spread by email in 1996. One of the first viral videos ever, nearly a decade before YouTube.",
+     "https://en.wikipedia.org/w/index.php?search=Dancing%20Baby"
+    ],
+    [
+     "Bus Uncle",
+     "A 2006 phone video of a man's furious rant at a younger passenger on a Hong Kong bus. It was YouTube's most-viewed video in May 2006, and 'you have pressure, I have pressure' became a catchphrase.",
+     "https://en.wikipedia.org/w/index.php?search=The%20Bus%20Uncle"
+    ]
+   ],
+   "drop": "Drop a viral video from before 2013 📹"
+  },
+  {
+   "text": "Name a streamer (Twitch, Kick or YouTube)",
+   "cat": "Streamers",
+   "list": [
+    "1:Kai Cenat|kai",
+    "1:IShowSpeed|speed|ishow speed",
+    "2:xQc",
+    "1:Ninja|tyler blevins",
+    "3:Pokimane|poki",
+    "3:Adin Ross|adin",
+    "3:CaseOh",
+    "3:Jynxzi",
+    "3:Ludwig",
+    "3:Asmongold|asmon",
+    "3:Dr Disrespect|doc|the doc",
+    "3:TimTheTatman|tim",
+    "3:Shroud",
+    "4:HasanAbi|hasan",
+    "4:Valkyrae|rae",
+    "4:Tfue",
+    "4:Summit1g|summit",
+    "4:Sketch",
+    "4:Amouranth",
+    "4:Duke Dennis",
+    "4:Fanum",
+    "4:Agent 00",
+    "4:Lacy",
+    "4:N3on|neon",
+    "4:Tyler1",
+    "4:Moistcr1tikal|penguinz0|charlie",
+    "4:Sykkuno",
+    "4:Corpse Husband|corpse",
+    "5:Mizkif",
+    "5:Sodapoppin|soda",
+    "5:Myth",
+    "5:DrLupo|lupo",
+    "5:Disguised Toast|toast",
+    "5:Emiru",
+    "5:Marlon",
+    "5:Ibai",
+    "5:Northernlion",
+    "5:Jerma985|jerma",
+    "5:Hikaru|gmhikaru",
+    "5:QTCinderella|qt",
+    "5:Stable Ronaldo",
+    "5:Plaqueboymax|plaqueboy max",
+    "6:Lirik",
+    "6:Forsen",
+    "6:Destiny",
+    "6:Kitboga",
+    "6:TheGrefg|grefg",
+    "6:Gaules",
+    "6:Trainwrecks|trainwreckstv",
+    "6:Vinesauce|vinny",
+    "6:Squeex",
+    "6:Nmplol",
+    "6:ConnorEatsPants",
+    "7:CohhCarnage|cohh",
+    "7:Kripparrian|kripp",
+    "7:Day9|sean plott",
+    "7:Atrioc",
+    "7:LilyPichu",
+    "7:Greekgodx|greek",
+    "8:Trihex",
+    "8:Mang0",
+    "8:PhantomL0rd|phantomlord",
+    "8:itmeJP",
+    "8:DSP|darksydephil",
+    "9:Siglemic",
+    "9:LobosJr|lobos",
+    "10:Justin Kan|justintv|justin tv"
+   ],
+   "deep": [
+    [
+     "Justin Kan",
+     "Co-founded Justin.tv and livestreamed his own life around the clock in 2007. Justin.tv later became Twitch.",
+     "https://en.wikipedia.org/w/index.php?search=Justin%20Kan"
+    ],
+    [
+     "Siglemic",
+     "Early-Twitch Super Mario 64 speedrunner who held the 120-star world record and streamed 12-hour days chasing it.",
+     "https://www.google.com/search?q=Siglemic%20Super%20Mario%2064"
+    ]
+   ],
+   "drop": "Drop a streamer (Twitch, Kick or YouTube) 🎮"
+  },
+  {
+   "text": "Name a viral challenge",
+   "cat": "Trends",
+   "list": [
+    "1:Ice Bucket Challenge|ice bucket|als ice bucket challenge",
+    "1:Mannequin Challenge|mannequin",
+    "1:Tide Pod Challenge|tide pod|tide pods",
+    "2:Bottle Flip Challenge|bottle flip|water bottle flip",
+    "3:Cinnamon Challenge|cinnamon",
+    "3:Kiki Challenge|in my feelings|keke challenge|kiki",
+    "3:One Chip Challenge|one chip|paqui",
+    "3:Harlem Shake",
+    "3:Bottle Cap Challenge|bottle cap",
+    "3:Milk Crate Challenge|milk crate",
+    "4:Chubby Bunny",
+    "4:Ghost Pepper Challenge|ghost pepper",
+    "4:Planking",
+    "4:Running Man Challenge|running man",
+    "4:Don't Rush Challenge|dont rush",
+    "4:Flip the Switch",
+    "4:Devious Licks|devious lick",
+    "4:Momo Challenge|momo",
+    "4:Bird Box Challenge|bird box",
+    "4:10 Year Challenge|ten year challenge",
+    "4:Invisible Box Challenge|invisible box",
+    "4:Silhouette Challenge|silhouette",
+    "4:Renegade|renegade challenge",
+    "4:Try Not to Laugh Challenge|try not to laugh",
+    "4:24 Hour Challenge|24 hour overnight challenge|overnight challenge",
+    "5:Kylie Jenner Lip Challenge|lip challenge|kylie jenner challenge",
+    "5:Pillow Challenge",
+    "5:Salt and Ice Challenge|salt and ice",
+    "5:Cup Song|cups|cup challenge",
+    "5:Mentos Challenge|coke and mentos",
+    "5:Hit or Miss Challenge|hit or miss",
+    "6:Eat It or Wear It Challenge|eat it or wear it",
+    "6:Whisper Challenge",
+    "6:WAP Challenge",
+    "7:Bean Boozled Challenge|bean boozled|beanboozled",
+    "8:Gallon Challenge|milk gallon challenge",
+    "8:Banana Sprite Challenge|banana sprite",
+    "8:22 Pushup Challenge|22 push up challenge|22 pushups",
+    "8:Dragon's Breath Challenge|dragons breath",
+    "9:Saltine Cracker Challenge|saltine challenge|cracker challenge",
+    "9:Neknomination|neknominate",
+    "9:Cold Water Challenge"
+   ],
+   "deep": [
+    [
+     "Cold Water Challenge",
+     "The spring 2014 'jump in cold water or donate' fundraiser that evolved into the Ice Bucket Challenge a few months later.",
+     "https://knowyourmeme.com/search?q=cold%20water%20challenge"
+    ],
+    [
+     "Saltine Cracker Challenge",
+     "Eat six saltines in 60 seconds with no water. Sounds easy, almost impossible. A 2000s YouTube classic.",
+     "https://knowyourmeme.com/search?q=saltine%20cracker%20challenge"
+    ]
+   ],
+   "drop": "Drop a viral challenge 🧊"
   }
  ]
 }

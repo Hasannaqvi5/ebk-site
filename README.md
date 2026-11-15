@@ -1,12 +1,31 @@
-# EBK
+# EBK · The Daily Post 📱
 
 Daily rare-answer trivia about internet culture: memes, TikTok, YouTube, Insta, and internet ball knowledge.
 
+## How it works: Going Viral theme
+
+10 **Lore Checks** a day, 20 seconds each, phrased like a drop or text (`Drop a Minecraft YouTuber ⛏️`).
+- **Going Viral**: your answer gets posted to the feed. Obscure answers blow up with millions of views; common answers flop.
+- **NPC Trap**: the 3 most obvious answers to each question are traps. Say one and you get **RATIO'D**: 0 points and a handful of bot views.
+- **Rarity scoring** (each post gets a random view count inside its tier's range; the results screen adds up the views you actually saw):
+
+  | Tier | Grid | Points | Views |
+  |---|---|---|---|
+  | RATIO'D (NPC Trap) | 💀 | 0 | 8–40 |
+  | Local Buzz | ⬜ | 15 | 0.8K–3K |
+  | On The FYP | 🟩 | 35 | 20K–90K |
+  | Trending | 🟨 | 65 | 150K–500K |
+  | Went Viral | 🟧 | 85 | 0.9M–1.8M |
+  | Internet Phenomenon | 🟪 | 100 | 3M–8M |
+  | Skipped / time's up | ⬛ | 0 | 0 |
+
+  Max score is 1000. The share text looks like `EBK #4 · my takes got 3.1M views 🔥`, then the 10-square grid, then your rank.
+
 ## How it fits together
 
-- **`index.html`**: the whole game in one file (no build step). The same file also runs as the Claude artifact.
-- **`puzzles/`**: one JSON file per day (`2026-11-13.json`) plus `index.json` listing the available dates. The game loads today's file, or the latest one before today.
-- **`supabase/schema.sql`**: the backend. It stores every finished game (for live rarity, "X% of players said this") and your tier overrides. The free Supabase tier is plenty.
+- **`index.html`**: the whole game in one self-contained file (no build step).
+- **`puzzles/`**: one JSON file per day (`2026-11-12.json`) plus `index.json` listing the available dates. The game loads today's file, or the latest one before today.
+- **`supabase/schema.sql`**: the backend. It stores every finished game (for live rarity, "X% of creators posted this") and your tier overrides. The free Supabase tier is plenty.
 - **`config.js`**: the two public Supabase values that connect the site to the backend.
 - **`tools/check_puzzles.py`**: checks your puzzle files for mistakes before you publish.
 - **Hosting**: any static host works (Vercel, Netlify, Cloudflare Pages, GitHub Pages).
@@ -45,6 +64,7 @@ On localhost a **Reset (test)** button appears on the results screen so you can 
   "prompts": [
     {
       "text": "Name a footballer who became a meme",
+      "drop": "Drop a footballer who became a meme ⚽",
       "cat": "Sports",
       "ban": ["optional", "blocked answers"],
       "list": ["1:Cristiano Ronaldo|ronaldo|siuu", "9:Ali Dia"],
@@ -53,8 +73,10 @@ On localhost a **Reset (test)** button appears on the results screen so you can 
   ]
 }
 ```
-- Every puzzle needs exactly 7 prompts.
-- `list` entries are `score:Answer|alias|alias`. The score (1-10) sets the starting tier. See the guide below.
+- Every puzzle needs exactly 10 prompts (lore checks). Puzzle files dated before 2026-11-12 may still have 7, and the game plays those as 7-question days.
+- `drop` is the question players see. If it's missing, the game rewrites `text` ("Name a ..." becomes "Drop a ... 👀").
+- To change how many lore checks a day has, change `MAXQ` in `index.html`, `PROMPTS` in `tools/check_puzzles.py`, and the `10`/`9`/`1000` limits in `supabase/schema.sql`, then re-run the schema.
+- `list` entries are `score:Answer|alias|alias`. The score (1-10) sets the starting tier. See the guide below. Each prompt needs exactly 3 answers scored 1 (the NPC traps). A list with no scores at all is tiered by position: the first 3 entries are the traps, and the rest get rarer further down.
 - `deep` holds the explainers shown on the results screen. Put your two most obscure answers there.
 - After adding or editing a puzzle, run `python tools/check_puzzles.py`. It catches broken files and two answers that would match the same guess, shows how many answers land in each tier, and updates `puzzles/index.json` for you.
 
@@ -62,34 +84,30 @@ On localhost a **Reset (test)** button appears on the results screen so you can 
 
 Score the answer by asking who would come up with it for *this prompt*, not just how famous it is.
 
-| Score | Tier | Points | Who says it |
-|---|---|---|---|
-| 1-2 | NPC | 10 | The first thing almost everyone types. Your mum has heard of it. |
-| 3 | Casual | 15 | Comes to mind right after the obvious ones for anyone who uses the apps. |
-| 4-5 | Tuned In | 30 | Known to regular scrollers, or a very famous name that isn't an obvious fit. |
-| 6-7 | Ball Knower | 60 | You have to actually follow the scene. Casuals wouldn't think of it. |
-| 8 | Deep Lore | 85 | Fan-community knowledge or older internet history. Most players won't recognise it. |
-| 9-10 | Elite Ball Knowledge | 100 | Extremely niche. Only dedicated fans or internet historians know it exists. |
+| Score | Tier | Points | Views | Who says it |
+|---|---|---|---|---|
+| 1 | NPC Trap | 0 | 8–40 | The 3 things almost everyone types first. Exactly 3 per prompt. |
+| 2-3 | Local Buzz | 15 | 0.8K–3K | Comes to mind right after the obvious ones for anyone who uses the apps. |
+| 4-5 | On The FYP | 35 | 20K–90K | Known to regular scrollers, or a very famous name that isn't an obvious fit. |
+| 6-7 | Trending | 65 | 150K–500K | You have to actually follow the scene. Casuals wouldn't think of it. |
+| 8 | Went Viral | 85 | 0.9M–1.8M | Fan-community knowledge or older internet history. Most players won't recognise it. |
+| 9-10 | Internet Phenomenon | 100 | 3M–8M | Extremely niche. Only dedicated fans or internet historians know it exists. |
 
-Two rules keep the top tiers honest:
+Three rules keep the tiers honest:
 
-- **Fame caps the tier.** A household name never goes above Tuned In, even if few people would say it for this prompt (Snoop Dogg for "rapper with an ad-lib" is a 5, not an 8).
-- **Elite stays small.** Aim for 2 to 5 Elite answers per prompt. If lots of answers feel Elite, most of them are really Deep Lore.
+- **Fame caps the tier.** A household name never goes above On The FYP, even if few people would say it for this prompt (Snoop Dogg for "rapper with an ad-lib" is a 5, not an 8). Someone with millions of followers is never a 9-10, however small they seem to you.
+- **The top stays small.** Aim for 2 to 5 Internet Phenomenon answers per prompt. If lots of answers feel like a 9, most of them are really Went Viral.
+- **Traps must be obvious.** A 1 gets players ratio'd, so only give a 1 to the 3 answers nearly everyone would type first. Everything else that's common is a 2.
 
 ## How tiers work
 
 1. **Starting point**: the score in the puzzle file.
-2. **Live rarity**: once 3+ other players have answered a prompt, the share of players who gave each answer blends in. The puzzle score counts like 50 imaginary players, so a handful of real players only nudges a tier and hundreds decide it. 25%+ of players → NPC, under 1% → Elite Ball Knowledge.
+2. **Live rarity**: once 3+ other players have answered a prompt, the share of players who gave each answer blends in. The puzzle score counts like 50 imaginary players, so a handful of real players only nudges a tier and hundreds decide it. An answer 25%+ of players give becomes an NPC trap; under 1% → Internet Phenomenon. (Because of the blend, one player out of the first three saying a deep cut doesn't turn it into a trap.)
 3. **Overrides**: anything you set in the tier editor beats both. **AUTO** in the editor removes your override.
 
 ## What the backend protects against
 
 - Players can't read each other's games or write to the tables directly. The browser can only call three functions (`submit_play`, `answer_counts`, `is_admin`) and read tier overrides.
-- One game per player per day, and each game must have the right shape (7 answers, a believable score, not a future date).
+- One game per player per day, and each game must have the right shape (10 answers, or 7 for older puzzles; a score from 0 to 100 per answer given; not a future date).
 - At most 30 games per puzzle from one network address, so one person can't flood the rarity numbers. The address is stored only as a salted hash.
 - A finished game is saved in the browser after every answer, so refreshing mid-game resumes it (with the clock still running) instead of giving a second try. If the backend is unreachable the game still works, and the result is sent on the next visit.
-
-## Known limits
-
-- Answers live in the puzzle JSON, so a determined player could peek. Moving answer checking server-side would fix that if it ever matters.
-- A player who clears their browser data counts as a new player.
