@@ -4,6 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EBK · The Daily Post</title>
+<meta name="description" content="10 internet-culture lore checks a day. Drop the niche takes, dodge the NPC traps and go viral.">
+<meta name="theme-color" content="#0b0d1e">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EBK">
+<meta property="og:title" content="EBK · The Daily Post">
+<meta property="og:description" content="10 internet-culture lore checks a day. Drop the niche takes, dodge the NPC traps and go viral.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EBK · The Daily Post: 10 internet-culture lore checks a day">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EBK · The Daily Post">
+<meta name="twitter:description" content="10 internet-culture lore checks a day. Drop the niche takes, dodge the NPC traps and go viral.">
+<meta name="twitter:image" content="og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -258,7 +275,7 @@ details.all[open] summary{margin-bottom:8px}
 .editing #rlist .c2[data-n]{cursor:pointer}
 .copied{text-align:center;font-size:12px;color:var(--dim);margin-top:10px;min-height:16px}
 textarea{width:100%;margin-top:10px;font:12px "Space Mono",monospace;background:#0d1024;color:var(--ink);border:1px solid var(--line);padding:10px;display:none}
-@media (max-width:520px){.mute{top:72px;right:8px;width:34px;height:34px;font-size:15px}.sticker{display:none}#dvd{font-size:16px}.bar{padding:14px 10px 18px}.barin,.track,.msg{width:100%}.surface-label{display:none}.send{padding:14px 10px;letter-spacing:.1em}.barin{gap:6px}.track,.msg{padding-left:58px}.card{top:20vh}.phone{display:none}.lore{display:none}.hud{gap:10px}.box{min-width:90px}}
+@media (max-width:520px){.mute{top:72px;right:8px;width:34px;height:34px;font-size:15px}body:has(#results.on) .mute{display:none}.sticker{display:none}#dvd{font-size:16px}.bar{padding:14px 10px 18px}.barin,.track,.msg{width:100%}.surface-label{display:none}.send{padding:14px 10px;letter-spacing:.1em}.barin{gap:6px}.track,.msg{padding-left:58px}.card{top:20vh}.phone{display:none}.lore{display:none}.hud{gap:10px}.box{min-width:90px}}
 </style>
 </head>
 <body>
@@ -599,6 +616,10 @@ function animateCam(to,ms,done){
   requestAnimationFrame(f);
 }
 let cdTimer=null;
+// Shorter answer-box hint on phones, where the long one gets cut off.
+const PHONE_MQ=matchMedia("(max-width:520px)");
+function setGuessHint(){$("guess").placeholder=PHONE_MQ.matches?"drop your take…":"drop your take… (or type skip)";}
+setGuessHint(); if(PHONE_MQ.addEventListener) PHONE_MQ.addEventListener("change",setGuessHint);
 function primeInput(){
   clearSugg(); locked=true; clearInterval(timer);
   const m=$("msg"); m.classList.remove("hurry","wait"); m.textContent="";
@@ -758,11 +779,12 @@ $("next").addEventListener("click",()=>{
 });
 
 // ---------- results ----------
-// Final rank by total views, per 10 lore checks (scaled down for 7-question puzzles). Each threshold
-// is 10 x the lowest views of that tier, so a game spent entirely in one tier always earns at least
-// that tier's rank, and can never reach the next one (e.g. 10 x 3K = 30K < 200K for On The FYP).
-const RANK_AT=[0,8000,200000,1500000,9000000,30000000];
-function rankForViews(v){let r=0;RANK_AT.forEach((min,i)=>{if(v>=min*QN/MAXQ)r=i});return r;}
+// Final rank by total points, per 10 lore checks (scaled down for 7-question puzzles). Views are
+// rolled at random inside each tier, so ranking by points means the same answers always get the
+// same rank. Each threshold is 10 x that tier's points (a game spent entirely in one tier earns that
+// tier's rank); the top rank needs a perfect game.
+const RANK_AT=[0,150,350,650,850,1000];
+function rankForScore(s){let r=0;RANK_AT.forEach((min,i)=>{if(s>=min*QN/MAXQ)r=i});return r;}
 function showResults(){
   tierLines.forEach(n=>n.remove()); tierLines=[];
   clearInterval(timer); clearInterval(cdTimer);
@@ -772,7 +794,7 @@ function showResults(){
   setCam(depth); hud(); $("hud").classList.add("on"); $("start").style.display="none";
   
   const grid=results.map(r=>r.t>=0?TIERS[r.t].sq:MISS).join("");
-  const R=TIERS[rankForViews(totV)];
+  const R=TIERS[rankForScore(totS)];
   $("rk").textContent=`EBK #${PUZZLE.num} · ${PUZZLE.date} 📱`;
   $("rdepth").textContent=viewsLabel(totV)+" VIEWS";
   $("rsub").textContent=`${totS} / ${QN*100} pts · Peak Algorithm Reach`;
@@ -782,7 +804,7 @@ function showResults(){
   $("sharetext").value=`EBK #${PUZZLE.num} · my takes got ${viewsLabel(totV)} views 🔥\n${grid}\n${R.name}`;
   $("reset").style.display=(LOCAL||IS_OWNER)?"":"none";
   $("results").classList.add("on"); document.body.classList.remove("playing");
-  if(rankForViews(totV)>=4){SFX.horn();stamp("VIRAL 🔥","var(--lime)")}
+  if(rankForScore(totS)>=4){SFX.horn();stamp("VIRAL 🔥","var(--lime)")}
   // Draw the story card ahead of time so the share sheet opens straight from the tap
   // (phones only allow it right after a tap, not after a slow drawing step).
   setTimeout(()=>{prepareStory().catch(()=>{})},400);
@@ -1078,8 +1100,9 @@ async function drawStory(){
   const totV=totalViews(), vl=viewsLabel(totV);
   memeText(x,vl,W/2,880,fitFont(x,vl,"Anton",400,330,960),{fill:cyan,lw:16,shadows:[["#000",16,16]]});
   memeText(x,"VIEWS",W/2,1000,"400 120px Anton",{fill:"#fff",lw:10,shadows:[["#000",10,10]]});
-  x.font='700 40px "Space Mono"'; x.fillStyle="#9aa3c7"; x.fillText(`${totalScore()} / ${QN*100} PTS`,W/2,1075);
-  const R=rankForViews(totV), rn=noEmoji(TIERS[R].name).toUpperCase();
+  const totS=totalScore();
+  x.font='700 40px "Space Mono"'; x.fillStyle="#9aa3c7"; x.fillText(`${totS} / ${QN*100} PTS`,W/2,1075);
+  const R=rankForScore(totS), rn=noEmoji(TIERS[R].name).toUpperCase();
   x.save(); x.translate(W/2,1205); x.rotate(-2*Math.PI/180); memeText(x,rn,0,0,fitFont(x,rn,"Anton",400,130,940),{fill:tierHex(R),lw:12,shadows:[["#000",10,10]]}); x.restore();
   // one tile per lore check, drawn (not emoji) so it looks the same on every phone
   const n=results.length,gap=14,s=Math.min(84,(960-gap*(n-1))/n),gx=(W-(n*s+(n-1)*gap))/2,gy=1275;

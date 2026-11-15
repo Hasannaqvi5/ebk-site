@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><path id="e" d="M19 13H46V21H28V28H41V36H28V43H46V51H19Z"/></defs>
+  <rect width="64" height="64" rx="12" fill="#0b0d1e"/>
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="none" stroke="#ff2d75" stroke-width="4"/>
+  <use href="#e" transform="translate(-3,-2)" fill="#00f2fe"/>
+  <use href="#e" transform="translate(3,3)" fill="#ff2d75"/>
+  <use href="#e" fill="#d4ff3a" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+</svg>
