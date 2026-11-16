@@ -6,7 +6,7 @@
 //
 // Leave them empty and the game still runs, it just won't record answers or show live rarity.
 window.EBK_CONFIG = {
-  supabaseUrl: "",        // e.g. "https://abcdefgh.supabase.co"
-  supabaseAnonKey: "",    // the "anon public" key (or the newer "sb_publishable_..." key)
+  supabaseUrl: "https://xvtpxkmlsolqrvjwflxq.supabase.co",
+  supabaseAnonKey: "sb_publishable_9SWoj7UJaZuCh9q3I6wfeA_oQ6lATsx",  // public "publishable" key
   puzzlesPath: "puzzles"  // folder holding YYYY-MM-DD.json files + index.json
 };
